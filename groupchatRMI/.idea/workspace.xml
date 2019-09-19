@@ -6,7 +6,21 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="856b3eab-f08d-4a49-a45b-f92b2ab36e3b" name="Default Changelist" comment="" />
+    <list default="true" id="856b3eab-f08d-4a49-a45b-f92b2ab36e3b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/groupchatRMI_jar/groupchatRMI.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/groupchatRMI_jar/groupchatRMI.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comapi/Servercom.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comapi/Servercom.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comapi/Startclient$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comapi/Startclient$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comapi/Startclient$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comapi/Startclient$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comapi/Startclient$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comapi/Startclient$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comapi/Startclient$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comapi/Startclient$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/comapi/Startclient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/comapi/Startclient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/groupchatRMI/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/groupchatRMI/META-INF/groupchatRMI.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Servercom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servercom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Startclient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Startclient.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,10 +35,16 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1R2bTTaoYrgSZTXRHf3kHbwA8q1" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -75,10 +95,22 @@
       <updated>1568868145976</updated>
       <workItem from="1568868147301" duration="6352000" />
       <workItem from="1568877879700" duration="1244000" />
+      <workItem from="1568892689528" duration="603000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

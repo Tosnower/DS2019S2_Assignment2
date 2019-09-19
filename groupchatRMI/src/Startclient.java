@@ -70,7 +70,12 @@ public class Startclient {
         }catch(Exception e){e.printStackTrace();}
     }
 
-    public void writeMsg(String st){  tx.setText(tx.getText()+"\n"+st);  }
+    public void writeMsg(String st){
+        try {
+            updateUsers(server.getConnected());
+        }
+        catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, updateuserlist");}
+        tx.setText(tx.getText()+"\n"+st);  }
 
     public void updateUsers(Vector v){
         DefaultListModel listModel = new DefaultListModel();

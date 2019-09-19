@@ -20,10 +20,10 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
             a.tell("You are not allowed to connect.");
             return false;
         }
-
+        v.add(a);
         publish(a.getName()+ " has just connected.");
 
-        v.add(a);
+
         return true;
     }
     public boolean creatorlogin(ClientcomInter a) throws RemoteException{
@@ -35,8 +35,9 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     public boolean logout(ClientcomInter a) throws RemoteException{
         System.out.println(a.getName() + "  disconnected....");
         a.tell("You have disconnected.");
-        publish(a.getName()+ " has just exit.");
         v.remove(a);
+        publish(a.getName()+ " has just exit.");
+
         return true;
     }
 
