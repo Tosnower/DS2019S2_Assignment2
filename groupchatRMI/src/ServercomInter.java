@@ -7,4 +7,5 @@ public interface ServercomInter extends Remote{
     public Vector getConnected() throws RemoteException ;
     public boolean logout(ClientcomInter a) throws RemoteException;
     public boolean creatorlogin(ClientcomInter a) throws RemoteException;
+    public void resumehistory(ClientcomInter a) throws RemoteException;
 }

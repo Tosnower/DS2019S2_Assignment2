@@ -20,12 +20,17 @@ public class Startclient {
                 Boolean loginsuccess = server.login(client);
                 if(loginsuccess) {
                     updateUsers(server.getConnected());
+                    server.resumehistory(client);
                     connect.setText("Disconnect");
+                    name.setEditable(false);
+                    ip.setEditable(false);
                 }
             }catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, we wouldn't connect....");}
         }else{
             try {
                 server.logout(client);
+                name.setEditable(true);
+                ip.setEditable(true);
             }
             catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, cannot discoonnect bconnect....");}
 
@@ -36,12 +41,13 @@ public class Startclient {
     }
     public void createBoad(){
             try{
+                if (name.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type a name."); return;}
                 java.rmi.registry.LocateRegistry.createRegistry(1099);
                 ServercomInter b=new Servercom();
                 Naming.rebind("rmi://localhost/myabc", b);
                 System.out.println("[System] Chat Server is ready.");
                 try{
-                    client=new ClientCom("creator");
+                    client=new ClientCom(name.getText());
                     client.setGUI(this);
                     server=(ServercomInter)Naming.lookup("rmi://"+ip.getText()+"/myabc");
                     Boolean loginsuccess = server.creatorlogin(client);
@@ -62,7 +68,9 @@ public class Startclient {
             JOptionPane.showMessageDialog(frame, "You need to connect first."); return;
         }
         String st=tf.getText();
-        st="["+name.getText()+"] "+st;
+        try{
+            st="["+client.getName()+"] "+st;
+        }catch(Exception e){e.printStackTrace();}
         tf.setText("");
         //Remove if you are going to implement for remote invocation
         try{
@@ -88,7 +96,6 @@ public class Startclient {
     }
 
     public static void main(String [] args){
-        System.out.println("Hello World !");
         Startclient c=new Startclient();
     }
 
@@ -99,10 +106,11 @@ public class Startclient {
         top =new JPanel();
         JPanel cn =new JPanel();
         JPanel bottom =new JPanel();
-        ip=new JTextField();
+        ip=new JTextField("127.0.0.1");
         tf=new JTextField();
-        name=new JTextField();
+        name=new JTextField("anomousy");
         tx=new JTextArea();
+        tx.setEditable(false);
         connect=new JButton("Connect");
         createnewboard =new JButton("createnewboard");
         JButton bt=new JButton("Send");

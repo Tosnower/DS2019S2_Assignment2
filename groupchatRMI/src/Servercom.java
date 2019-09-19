@@ -7,6 +7,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
 
     private Vector v=new Vector();
     public Servercom() throws RemoteException{}
+    private Vector history=new Vector();
 
     public boolean login(ClientcomInter a) throws RemoteException{
         System.out.println(a.getName() + "  got connected....");
@@ -37,12 +38,12 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         a.tell("You have disconnected.");
         v.remove(a);
         publish(a.getName()+ " has just exit.");
-
         return true;
     }
 
     public void publish(String s) throws RemoteException{
         System.out.println(s);
+        history.add(s);
         for(int i=0;i<v.size();i++){
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
@@ -54,6 +55,18 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         }
     }
 
+    public void resumehistory(ClientcomInter a) throws RemoteException
+    {
+        for(int i=0;i<history.size();i++){
+            try{
+                a.tell((String) history.get(i));
+            }catch(Exception e){
+                //problem with the client not connected.
+                //Better to remove it
+            }
+        }
+
+    }
 
     public Vector getConnected() throws RemoteException{
         return v;
