@@ -11,6 +11,9 @@ public abstract class DShape implements ModelListener {
 	protected Rectangle bounds;
 	protected ArrayList<Point> knobs; 
 	protected boolean needKnobs;
+	public boolean hollow;
+	
+	
 	public DShape()
 	{
 		
@@ -25,7 +28,7 @@ public abstract class DShape implements ModelListener {
 		this.model = model;
 		knobs = null; 
 		needKnobs = false;
-		
+		this.hollow=model.hollow;
 	}
 	
 	public DShapeModel bounds() {

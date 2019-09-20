@@ -11,7 +11,7 @@ public class DShapeModel {
 	private int height;
 	protected Color color;
 	protected Rectangle bounds;
-	
+	public boolean hollow=false;
 	
 	public DShapeModel(int x, int y, int width, int height, Color color) {
 		this.bounds = new Rectangle(x, y, width, height);

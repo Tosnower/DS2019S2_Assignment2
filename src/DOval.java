@@ -5,7 +5,10 @@ import java.awt.Rectangle;
 
 public class DOval extends DShape{
 	
-	public DOval(DShapeModel model) {
+	
+	 
+	public DOval(DShapeModel model) 
+	{
 		super(model);
 		
 	}
@@ -14,7 +17,10 @@ public class DOval extends DShape{
 		
 		Rectangle bounds = model.getBounds(); 
 		g.setColor(model.getColor());
-		g.fillOval(bounds.x, bounds.y, bounds.width, bounds.height);
+		if(!hollow)
+			g.fillOval(bounds.x, bounds.y, bounds.width, bounds.height);
+		else
+			g.drawOval(bounds.x, bounds.y, bounds.width, bounds.height);
 		if(selected) drawKnobs(g); 
 	
 	

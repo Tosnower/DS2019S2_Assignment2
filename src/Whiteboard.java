@@ -213,6 +213,11 @@ public class Whiteboard extends JFrame
 					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
 					color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
 				}
+				int ret=JOptionPane.showConfirmDialog(null, "Filled Shape?", "Please choose an option",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				if(ret==JOptionPane.YES_OPTION)
+					model.hollow=false;
+				else
+					model.hollow=true;
 				canvas.addShape(model);
 				canvas.recolorShape(color);
 				canvas.repaint();
@@ -262,6 +267,11 @@ public class Whiteboard extends JFrame
 					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
 					color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
 				}
+				int ret=JOptionPane.showConfirmDialog(null, "Filled Shape?", "Please choose an option",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				if(ret==JOptionPane.YES_OPTION)
+					model.hollow=false;
+				else
+					model.hollow=true;
 				canvas.addShape(model);
 				canvas.recolorShape(color);
 				canvas.repaint();
@@ -310,6 +320,11 @@ public class Whiteboard extends JFrame
 					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
 					color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
 				}
+				int ret=JOptionPane.showConfirmDialog(null, "Filled Shape?", "Please choose an option",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				if(ret==JOptionPane.YES_OPTION)
+					model.hollow=false;
+				else
+					model.hollow=true;
 				canvas.addShape(model);
 				canvas.recolorShape(color);
 				canvas.repaint();
@@ -358,6 +373,11 @@ public class Whiteboard extends JFrame
 					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
 					color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
 				}
+				int ret=JOptionPane.showConfirmDialog(null, "Filled Shape?", "Please choose an option",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				if(ret==JOptionPane.YES_OPTION)
+					model.hollow=false;
+				else
+					model.hollow=true;
 				canvas.addShape(model);
 				canvas.recolorShape(color);
 				canvas.repaint();

@@ -19,7 +19,10 @@ public class DRect extends DShape{
 		
 		Rectangle bounds = model.getBounds(); 
 		g.setColor(model.getColor());
-		g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		if(!hollow)
+			g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		else
+			g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		if(selected) {
 			drawKnobs(g); 
 			

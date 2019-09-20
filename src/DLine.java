@@ -17,6 +17,7 @@ public class DLine extends DShape {
         
         ((Graphics2D) g).setStroke(new BasicStroke(10));
         g.drawLine(model.getPoint1().x, model.getPoint1().y, model.getPoint2().x, model.getPoint2().y); 
+        
         if(selected) {
         	drawKnobs(g); 
         }
