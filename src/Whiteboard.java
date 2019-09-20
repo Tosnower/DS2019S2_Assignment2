@@ -16,6 +16,7 @@ import javax.swing.JColorChooser;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.beans.XMLDecoder;
@@ -63,6 +64,21 @@ public class Whiteboard extends JFrame
 	/**
 	 * Launch the application.
 	 */
+	private int x1=-999;
+	private int x2=-999;
+	private int y1=-999;
+	private int y2=-999;
+	private int locx=-999;
+	private int locy=-999;
+	
+	private int drawoval=0;
+	private int drawcircle=0;
+	private int drawrect=0;
+	private int drawsquare=0;
+	private int drawline=0;
+	private int drawtext=0;
+	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -108,14 +124,21 @@ public class Whiteboard extends JFrame
 		MouseMotionAdapter I1=new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e) 
 			{
-				int x=e.getX();
-				int y=e.getY();
-				Point p=new Point(x,y);
-				DLineModel model = new DLineModel(p,p);
+				x2=e.getX();
+				y2=e.getY();
+				Point p1;
+				Point p2=new Point(x2,y2);
+				if(x1!=-999&&x2!=-999)
+					p1=new Point(x1,y1);
+				else
+					p1=new Point(p2);
+				DLineModel model = new DLineModel(p1,p2);
 				canvas.recolorShape(Color.BLACK);
 				canvas.addShape(model);
 				
 				canvas.repaint();
+				x1=x2;
+				y1=y2;
 			}
             
         };
@@ -133,19 +156,343 @@ public class Whiteboard extends JFrame
 			}
             
         };
-		
-		addOval = new JButton("Oval");
+        MouseListener I3=new MouseListener(){
+        	@Override
+        	public void mouseReleased(MouseEvent e)
+        	{
+        		canvas.removeMouseMotionListener(I1);
+		        canvas.removeMouseMotionListener(I2);
+        	}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+			
+        };
+        
+        MouseListener I4_Oval=new MouseListener(){
+        	@Override
+        	public void mouseReleased(MouseEvent e)
+        	{
+        		
+        	}
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				// TODO Auto-generated method stub
+				if(drawoval!=0) return;
+				drawoval=1;
+				locx=e.getX();
+				locy=e.getY();
+				DOvalModel model = new DOvalModel(locx,locy,80,50,Color.BLACK);
+				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				while(color==null||color.equals(Color.white))
+				{
+					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
+					color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				}
+				canvas.addShape(model);
+				canvas.recolorShape(color);
+				canvas.repaint();
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+			
+        };
+        
+        MouseListener I4_Circle=new MouseListener(){
+        	@Override
+        	public void mouseReleased(MouseEvent e)
+        	{
+        		
+        	}
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				// TODO Auto-generated method stub
+				if(drawcircle!=0) return;
+				drawcircle=1;
+				locx=e.getX();
+				locy=e.getY();
+				DOvalModel model = new DOvalModel(locx,locy,50,50,Color.BLACK);
+				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				while(color==null||color.equals(Color.white))
+				{
+					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
+					color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				}
+				canvas.addShape(model);
+				canvas.recolorShape(color);
+				canvas.repaint();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+			
+        };
+        
+        MouseListener I4_Rect=new MouseListener(){
+        	@Override
+        	public void mouseReleased(MouseEvent e)
+        	{
+        		
+        	}
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				// TODO Auto-generated method stub
+				if(drawrect!=0) return;
+				drawrect=1;
+				locx=e.getX();
+				locy=e.getY();
+				DRectModel model = new DRectModel(locx,locy,50,80,Color.BLACK);
+				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				while(color==null||color.equals(Color.white))
+				{
+					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
+					color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				}
+				canvas.addShape(model);
+				canvas.recolorShape(color);
+				canvas.repaint();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+			
+        };
+        
+        MouseListener I4_Square=new MouseListener(){
+        	@Override
+        	public void mouseReleased(MouseEvent e)
+        	{
+        		
+        	}
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				// TODO Auto-generated method stub
+				if(drawsquare!=0) return;
+				drawsquare=1;
+				locx=e.getX();
+				locy=e.getY();
+				DRectModel model = new DRectModel(locx,locy,50,50,Color.BLACK);
+				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				while(color==null||color.equals(Color.white))
+				{
+					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
+					color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				}
+				canvas.addShape(model);
+				canvas.recolorShape(color);
+				canvas.repaint();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+			
+        };
+        
+        MouseListener I4_Line=new MouseListener(){
+        	@Override
+        	public void mouseReleased(MouseEvent e)
+        	{
+        		
+        	}
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				// TODO Auto-generated method stub
+				if(drawline!=0) return;
+				drawline=1;
+				locx=e.getX();
+				locy=e.getY();
+				Point p1 = new Point(locx-15,locy-15);
+				Point p2 = new Point(locx+15,locy+15);
+				DLineModel model = new DLineModel(p1,p2);
+				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				while(color==null||color.equals(Color.white))
+				{
+					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
+					color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
+				}
+				canvas.addShape(model);
+				canvas.recolorShape(color);
+				canvas.repaint();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+			
+        };
+
+        MouseListener I4_Text=new MouseListener(){
+        	@Override
+        	public void mouseReleased(MouseEvent e)
+        	{
+        		
+        	}
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				// TODO Auto-generated method stub
+				if(drawtext!=0) return;
+				drawtext=1;
+				locx=e.getX();
+				locy=e.getY();
+				SetText st=new SetText(canvas,locx,locy);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+			
+        };
+        
+        
+        
+        
+        
+        addOval = new JButton("Oval");
 		addOval.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		addOval.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				drawoval=0;
 				canvas.removeMouseMotionListener(I1);
 		        canvas.removeMouseMotionListener(I2);
-				DOvalModel model = new DOvalModel(25,25,80,50,Color.BLACK);
-				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
-				canvas.addShape(model);
-				canvas.recolorShape(color);
-				canvas.repaint();
+		        canvas.removeMouseListener(I3);
+		        canvas.removeMouseListener(I4_Line);
+				canvas.removeMouseListener(I4_Text);
+				canvas.removeMouseListener(I4_Square);
+				canvas.removeMouseListener(I4_Rect);
+				canvas.removeMouseListener(I4_Circle);
+				canvas.addMouseListener(I4_Oval);
+				
 			}
 		});
 		addOval.setBounds(0, 0, 81, 23);
@@ -155,13 +502,16 @@ public class Whiteboard extends JFrame
 		addRectangle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				drawrect=0;
 				canvas.removeMouseMotionListener(I1);
 		        canvas.removeMouseMotionListener(I2);
-				DRectModel model = new DRectModel(25,25,50,80,Color.BLACK);
-				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
-				canvas.addShape(model);
-				canvas.recolorShape(color);
-				canvas.repaint();
+		        canvas.removeMouseListener(I3);
+		        canvas.removeMouseListener(I4_Line);
+				canvas.removeMouseListener(I4_Text);
+				canvas.removeMouseListener(I4_Square);
+				canvas.removeMouseListener(I4_Oval);
+				canvas.removeMouseListener(I4_Circle);
+				canvas.addMouseListener(I4_Rect);
 			}
 		});
 		addRectangle.setFont(new Font("Times New Roman", Font.PLAIN, 10));
@@ -172,15 +522,16 @@ public class Whiteboard extends JFrame
 		addLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				drawline=0;
 				canvas.removeMouseMotionListener(I1);
 		        canvas.removeMouseMotionListener(I2);
-				Point p1 = new Point(5,5);
-				Point p2 = new Point(35,35);
-				DLineModel model = new DLineModel(p1,p2);
-				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
-				canvas.addShape(model);
-				canvas.recolorShape(color);
-				canvas.repaint();
+		        canvas.removeMouseListener(I3);
+		        canvas.removeMouseListener(I4_Oval);
+				canvas.removeMouseListener(I4_Text);
+				canvas.removeMouseListener(I4_Square);
+				canvas.removeMouseListener(I4_Rect);
+				canvas.removeMouseListener(I4_Circle);
+				canvas.addMouseListener(I4_Line);
 			}
 		});
 		addLine.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -191,9 +542,17 @@ public class Whiteboard extends JFrame
 		addText.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				drawtext=0;
 				canvas.removeMouseMotionListener(I1);
 		        canvas.removeMouseMotionListener(I2);
-				SetText st=new SetText(canvas);
+		        canvas.removeMouseListener(I3);
+		        canvas.removeMouseListener(I4_Line);
+				canvas.removeMouseListener(I4_Oval);
+				canvas.removeMouseListener(I4_Square);
+				canvas.removeMouseListener(I4_Rect);
+				canvas.removeMouseListener(I4_Circle);
+		        canvas.addMouseListener(I4_Text);
+				
 				
 			}
 		});
@@ -205,13 +564,16 @@ public class Whiteboard extends JFrame
 		addCircle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				drawcircle=0;
 				canvas.removeMouseMotionListener(I1);
 		        canvas.removeMouseMotionListener(I2);
-				DOvalModel model = new DOvalModel(25,25,50,50,Color.BLACK);
-				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
-				canvas.addShape(model);
-				canvas.recolorShape(color);
-				canvas.repaint();
+		        canvas.removeMouseListener(I3);
+		        canvas.removeMouseListener(I4_Line);
+				canvas.removeMouseListener(I4_Text);
+				canvas.removeMouseListener(I4_Square);
+				canvas.removeMouseListener(I4_Rect);
+				canvas.removeMouseListener(I4_Oval);
+				canvas.addMouseListener(I4_Circle);
 			}
 		});
 		addCircle.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -222,13 +584,16 @@ public class Whiteboard extends JFrame
 		addSquare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				drawsquare=0;
 				canvas.removeMouseMotionListener(I1);
 		        canvas.removeMouseMotionListener(I2);
-				DRectModel model = new DRectModel(25,25,50,50,Color.BLACK);
-				Color color = JColorChooser.showDialog(frmBoard, "Set Color", model.getColor());
-				canvas.addShape(model);
-				canvas.recolorShape(color);
-				canvas.repaint();
+		        canvas.removeMouseListener(I3);
+		        canvas.removeMouseListener(I4_Line);
+				canvas.removeMouseListener(I4_Text);
+				canvas.removeMouseListener(I4_Oval);
+				canvas.removeMouseListener(I4_Rect);
+				canvas.removeMouseListener(I4_Circle);
+				canvas.addMouseListener(I4_Square);
 			}
 		});
 		addSquare.setFont(new Font("Times New Roman", Font.PLAIN, 12));
@@ -242,11 +607,16 @@ public class Whiteboard extends JFrame
 		addPencil.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		addPencil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
-			{
-				
-						
+			{		
 		        canvas.removeMouseMotionListener(I2);
+		        canvas.removeMouseListener(I4_Line);
+				canvas.removeMouseListener(I4_Text);
+				canvas.removeMouseListener(I4_Oval);
+				canvas.removeMouseListener(I4_Rect);
+				canvas.removeMouseListener(I4_Circle);
+				canvas.removeMouseListener(I4_Square);
 		        canvas.addMouseMotionListener(I1);
+		        canvas.addMouseListener(I3);
 			}
 		});
 		addPencil.setBounds(0, 126, 81, 23);
@@ -257,7 +627,14 @@ public class Whiteboard extends JFrame
 			public void actionPerformed(ActionEvent e) 
 			{
 				canvas.removeMouseMotionListener(I1);
+				canvas.removeMouseListener(I4_Line);
+				canvas.removeMouseListener(I4_Text);
+				canvas.removeMouseListener(I4_Oval);
+				canvas.removeMouseListener(I4_Rect);
+				canvas.removeMouseListener(I4_Circle);
+				canvas.removeMouseListener(I4_Square);
 		        canvas.addMouseMotionListener(I2);
+		        canvas.addMouseListener(I3);
 			}
 		});
 		addEraser.setFont(new Font("Times New Roman", Font.PLAIN, 12));

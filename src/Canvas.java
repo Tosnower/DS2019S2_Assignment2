@@ -59,7 +59,7 @@ import java.awt.event.ActionEvent;
 	                pivotKnob = null; 
 	            	
 	                if(selected != null) {
-	                	
+	                	if(!selected.getColor().equals(Color.WHITE))
 	                		getSelection(pt);
 	                	
 	                }
@@ -67,7 +67,7 @@ import java.awt.event.ActionEvent;
 	                if(movingKnob == null) { 
 	                    selected = null; 
 	                    for(int i = 0; i < shapes.size(); i++){
-	                    	if(shapes.get(i).containsPoint(pt)) 
+	                    	if(shapes.get(i).containsPoint(pt)&&!shapes.get(i).getColor().equals(Color.WHITE)) 
 	                            selected = shapes.get(i); 
 	                    }
 	                        
@@ -102,7 +102,8 @@ import java.awt.event.ActionEvent;
 	            		
 	            	}
 	            	
-	            	if(movingKnob != null){
+	            	if(movingKnob != null)
+	            	{
 	            		movingKnob.x += dx;
 	            		movingKnob.y += dy;
 	            		
@@ -116,6 +117,7 @@ import java.awt.event.ActionEvent;
 		}
 		
 		public void getSelection(Point pt){
+			
 			knobs = selected.getKnobs();
 			for(int i = 0; i < knobs.size(); i++){
 				Rectangle knob = new Rectangle(knobs.get(i).x - 4, knobs.get(i).y - 4, 9, 9);
