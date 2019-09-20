@@ -5,7 +5,10 @@ import java.awt.Rectangle;
 
 public class DOval extends DShape{
 	
-	
+	public DOval()
+	{
+		super();
+	}
 	 
 	public DOval(DShapeModel model) 
 	{

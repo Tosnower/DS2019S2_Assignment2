@@ -9,6 +9,12 @@ public class DText extends DShape{
 	private double initialSize = 1.0;
 	private Font computedFont;  
 	
+	public DText()
+	{
+		super();
+		computedFont = null; 
+	}
+	
 	public DText(DShapeModel model) { 
         super(model); 
         computedFont = null; 

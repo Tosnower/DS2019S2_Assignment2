@@ -5,6 +5,10 @@ import java.awt.Color;
 
 public class DRect extends DShape{
 	
+	public DRect()
+	{
+		super();
+	}
 	
 	public DRect(DShapeModel model) {
 		super(model);

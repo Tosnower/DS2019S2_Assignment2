@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -35,6 +36,7 @@ import java.awt.Point;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.event.MenuListener;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.event.MenuEvent;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -108,6 +110,7 @@ public class Whiteboard extends JFrame
 		frmBoard.setBounds(100, 100, 581, 556);
 		frmBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmBoard.getContentPane().setLayout(null);
+		frmBoard.setResizable(false);
 		
 		canvas = new Canvas(this);
 		canvas.setBounds(79, 0, 486, 416);
@@ -215,9 +218,9 @@ public class Whiteboard extends JFrame
 				}
 				int ret=JOptionPane.showConfirmDialog(null, "Filled Shape?", "Please choose an option",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if(ret==JOptionPane.YES_OPTION)
-					model.hollow=false;
+					model.setHollow(false);
 				else
-					model.hollow=true;
+					model.setHollow(true);
 				canvas.addShape(model);
 				canvas.recolorShape(color);
 				canvas.repaint();
@@ -269,9 +272,9 @@ public class Whiteboard extends JFrame
 				}
 				int ret=JOptionPane.showConfirmDialog(null, "Filled Shape?", "Please choose an option",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if(ret==JOptionPane.YES_OPTION)
-					model.hollow=false;
+					model.setHollow(false);
 				else
-					model.hollow=true;
+					model.setHollow(true);
 				canvas.addShape(model);
 				canvas.recolorShape(color);
 				canvas.repaint();
@@ -322,9 +325,9 @@ public class Whiteboard extends JFrame
 				}
 				int ret=JOptionPane.showConfirmDialog(null, "Filled Shape?", "Please choose an option",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if(ret==JOptionPane.YES_OPTION)
-					model.hollow=false;
+					model.setHollow(false);
 				else
-					model.hollow=true;
+					model.setHollow(true);
 				canvas.addShape(model);
 				canvas.recolorShape(color);
 				canvas.repaint();
@@ -375,9 +378,9 @@ public class Whiteboard extends JFrame
 				}
 				int ret=JOptionPane.showConfirmDialog(null, "Filled Shape?", "Please choose an option",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if(ret==JOptionPane.YES_OPTION)
-					model.hollow=false;
+					model.setHollow(false);
 				else
-					model.hollow=true;
+					model.setHollow(true);
 				canvas.addShape(model);
 				canvas.recolorShape(color);
 				canvas.repaint();
@@ -683,11 +686,16 @@ public class Whiteboard extends JFrame
 		mntmOpen.addActionListener(new  ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				String result = JOptionPane.showInputDialog("File Name", null);
-				if (result != null) {
-					File f = new File(result);
-					open(f);
-				}
+				JFileChooser fc=new JFileChooser();
+				fc.setDialogTitle("Open");
+				int result = fc.showOpenDialog(frmBoard);
+
+		        if (result == JFileChooser.APPROVE_OPTION) 
+		        {
+		           
+		            File f = fc.getSelectedFile();
+		            open(f);
+		        }
 			}
 		});
 		mnFile.addSeparator();
@@ -696,11 +704,16 @@ public class Whiteboard extends JFrame
 		mntmSave.addActionListener(new  ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				String result = JOptionPane.showInputDialog("File Name", null);
-				if (result != null) {
-					File f = new File(result);
-					save(f);
-				}
+				JFileChooser fc=new JFileChooser();
+				fc.setDialogTitle("Save");
+				int result = fc.showSaveDialog(frmBoard);
+
+		        if (result == JFileChooser.APPROVE_OPTION) 
+		        {
+		           
+		            File f = fc.getSelectedFile();
+		            save(f);
+		        }
 			}
 		});
 		mnFile.addSeparator();
@@ -709,11 +722,21 @@ public class Whiteboard extends JFrame
 		mntmSaveAs.addActionListener(new  ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				String result = JOptionPane.showInputDialog("File Name", null);
-				if (result != null) {
-					File f = new File(result);
-					saveImage(f);
-				}
+				
+				JFileChooser fc=new JFileChooser();
+				fc.setDialogTitle("Save As Image");
+				int result = fc.showSaveDialog(frmBoard);
+
+		        if (result == JFileChooser.APPROVE_OPTION) 
+		        {
+		           
+		            File f = fc.getSelectedFile();
+		            if(f.getName().matches("^.+\\.jpg$"))
+		            	saveImage(f);
+		            else
+		            	JOptionPane.showMessageDialog(null, "only jpg format is accepted!", "Error", JOptionPane.INFORMATION_MESSAGE);
+		        }
+		
 			}
 		});
 		mnFile.addSeparator();
@@ -759,7 +782,8 @@ public class Whiteboard extends JFrame
 	} 
 	
 	public void save(File file){
-		try {
+		try 
+		{
 			XMLEncoder xmlout =new XMLEncoder(new BufferedOutputStream(new FileOutputStream(file)));
 
 			List<DShape> shapes = canvas.getShapes();
@@ -767,12 +791,17 @@ public class Whiteboard extends JFrame
 	    	
 	    	for(int i = 0; i < models.length; i ++){
 	    		models[i] = shapes.get(i).getModel();
+	    		
 	    	}
+	    	
 			xmlout.writeObject(models);
 			xmlout.close();
+			JOptionPane.showMessageDialog(null, "Successfully Save!", "Message", JOptionPane.INFORMATION_MESSAGE);
 			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} 
+		catch (Exception e) 
+		{
+			JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.INFORMATION_MESSAGE);
 		}
     }
 	
@@ -786,22 +815,22 @@ public class Whiteboard extends JFrame
 	    File f=file;
 		try
 	    {	if( !f.exists() )
-		{
-			f.createNewFile();
-			//System.out.println(123);
-		}
-		ImageIO.write(image, "jpg",f);
+				f.createNewFile();
+			
+			ImageIO.write(image, "jpg",f);
+			JOptionPane.showMessageDialog(null, "Successfully Save Image!", "Message", JOptionPane.INFORMATION_MESSAGE);
 	    }
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 	
 		
 	}
 	
 	public void open(File file){
-		try {
+		try 
+		{
 			XMLDecoder xmlin = new XMLDecoder(new FileInputStream(file));
 			DShapeModel[] models = (DShapeModel[]) xmlin.readObject();
 			xmlin.close();
@@ -809,15 +838,16 @@ public class Whiteboard extends JFrame
 			
 			clear();
 			
-			for(int i = 0; i < models.length; i++){
+			for(int i = 0; i < models.length; i++)
+			{
 				canvas.addShape(models[i]);
 			}
-				
+			JOptionPane.showMessageDialog(null, "Successfully Open!", "Message", JOptionPane.INFORMATION_MESSAGE);	
 			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (ClassCastException e) {
-			e.printStackTrace();
+		} 
+		catch (Exception e) 
+		{
+			JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.INFORMATION_MESSAGE);
 			
 		}    	
     }

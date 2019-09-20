@@ -9,9 +9,10 @@ public class DShapeModel {
 	private int y;
 	private int width;
 	private int height;
+	//protected Point p1, p2;
 	protected Color color;
 	protected Rectangle bounds;
-	public boolean hollow=false;
+	private boolean hollow=false;
 	
 	public DShapeModel(int x, int y, int width, int height, Color color) {
 		this.bounds = new Rectangle(x, y, width, height);
@@ -24,10 +25,19 @@ public class DShapeModel {
     } 
 	
 	public DShapeModel() { 
-		bounds = new Rectangle(0, 0, 0, 0);
+		this.bounds = new Rectangle(0, 0, 0, 0);
 		this.color = Color.gray; 
     } 
 	
+	public boolean getHollow()
+	{
+		return hollow;
+	}
+	
+	public void setHollow(boolean h)
+	{
+		hollow=h;
+	}
 	
 	public Rectangle getBounds(){
 		return bounds;
