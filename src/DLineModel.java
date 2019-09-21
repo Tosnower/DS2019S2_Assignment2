@@ -19,6 +19,7 @@ public class DLineModel extends DShapeModel {
     	super();
     	
     	this.bounds = new Rectangle(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+    	
     }
      
   

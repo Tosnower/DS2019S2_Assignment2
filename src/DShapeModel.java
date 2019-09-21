@@ -21,12 +21,15 @@ public class DShapeModel {
 	}
 	
 	public DShapeModel(int x, int y) { 
-        this(x, y, 0, 0, Color.gray); 
+        this(x, y, 0, 0, Color.WHITE); 
     } 
 	
 	public DShapeModel() { 
 		this.bounds = new Rectangle(0, 0, 0, 0);
-		this.color = Color.gray; 
+		if(Whiteboard.pencilcolor!=null)
+			this.color = Whiteboard.pencilcolor; 
+		else
+			this.color=Color.WHITE;
     } 
 	
 	public boolean getHollow()
@@ -61,7 +64,7 @@ public class DShapeModel {
 	
 	public Color getColor(){
 		if(color == null){
-			return Color.gray;
+			return Color.WHITE;
 		}
 		return color;
 		

@@ -82,7 +82,7 @@ public class Whiteboard extends JFrame
 	private int drawsquare=0;
 	private int drawline=0;
 	private int drawtext=0;
-	private Color pencilcolor=null;
+	public static Color pencilcolor=null;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -127,6 +127,7 @@ public class Whiteboard extends JFrame
 		scrollPane.setBounds(0, 421, 575, 96);
 		frmBoard.getContentPane().add(scrollPane);
 		
+		
 		MouseMotionAdapter I1=new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e) 
 			{
@@ -134,15 +135,17 @@ public class Whiteboard extends JFrame
 				y2=e.getY();
 				Point p1;
 				Point p2=new Point(x2,y2);
-				if(x1!=-999&&x2!=-999)
+				if(x1!=-999&&y1!=-999)
 					p1=new Point(x1,y1);
 				else
 					p1=new Point(p2);
-				DLineModel model = new DLineModel(p1,p2);
-				canvas.recolorShape(pencilcolor);
-				canvas.addShape(model);
-				
-				canvas.repaint();
+				if(p1!=p2)
+				{
+					DLineModel model = new DLineModel(p1,p2);
+					canvas.recolorShape(pencilcolor);
+					canvas.addShape(model);
+					canvas.repaint();
+				}
 				x1=x2;
 				y1=y2;
 			}
@@ -166,8 +169,11 @@ public class Whiteboard extends JFrame
         	@Override
         	public void mouseReleased(MouseEvent e)
         	{
+        		x1=-999;
+        		y1=-999;
         		canvas.removeMouseMotionListener(I1);
 		        canvas.removeMouseMotionListener(I2);
+		        pencilcolor=null;
         	}
 
 			@Override
@@ -724,7 +730,11 @@ public class Whiteboard extends JFrame
 		        {
 		           
 		            File f = fc.getSelectedFile();
-		            open(f);
+		            //open(f);
+		            clear();
+		            BoardThread bt=new BoardThread();
+		            bt.init(2, f,canvas);
+		            bt.start();
 		        }
 			}
 		});
@@ -742,7 +752,10 @@ public class Whiteboard extends JFrame
 		        {
 		           
 		            File f = fc.getSelectedFile();
-		            save(f);
+		            //save(f);
+		            BoardThread bt=new BoardThread();
+		            bt.init(1, f,canvas);
+		            bt.start();
 		        }
 			}
 		});
@@ -762,7 +775,11 @@ public class Whiteboard extends JFrame
 		           
 		            File f = fc.getSelectedFile();
 		            if(f.getName().matches("^.+\\.jpg$"))
-		            	saveImage(f);
+		            {
+		            	BoardThread bt=new BoardThread();
+		            	bt.init(3, f,canvas);
+			            bt.start();
+		            }
 		            else
 		            	JOptionPane.showMessageDialog(null, "only jpg format is accepted!", "Error", JOptionPane.INFORMATION_MESSAGE);
 		        }

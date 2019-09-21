@@ -8,6 +8,6 @@ public class DOvalModel extends DShapeModel{
 			super(x, y, width, height, color);
 		}
 	 public DOvalModel(){
-		 super(0, 0, 0, 0, Color.gray);
+		 super(0, 0, 0, 0, Color.WHITE);
 		}
 }
