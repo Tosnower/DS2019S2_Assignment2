@@ -20,7 +20,7 @@ public class DLine extends DShape {
         Rectangle bounds = model.getBounds();
         g.setColor(getColor()); 
         
-        ((Graphics2D) g).setStroke(new BasicStroke(2));
+        ((Graphics2D) g).setStroke(new BasicStroke(8));
         //g.drawLine(model.getPoint1().x, model.getPoint1().y, model.getPoint2().x, model.getPoint2().y); 
         g.drawLine(bounds.x, bounds.y, bounds.x+bounds.width, bounds.y+bounds.height);
         if(selected) {

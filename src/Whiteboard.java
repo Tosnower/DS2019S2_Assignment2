@@ -11,6 +11,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -40,6 +42,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.event.MenuEvent;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 public class Whiteboard extends JFrame
 {
@@ -72,14 +75,14 @@ public class Whiteboard extends JFrame
 	private int y2=-999;
 	private int locx=-999;
 	private int locy=-999;
-	
+	private int erasersize=0;
 	private int drawoval=0;
 	private int drawcircle=0;
 	private int drawrect=0;
 	private int drawsquare=0;
 	private int drawline=0;
 	private int drawtext=0;
-	
+	private Color pencilcolor=null;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -113,7 +116,7 @@ public class Whiteboard extends JFrame
 		frmBoard.setResizable(false);
 		
 		canvas = new Canvas(this);
-		canvas.setBounds(79, 0, 486, 416);
+		canvas.setBounds(34, 0, 541, 416);
 		frmBoard.getContentPane().add(canvas);
 		
 		tableModel = new TableModel();
@@ -121,7 +124,7 @@ public class Whiteboard extends JFrame
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(380, 400));
-		scrollPane.setBounds(79, 414, 486, 103);
+		scrollPane.setBounds(0, 421, 575, 96);
 		frmBoard.getContentPane().add(scrollPane);
 		
 		MouseMotionAdapter I1=new MouseMotionAdapter() {
@@ -136,7 +139,7 @@ public class Whiteboard extends JFrame
 				else
 					p1=new Point(p2);
 				DLineModel model = new DLineModel(p1,p2);
-				canvas.recolorShape(Color.BLACK);
+				canvas.recolorShape(pencilcolor);
 				canvas.addShape(model);
 				
 				canvas.repaint();
@@ -151,7 +154,7 @@ public class Whiteboard extends JFrame
 				int x=e.getX();
 				int y=e.getY();
 				
-				DRectModel model = new DRectModel(x,y,50,50,Color.WHITE);
+				DRectModel model = new DRectModel(x,y,erasersize,erasersize,Color.WHITE);
 				
 				canvas.addShape(model);
 				
@@ -499,8 +502,8 @@ public class Whiteboard extends JFrame
         
         
         
-        
-        addOval = new JButton("Oval");
+        Icon iconoval=new ImageIcon("img/oval.jpg");
+        addOval = new JButton("",iconoval);
 		addOval.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		addOval.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
@@ -518,10 +521,10 @@ public class Whiteboard extends JFrame
 				
 			}
 		});
-		addOval.setBounds(0, 0, 81, 23);
+		addOval.setBounds(0, 0, 33, 23);
 		frmBoard.getContentPane().add(addOval);
-		
-		addRectangle = new JButton("Rectangle");
+		Icon iconrect=new ImageIcon("img/rect.jpg");
+		addRectangle = new JButton("",iconrect);
 		addRectangle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -538,10 +541,10 @@ public class Whiteboard extends JFrame
 			}
 		});
 		addRectangle.setFont(new Font("Times New Roman", Font.PLAIN, 10));
-		addRectangle.setBounds(0, 40, 81, 23);
+		addRectangle.setBounds(0, 40, 33, 23);
 		frmBoard.getContentPane().add(addRectangle);
-		
-		addLine = new JButton("Line");
+		Icon iconline=new ImageIcon("img/line.jpg");
+		addLine = new JButton("",iconline);
 		addLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -558,10 +561,10 @@ public class Whiteboard extends JFrame
 			}
 		});
 		addLine.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		addLine.setBounds(0, 82, 81, 23);
+		addLine.setBounds(0, 82, 33, 23);
 		frmBoard.getContentPane().add(addLine);
-		
-		addText = new JButton("Text");
+		Icon icontext=new ImageIcon("img/text.jpg");
+		addText = new JButton("",icontext);
 		addText.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -580,10 +583,10 @@ public class Whiteboard extends JFrame
 			}
 		});
 		addText.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		addText.setBounds(0, 104, 81, 23);
+		addText.setBounds(0, 104, 33, 23);
 		frmBoard.getContentPane().add(addText);
-		
-		addCircle = new JButton("Circle");
+		Icon iconcircle=new ImageIcon("img/circle.jpg");
+		addCircle = new JButton("",iconcircle);
 		addCircle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -600,10 +603,10 @@ public class Whiteboard extends JFrame
 			}
 		});
 		addCircle.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		addCircle.setBounds(0, 21, 81, 23);
+		addCircle.setBounds(0, 21, 33, 23);
 		frmBoard.getContentPane().add(addCircle);
-		
-		JButton addSquare = new JButton("Square");
+		Icon iconsquare=new ImageIcon("img/square.jpg");
+		JButton addSquare = new JButton("",iconsquare);
 		addSquare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -620,13 +623,12 @@ public class Whiteboard extends JFrame
 			}
 		});
 		addSquare.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		addSquare.setBounds(0, 61, 81, 23);
+		addSquare.setBounds(0, 61, 33, 23);
 		frmBoard.getContentPane().add(addSquare);
 		
 		
-		
-		
-		addPencil = new JButton("Pencil");
+		Icon iconpencil=new ImageIcon("img/pencil.jpg");		
+		addPencil = new JButton("",iconpencil);
 		addPencil.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		addPencil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
@@ -638,14 +640,21 @@ public class Whiteboard extends JFrame
 				canvas.removeMouseListener(I4_Rect);
 				canvas.removeMouseListener(I4_Circle);
 				canvas.removeMouseListener(I4_Square);
+				pencilcolor=null;
+				pencilcolor = JColorChooser.showDialog(frmBoard, "Set Color", Color.BLACK);
+				while(pencilcolor==null||pencilcolor.equals(Color.white))
+				{
+					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
+					pencilcolor = JColorChooser.showDialog(frmBoard, "Set Color", Color.BLACK);
+				}
 		        canvas.addMouseMotionListener(I1);
 		        canvas.addMouseListener(I3);
 			}
 		});
-		addPencil.setBounds(0, 126, 81, 23);
+		addPencil.setBounds(0, 125, 33, 23);
 		frmBoard.getContentPane().add(addPencil);
-		
-		addEraser = new JButton("Eraser");
+		Icon iconeraser=new ImageIcon("img/eraser.jpg");
+		addEraser = new JButton("",iconeraser);
 		addEraser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -656,12 +665,33 @@ public class Whiteboard extends JFrame
 				canvas.removeMouseListener(I4_Rect);
 				canvas.removeMouseListener(I4_Circle);
 				canvas.removeMouseListener(I4_Square);
+				Object[] Esizes={"very small","small","medium","big","very big"};
+				int ret=JOptionPane.showOptionDialog(null, "Please select the size of eraser", "option", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, Esizes, Esizes[0]);
+				switch(ret)
+				{
+				case 0:
+					erasersize=10;
+					break;
+				case 1:
+					erasersize=25;
+					break;
+				case 2:
+					erasersize=50;
+					break;
+				case 3:
+					erasersize=65;
+					break;
+				case 4:
+					erasersize=85;
+					break;
+				}
+					
 		        canvas.addMouseMotionListener(I2);
 		        canvas.addMouseListener(I3);
 			}
 		});
 		addEraser.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		addEraser.setBounds(0, 148, 81, 23);
+		addEraser.setBounds(0, 146, 33, 23);
 		frmBoard.getContentPane().add(addEraser);
 		
 		JMenuBar menuBar = new JMenuBar();
