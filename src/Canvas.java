@@ -51,7 +51,7 @@ import java.awt.event.ActionEvent;
 		public void canvasClicked(){	
 			addMouseListener( new MouseAdapter() {
 	            public void mousePressed(MouseEvent e) {
-	            	if(board.getMode() != 2){
+	            	
 	            	Point pt = e.getPoint();
 	            	x = e.getX(); 
 	                y = e.getY(); 
@@ -71,7 +71,7 @@ import java.awt.event.ActionEvent;
 	                            selected = shapes.get(i); 
 	                    }
 	                        
-	                }
+	                
 	                  
 	                repaint(); 
 	            	}
@@ -85,7 +85,7 @@ import java.awt.event.ActionEvent;
 		public void drag(){	
 			addMouseMotionListener( new MouseMotionAdapter() {
 	            public void mouseDragged(MouseEvent e) {
-	            	if(board.getMode() != 2){
+	            	
 	            	int dx = e.getX()-x;
 	            	int dy = e.getY()-y;
 	            	x = e.getX();
@@ -94,9 +94,9 @@ import java.awt.event.ActionEvent;
 	            	if(selected != null)
 	            	{
 	            		
-	            			selected.moveBy(dx, dy);
-	            			board.updateTable(selected);
-		            		repaint();
+	            		selected.moveBy(dx, dy);
+	            		board.updateTable(selected);
+		            	repaint();
 		            		
 	            		
 	            		
@@ -110,7 +110,7 @@ import java.awt.event.ActionEvent;
 	            		selected.resize(pivotKnob,movingKnob);
 	            		
 	            	}
-	            }
+	            
 	            }
 	        });
 			
@@ -162,7 +162,7 @@ import java.awt.event.ActionEvent;
 	    }
 		
 		public void addShape(DShapeModel model) {
-			if(board.getMode() != 2){
+			
 			DShape shape = null;
 			if (model instanceof DOvalModel)
 				shape = new DOval(model);
@@ -178,7 +178,7 @@ import java.awt.event.ActionEvent;
 			board.add(shape); 
 			
 			repaint();
-			}
+			
 			
 		}
 		

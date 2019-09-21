@@ -26,7 +26,8 @@ public class DLineModel extends DShapeModel {
     public void moveBy(int dx, int dy) { 
     	
         
-         
+    	if((bounds.x + dx<0&&dx<0)||(bounds.x +bounds.width+ dx>541&&dx>0)) dx=0;
+		if((bounds.y + dy<0&&dy<0)||(bounds.y +bounds.height+ dy>416&&dy>0)) dy=0;
         super.moveBy(dx, dy); 
         this.bounds = new Rectangle(bounds.x+dx, bounds.y+dy, bounds.width, bounds.height);
     } 
@@ -52,6 +53,11 @@ public class DLineModel extends DShapeModel {
      
     public void resize(Point pivotKnob, Point movingKnob) { 
 
+    	int maxX=bounds.x+bounds.width;
+		int minX=bounds.x;
+		int maxY=bounds.y+bounds.height;
+		int minY=bounds.y;
+		if(minX<0||maxX>541||minY<0||maxY>416) return;
         this.bounds=new Rectangle(pivotKnob.x, pivotKnob.y, movingKnob.x - pivotKnob.x, movingKnob.y - pivotKnob.y);
         super.resize(pivotKnob, movingKnob); 
         //this.bounds = super.getBounds();

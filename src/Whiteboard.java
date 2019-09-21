@@ -46,7 +46,7 @@ import javax.swing.SwingConstants;
 
 public class Whiteboard extends JFrame
 {
-	private int mode;
+	
 	private static int normal = 0;
 	private static int server = 1;
 	private static int client = 2;
@@ -134,11 +134,19 @@ public class Whiteboard extends JFrame
 				x2=e.getX();
 				y2=e.getY();
 				Point p1;
-				Point p2=new Point(x2,y2);
+				Point p2;
+				if(x2<0) x2=0;
+				else if(x2>541) x2=541;
+				if(y2<0) y2=0;
+				else if(y2>416) y2=416;
+				p2=new Point(x2,y2);
+				
+					
 				if(x1!=-999&&y1!=-999)
 					p1=new Point(x1,y1);
-				else
+				else 
 					p1=new Point(p2);
+				
 				if(p1!=p2)
 				{
 					DLineModel model = new DLineModel(p1,p2);
@@ -156,7 +164,10 @@ public class Whiteboard extends JFrame
 			{
 				int x=e.getX();
 				int y=e.getY();
-				
+				if(x<0) x=0;
+				else if(x+erasersize>541) x=541-erasersize-1;
+				if(y<0) y=0;
+				else if(y+erasersize>416) y=416-erasersize-1;
 				DRectModel model = new DRectModel(x,y,erasersize,erasersize,Color.WHITE);
 				
 				canvas.addShape(model);
@@ -700,6 +711,19 @@ public class Whiteboard extends JFrame
 		addEraser.setBounds(0, 146, 33, 23);
 		frmBoard.getContentPane().add(addEraser);
 		
+		Icon iconclear=new ImageIcon("img/clear.jpg");
+		JButton clearbtn = new JButton("", iconclear);
+		clearbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				canvas.setNull();
+	            repaint();
+			}
+		});
+		clearbtn.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		clearbtn.setBounds(0, 167, 33, 23);
+		frmBoard.getContentPane().add(clearbtn);
+		
 		JMenuBar menuBar = new JMenuBar();
 		frmBoard.setJMenuBar(menuBar);
 		
@@ -798,10 +822,7 @@ public class Whiteboard extends JFrame
 		
 	}
 	
-	public int getMode()
-	{
-		return mode;
-	}
+	
 	
 	public void updateTable(DShape selectedShape) 
 	{ 

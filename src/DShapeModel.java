@@ -71,12 +71,16 @@ public class DShapeModel {
 	}
 	
 	public void setX(int x){
-		bounds.x = x;
+		if(x<0)bounds.x=0;
+		else if(x>541)bounds.x=541;
+		else bounds.x = x;
 	
 	}
 
 	public void setY(int y){
-		bounds.y = y;
+		if(y<0)bounds.y=0;
+		if(y>416)bounds.y=416;
+		else bounds.y = y;
 		
 	}
 	
@@ -106,12 +110,21 @@ public class DShapeModel {
 		
 	}
 	
-	public void setLocation(int x, int y) { 
-		bounds.x = x;
-		bounds.y = y;
+	public void setLocation(int x, int y) 
+	{ 
+		if(x<0)bounds.x=0;
+		else if(x>541)bounds.x=541;
+		else bounds.x = x;
+		if(y<0)bounds.y=0;
+		if(y>416)bounds.y=416;
+		else bounds.y = y;
+		
     } 
 	
-	public void moveBy(int dx, int dy){
+	public void moveBy(int dx, int dy)
+	{
+		if((bounds.x + dx<0&&dx<0)||(bounds.x +bounds.width+ dx>541&&dx>0)) dx=0;
+		if((bounds.y + dy<0&&dy<0)||(bounds.y +bounds.height+ dy>416&&dy>0)) dy=0;
 		bounds.x += dx;
 		bounds.y += dy;
 	}
@@ -138,8 +151,11 @@ public class DShapeModel {
 	
 	public void resize(Point pivotKnob, Point movingKnob) {
 		
-		
-		
+		int maxX=bounds.x+bounds.width;
+		int minX=bounds.x;
+		int maxY=bounds.y+bounds.height;
+		int minY=bounds.y;
+		if(minX<0||maxX>541||minY<0||maxY>416) return;
 		if(pivotKnob.x < movingKnob.x){
 			x = pivotKnob.x;
 		}
