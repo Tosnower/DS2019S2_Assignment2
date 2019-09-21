@@ -1,5 +1,7 @@
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.BasicStroke;
 import java.awt.Color;
 
 
@@ -23,6 +25,8 @@ public class DRect extends DShape{
 		
 		Rectangle bounds = model.getBounds(); 
 		g.setColor(model.getColor());
+		
+		((Graphics2D) g).setStroke(new BasicStroke(2));
 		if(!hollow)
 			g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		else

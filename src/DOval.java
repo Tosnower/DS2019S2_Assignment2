@@ -1,5 +1,7 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 
@@ -20,6 +22,8 @@ public class DOval extends DShape{
 		
 		Rectangle bounds = model.getBounds(); 
 		g.setColor(model.getColor());
+		
+		 ((Graphics2D) g).setStroke(new BasicStroke(2));
 		if(!hollow)
 			g.fillOval(bounds.x, bounds.y, bounds.width, bounds.height);
 		else
