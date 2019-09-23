@@ -1,4 +1,5 @@
 import util.Document;
+import util.httpURLConectionGET;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -33,8 +34,11 @@ public class ServerChat {
     private JList<String> listUsers;
     private JLabel lblRoomInfo;
     private final ButtonGroup buttonGroup = new ButtonGroup();
+    private final ButtonGroup buttonGroup2 = new ButtonGroup();
     private JRadioButton rdbtnBrocast;
     private JRadioButton rdbtnPrivateChat;
+    private JRadioButton rdbtnen;
+    private JRadioButton rdbtnch;
     private JTextArea textAreaMsg;
     private DefaultListModel<String> modelUsers;
 
@@ -125,18 +129,102 @@ public class ServerChat {
         btnEmoji.setBounds(344, 409, 88, 27);
         frmtcp.getContentPane().add(btnEmoji);
 
+        JButton btnTrans = new JButton("Trans(en->ch)");
+        btnTrans.setEnabled(true);
+        btnTrans.setBounds(204, 409, 128, 27);
+        frmtcp.getContentPane().add(btnTrans);
+
+
+        rdbtnen = new JRadioButton("en");
+        buttonGroup2.add(rdbtnen);
+        rdbtnen.setBounds(100, 409, 50, 22);
+        frmtcp.getContentPane().add(rdbtnen);
+
+        rdbtnch = new JRadioButton("ch");
+        buttonGroup2.add(rdbtnch);
+        rdbtnch.setSelected(true);
+        rdbtnch.setBounds(150, 409, 50, 22);
+        frmtcp.getContentPane().add(rdbtnch);
+
+        rdbtnch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnTrans.setText("Trans(en->ch)");
+
+            }
+        });
+
+        rdbtnen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnTrans.setText("Trans(ch->en)");
+
+            }
+        });
+
+
+
+
+
 
 
         JTable table;
         //定义二维数组作为表格数据
         Object[][] tableData =
                 {
-                        new Object[]{"\uD83D\uDE00" , "\uD83D\uDE01" , "\uD83D\uDE02"},
-                        new Object[]{"\uD83D\uDE05", "\uD83D\uDE0C" , "\uD83D\uDC91"},
-                        new Object[]{"\uD83D\uDE09", "\uD83D\uDE16" , "\uD83D\uDE2D"},
-                        new Object[]{"\uD83D\uDE12", "\uD83D\uDE28" , "\uD83D\uDE35"},
-                        new Object[]{"\uD83D\uDE1B" , "\uD83D\uDC75" , "\uD83D\uDE20"}
+                        new Object[]{"(▼ _ ▼)" , " ┑(￣Д ￣)┍ " , "↖(▔＾▔)↗"},
+                        new Object[]{" (●′ω`●) ", "（●>∀<●）" , " (≥﹏ ≤)"},
+                        new Object[]{" °(°ˊДˋ°) °", " (つ﹏⊂) " , "  (￣ε ￣) "},
+                        new Object[]{" (◍'౪`◍)ﾉﾞ", " (๑´ڡ`๑) " , "ℰ⋆‿⋆ℰ "},
+                        new Object[]{"╰(*´︶`*)╯" , "(；′⌒`)" , "(/ω＼) "}
                 };
+        btnTrans.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String out;
+
+                boolean containEmoji=false;
+                for(int i =0; i < 5; i++){
+
+                    if(containEmoji){
+                        break;
+                    }
+                    for(int j =0; j<3;j++){
+
+                        //System.out.println(tableData[i][j].toString());
+                        if(containEmoji){
+                            break;
+                        }
+                        if(textAreaMsg.getText().contains(tableData[i][j].toString())){
+                            containEmoji=true;
+                        }
+                    }
+                }
+
+                if(containEmoji){
+
+                    JOptionPane.showMessageDialog(null, "Translation messages cannot contain emoticons");
+
+
+                }else{
+                    if (rdbtnen.isSelected()){
+                        out =  httpURLConectionGET.Translate("ch","en",textAreaMsg.getText());
+                    }else{
+                        out =  httpURLConectionGET.Translate("en","ch",textAreaMsg.getText());
+                    }
+                    if(out.equals("error")){
+                        JOptionPane.showMessageDialog(null, "Translation ERROR");
+
+                    }else{
+                        textAreaMsg.setText(out);
+                    }
+
+                }
+
+            }
+        });
+
+        //String test = tableData[0][1].toString();
         //定义一维数据作为列标题
         Object[] columnTitle = {"" , "" , ""};
         JWindow jWindow = new JWindow();
@@ -278,17 +366,21 @@ public class ServerChat {
         listUsers = new JList<String>();
         listUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane_2.setViewportView(listUsers);
-        lblRoomInfo = new JLabel("Totol");
-        lblRoomInfo.setBounds(546, 413, 145, 18);
-        frmtcp.getContentPane().add(lblRoomInfo);
+       // lblRoomInfo = new JLabel("Totol");
+        //lblRoomInfo.setBounds(546, 413, 145, 18);
+        //frmtcp.getContentPane().add(lblRoomInfo);
         rdbtnBrocast = new JRadioButton("Send To All");
         buttonGroup.add(rdbtnBrocast);
+
         rdbtnBrocast.setBounds(226, 309, 132, 22);
         frmtcp.getContentPane().add(rdbtnBrocast);
         rdbtnPrivateChat = new JRadioButton("Send To One");
         buttonGroup.add(rdbtnPrivateChat);
         rdbtnPrivateChat.setSelected(true);
         rdbtnPrivateChat.setBounds(356, 309, 157, 22);
+
+
+
         frmtcp.getContentPane().add(rdbtnPrivateChat);
         // 更换样式
         try {
@@ -297,7 +389,7 @@ public class ServerChat {
             // 更新窗体样式
             SwingUtilities.updateComponentTreeUI(this.frmtcp);
         } catch (Exception e) {
-            e.printStackTrace();
+           // e.printStackTrace();
         }
         frmtcp.setVisible(true);
 
@@ -562,7 +654,7 @@ public class ServerChat {
                 // 修改启动和停止按钮状态
                 //btnStart.setEnabled(false);
                // btnStop.setEnabled(true);
-                addMsg("Star Server Successful");
+                addMsg("Start Server Successful");
 
                 //String myinfo = socket.getLocalAddress()+ ":"+ socket.getLocalPort();
 

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="09f18733-f120-4fbc-9817-45b51c794bba" name="Default Changelist" comment="" />
+    <list default="true" id="09f18733-f120-4fbc-9817-45b51c794bba" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/httpURLConectionGET.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ClientChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ClientChat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ServerChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ServerChat.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -12,42 +17,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ServerChat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="691" column="57" selection-start-line="691" selection-start-column="57" selection-end-line="691" selection-end-column="57" />
+            <state relative-caret-position="-125">
+              <caret line="178" column="71" selection-start-line="178" selection-start-column="71" selection-end-line="178" selection-end-column="71" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1462#1484#0" expanded="true" />
-                <element signature="e#4673#5209#0" expanded="true" />
-                <element signature="e#5208#5209#0" expanded="true" />
-                <element signature="method#actionPerformed#0;class#5642:7644" />
-                <element signature="e#15371#15379#0" expanded="true" />
-                <element signature="method#addMsg#0;class#ServerChat#0" />
-                <element signature="method#Connect#0;class#ServerChat#0" />
-                <element signature="e#22006#22014#0" expanded="true" />
-                <element signature="method#Login_Success#0;class#ServerChat#0" />
-                <element signature="method#User_List#0;class#ServerChat#0" />
-                <element signature="method#New_Login#0;class#ServerChat#0" />
-                <element signature="method#Send_All#1;class#ServerChat#0" />
-                <element signature="e#17347#17870#0" />
+                <element signature="e#16593#16883#0" />
+                <element signature="e#16890#17086#0" />
+                <element signature="e#20539#20704#0" />
+                <element signature="e#20710#20932#0" />
+                <element signature="e#20938#21155#0" />
+                <element signature="e#21550#21817#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ClientChat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1287">
-              <caret line="517" column="37" lean-forward="true" selection-start-line="517" selection-start-column="37" selection-end-line="517" selection-end-column="37" />
+            <state relative-caret-position="324">
+              <caret line="206" selection-start-line="206" selection-end-line="210" selection-end-column="71" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6515#7035#0" expanded="true" />
-                <element signature="e#7034#7035#0" expanded="true" />
-                <element signature="e#7486#7790#0" expanded="true" />
-                <element signature="e#7789#7790#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -85,9 +79,16 @@
       <find>rdbtnBrocast</find>
       <find>setModel</find>
       <find>emo</find>
-      <find>send</find>
       <find>frmtcp.setVisible(true);</find>
+      <find>\&quot;</find>
+      <find>send</find>
+      <find>send To</find>
+      <find>buttonGroup</find>
+      <find>star</find>
     </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -99,8 +100,9 @@
         <option value="$PROJECT_DIR$/src/main/java/MainChat.form" />
         <option value="$PROJECT_DIR$/src/main/java/test.form" />
         <option value="$PROJECT_DIR$/src/main/java/test.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ServerChat.java" />
+        <option value="$PROJECT_DIR$/src/main/java/util/httpURLConectionGET.java" />
         <option value="$PROJECT_DIR$/src/main/java/ClientChat.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ServerChat.java" />
       </list>
     </option>
   </component>
@@ -112,17 +114,17 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="623" />
-    <option name="y" value="68" />
-    <option name="width" value="1392" />
+    <option name="x" value="583" />
+    <option name="y" value="23" />
+    <option name="width" value="1399" />
     <option name="height" value="951" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -161,6 +163,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -169,7 +172,7 @@
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="398" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1568804521675" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1569214752560" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -198,7 +201,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.ClientChat">
+  <component name="RunManager" selected="Application.ServerChat">
     <configuration name="ClientChat" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ClientChat" />
       <module name="Assignment2" />
@@ -220,6 +223,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="httpURLConectionGET" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="util.httpURLConectionGET" />
+      <module name="Assignment2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="test" />
       <module name="Assignment2" />
@@ -229,8 +245,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ClientChat" />
         <item itemvalue="Application.ServerChat" />
+        <item itemvalue="Application.ClientChat" />
+        <item itemvalue="Application.httpURLConectionGET" />
         <item itemvalue="Application.test" />
         <item itemvalue="Application.MainChat" />
       </list>
@@ -248,17 +265,18 @@
       <updated>1568723491525</updated>
       <workItem from="1568723494651" duration="3844000" />
       <workItem from="1568784802480" duration="17122000" />
+      <workItem from="1569210628243" duration="4093000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20966000" />
+    <option name="totallyTimeSpent" value="25059000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="477" y="58" width="1392" height="951" extended-state="0" />
+    <frame x="352" y="13" width="1399" height="951" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27027026" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27259147" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -267,7 +285,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.26650366" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26650366" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3994812" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -294,91 +312,69 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/MainChat.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/MainChat.form" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/test.form" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/test.java" />
     <entry file="jar://C:/Program Files/Java/jdk-11.0.2/lib/src.zip!/java.base/java/lang/Thread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="784" column="29" selection-start-line="784" selection-start-column="29" selection-end-line="784" selection-end-column="29" />
+        <state relative-caret-position="383">
+          <caret line="793" column="17" lean-forward="true" selection-start-line="793" selection-start-column="17" selection-end-line="793" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/util/Document.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-529">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="191">
+          <caret line="84" selection-start-line="84" selection-end-line="84" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#2068#2069#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/MainChat.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/util/httpURLConectionGET.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-379">
-          <caret line="90" column="15" selection-start-line="90" selection-start-column="11" selection-end-line="90" selection-end-column="15" />
+        <state relative-caret-position="207">
+          <caret line="54" column="29" selection-start-line="54" selection-start-column="29" selection-end-line="54" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1330#1331#0" expanded="true" />
+            <element signature="e#1356#1357#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
+        <state relative-caret-position="529">
           <caret line="27" column="19" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/MainChat.form">
-      <provider selected="true" editor-type-id="ui-designer" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/test.form">
-      <provider selected="true" editor-type-id="ui-designer" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/test.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/ClientChat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="38" selection-end-column="56" />
+        <state relative-caret-position="324">
+          <caret line="206" selection-start-line="206" selection-end-line="210" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2625#3080#0" expanded="true" />
-            <element signature="e#3079#3080#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ServerChat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="691" column="57" selection-start-line="691" selection-start-column="57" selection-end-line="691" selection-end-column="57" />
+        <state relative-caret-position="-125">
+          <caret line="178" column="71" selection-start-line="178" selection-start-column="71" selection-end-line="178" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1462#1484#0" expanded="true" />
-            <element signature="e#4673#5209#0" expanded="true" />
-            <element signature="e#5208#5209#0" expanded="true" />
-            <element signature="method#actionPerformed#0;class#5642:7644" />
-            <element signature="e#15371#15379#0" expanded="true" />
-            <element signature="method#addMsg#0;class#ServerChat#0" />
-            <element signature="method#Connect#0;class#ServerChat#0" />
-            <element signature="e#22006#22014#0" expanded="true" />
-            <element signature="method#Login_Success#0;class#ServerChat#0" />
-            <element signature="method#User_List#0;class#ServerChat#0" />
-            <element signature="method#New_Login#0;class#ServerChat#0" />
-            <element signature="method#Send_All#1;class#ServerChat#0" />
-            <element signature="e#17347#17870#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ClientChat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1287">
-          <caret line="517" column="37" lean-forward="true" selection-start-line="517" selection-start-column="37" selection-end-line="517" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6515#7035#0" expanded="true" />
-            <element signature="e#7034#7035#0" expanded="true" />
-            <element signature="e#7486#7790#0" expanded="true" />
-            <element signature="e#7789#7790#0" expanded="true" />
+            <element signature="e#16593#16883#0" />
+            <element signature="e#16890#17086#0" />
+            <element signature="e#20539#20704#0" />
+            <element signature="e#20710#20932#0" />
+            <element signature="e#20938#21155#0" />
+            <element signature="e#21550#21817#0" />
           </folding>
         </state>
       </provider>
