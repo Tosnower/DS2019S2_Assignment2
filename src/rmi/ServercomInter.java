@@ -17,4 +17,5 @@ public interface ServercomInter extends Remote{
     public void pubishAddModel(String modelId, DShapeModel model, Color color) throws RemoteException;
     public void pubishMoveModel(String modelId, int dx, int dy) throws RemoteException;
     public void pubishResizeModel(String modelId, Point p1, Point p2) throws RemoteException;
+    public void removeallModel() throws RemoteException;
 }

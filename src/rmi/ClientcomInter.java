@@ -12,4 +12,5 @@ public interface ClientcomInter extends Remote{
     public void addModel(String modelId, DShapeModel model, Color color)throws RemoteException;
     public void moveModel(String modelId, int dx, int dy) throws RemoteException;
     public void resizeModel(String modelId, Point p1, Point p2) throws RemoteException;
+    public void removeallModel() throws RemoteException;
 }

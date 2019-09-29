@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 		private ArrayList<Point> knobs; 
 		private int x = 0;
 		private int y = 0;
-		private Whiteboard board;
+		Whiteboard board;
 		
 		
 		
@@ -138,6 +138,12 @@ import javax.swing.JPanel;
 			repaint();
 		}
 		
+		public void drawremove(String modelId)
+		{
+			DShape dShape = shapes.get ( modelId );
+			board.delete(dShape);
+			repaint();
+		}
 		
 		
 		public void getSelection(Point pt){

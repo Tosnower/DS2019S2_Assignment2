@@ -39,6 +39,12 @@ public class ClientCom extends UnicastRemoteObject implements ClientcomInter {
     {
     	whiteboard.canvas.drawresize(modelId, p1, p2);
     }
+    
+    @Override
+    public void removeallModel() throws RemoteException
+    {
+    	whiteboard.canvas.setNull();
+    }
 
     public void setGUI(Startclient t){
         ui=t ;

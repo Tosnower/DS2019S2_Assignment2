@@ -34,7 +34,7 @@ public class Startclient {
                     connect.setText("Disconnect");
                     name.setEditable(false);
                     ip.setEditable(false);
-                    whiteboard = new Whiteboard ( whiteBoard, server );
+                    whiteboard = new Whiteboard ( whiteBoard, server, false );
                     //TODO userid 由服务端分配
                     whiteboard.setUserId ( 1 );
                     clientChat = new ClientChat (chat);
@@ -70,7 +70,7 @@ public class Startclient {
                 if(loginsuccess) {
                     updateUsers(server.getConnected());
                     connect.setText("Disconnect");
-                    whiteboard = new Whiteboard ( whiteBoard, server );
+                    whiteboard = new Whiteboard ( whiteBoard, server, true );
                     whiteboard.setUserId ( 0 );
                     serverChat = new ServerChat (chat);
                     client.setWhiteboard ( whiteboard );

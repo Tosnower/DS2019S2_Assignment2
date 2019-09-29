@@ -67,7 +67,7 @@ public class Whiteboard extends JFrame {
     private int drawline = 0;
     private int drawtext = 0;
     public static Color pencilcolor = null;
-
+    private boolean IsManager;
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
@@ -84,9 +84,11 @@ public class Whiteboard extends JFrame {
     /**
      * Create the application.
      */
-    public Whiteboard(JPanel jPanel, ServercomInter servercomInter) {
+    public Whiteboard(JPanel jPanel, ServercomInter servercomInter, boolean manager) {
         this.servercomInter = servercomInter;
+        this.IsManager=manager;
         initialize ( jPanel );
+        
     }
 
     /**
@@ -721,12 +723,18 @@ public class Whiteboard extends JFrame {
         mntmNew.addActionListener ( new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
-                canvas.setNull ();
+            	try {
+                    servercomInter.removeallModel ();
+                } catch (RemoteException ex) {
+                    ex.printStackTrace ();
+                }
+            	
+            	canvas.setNull ();
                 repaint ();
             }
         } );
         buttons.add ( mntmNew );
-
+        if(!IsManager) mntmNew.setEnabled(false);
 //		mnFile.addSeparator();
         Icon iconopen=new ImageIcon("img/open.jpg");
         JButton mntmOpen = new JButton ( "" ,iconopen);
@@ -750,7 +758,7 @@ public class Whiteboard extends JFrame {
             }
         } );
         buttons.add ( mntmOpen );
-
+        if(!IsManager) mntmOpen.setEnabled(false);
 
 //		mnFile.addSeparator();
         Icon iconsave=new ImageIcon("img/save.jpg");
@@ -774,7 +782,7 @@ public class Whiteboard extends JFrame {
             }
         } );
         buttons.add ( mntmSave );
-
+        if(!IsManager) mntmSave.setEnabled(false);
 
 //		mnFile.addSeparator();
         Icon iconsaveas=new ImageIcon("img/saveas.jpg");
@@ -802,7 +810,7 @@ public class Whiteboard extends JFrame {
             }
         } );
         buttons.add ( mntmSaveAs );
-
+        if(!IsManager) mntmSaveAs.setEnabled(false);
 
 //		mnFile.addSeparator();
         Icon iconclose=new ImageIcon("img/close.jpg");
@@ -816,7 +824,7 @@ public class Whiteboard extends JFrame {
             }
         } );
         buttons.add ( mntmClose );
-
+        if(!IsManager) mntmClose.setEnabled(false);
         buttons.setPreferredSize ( new Dimension ( 30, 390 ) );
         jPanel.add ( buttons, BorderLayout.WEST );
         canvas = new Canvas ( this );
