@@ -2,6 +2,7 @@ import chat.ClientChat;
 import chat.ServerChat;
 import rmi.ClientcomInter;
 import rmi.ServercomInter;
+import whiteboard.BoardThread;
 import whiteboard.Whiteboard;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import javax.swing.border.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.rmi.Naming;
 import java.util.*;
 
@@ -18,6 +20,11 @@ public class Startclient {
     private ClientChat clientChat;
     private ServerChat serverChat;
     private Whiteboard whiteboard;
+    
+    public Whiteboard getWB()
+    {
+    	return whiteboard;
+    }
     public void doConnect(){
         if (connect.getText().equals("Connect")){
             if (name.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type a name."); return;}
@@ -35,6 +42,11 @@ public class Startclient {
                     name.setEditable(false);
                     ip.setEditable(false);
                     whiteboard = new Whiteboard ( whiteBoard, server, false );
+                    File f=new File("store.bin");
+                    
+        			BoardThread bt = new BoardThread ();
+                    bt.init ( 2, f, whiteboard.canvas );
+                    bt.start ();
                     //TODO userid 由服务端分配
                     whiteboard.setUserId ( 1 );
                     clientChat = new ClientChat (chat);
@@ -74,6 +86,8 @@ public class Startclient {
                     whiteboard.setUserId ( 0 );
                     serverChat = new ServerChat (chat);
                     client.setWhiteboard ( whiteboard );
+                    db.ipdb DB = new db.ipdb("board.db");
+                    DB.createnewboard("first");
                 }
             }catch(Exception e){
                 e.printStackTrace();

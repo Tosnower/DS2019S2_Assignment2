@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 	import java.awt.event.MouseEvent;
 	import java.awt.event.MouseMotionAdapter;
+import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +75,7 @@ import javax.swing.JPanel;
 //	                    }
 	                        
 	                }
-	                  
+	                
 	                repaint(); 
 	            	}
 	            	                   
@@ -97,7 +98,8 @@ import javax.swing.JPanel;
 	            	{
 	            			selected.moveBy(dx, dy);
 	            			board.updateTable(selected);
-		            		repaint();
+	            			
+	            			repaint();
 //						drawMove(selected,dx,dy);
 						try {
 							board.servercomInter.pubishMoveModel ( selected.getModelId (), dx, dy);
@@ -127,6 +129,10 @@ import javax.swing.JPanel;
 			DShape dShape = shapes.get ( modelId );
 			dShape.moveBy ( dx, dy );
 			board.updateTable(dShape);
+			File f=new File("store.bin");
+			BoardThread bt = new BoardThread ();
+            bt.init ( 1, f, this );
+            bt.start ();
 			repaint();
 		}
 		
@@ -135,6 +141,10 @@ import javax.swing.JPanel;
 			DShape dShape = shapes.get ( modelId );
 			dShape.resize ( p1, p2 );
 			board.updateTable(dShape);
+			File f=new File("store.bin");
+			BoardThread bt = new BoardThread ();
+            bt.init ( 1, f, this );
+            bt.start ();
 			repaint();
 		}
 		
@@ -142,6 +152,10 @@ import javax.swing.JPanel;
 		{
 			DShape dShape = shapes.get ( modelId );
 			board.delete(dShape);
+			File f=new File("store.bin");
+			BoardThread bt = new BoardThread ();
+            bt.init ( 1, f, this );
+            bt.start (); 
 			repaint();
 		}
 		
@@ -176,6 +190,7 @@ import javax.swing.JPanel;
 			if (selected != null) 
 			{
 				selected.setColor(color);
+				
 				repaint();
 				
 			}
@@ -215,7 +230,10 @@ import javax.swing.JPanel;
 			shapes.put ( id, shape );
 			selected = shape;
 			board.add(shape); 
-			
+			File f=new File("store.bin");
+			BoardThread bt = new BoardThread ();
+            bt.init ( 1, f, this );
+            bt.start ();
 			repaint();
 			}
 			return id;
@@ -226,7 +244,11 @@ import javax.swing.JPanel;
 			if(selected()) {
 			shapes.remove(selected); 
 			board.delete(selected);	
-	        repaint();
+			File f=new File("store.bin");
+			BoardThread bt = new BoardThread ();
+            bt.init ( 1, f, this );
+            bt.start ();  
+			repaint();
 			}
 	    
 	    } 

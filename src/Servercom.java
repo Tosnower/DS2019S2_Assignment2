@@ -5,6 +5,7 @@ import whiteboard.DShapeModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
@@ -16,6 +17,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     private Vector history=new Vector();
 
     public boolean login(ClientcomInter a) throws RemoteException{
+    	
         System.out.println(a.getName() + "  got connected....");
         int allowed =JOptionPane.showConfirmDialog( Startclient.frame, a.getName()+" want to connect, are you allow?");
         if(0==allowed)
@@ -82,6 +84,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
                 tmp.addModel (modelId, model,color);
+                
             }catch(Exception e){
                 //problem with the client not connected.
                 //Better to remove it

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_77" class="java.beans.XMLDecoder">
+ <array class="whiteboard.DShapeModel" length="5">
+  <void index="0">
+   <object class="whiteboard.DRectModel" id="DRectModel0">
+    <void id="Rectangle0" property="bounds">
+     <void class="java.awt.Rectangle" method="getField">
+      <string>x</string>
+      <void method="set">
+       <object idref="Rectangle0"/>
+       <int>701</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>y</string>
+      <void method="set">
+       <object idref="Rectangle0"/>
+       <int>69</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>width</string>
+      <void method="set">
+       <object idref="Rectangle0"/>
+       <int>50</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>height</string>
+      <void method="set">
+       <object idref="Rectangle0"/>
+       <int>67</int>
+      </void>
+     </void>
+    </void>
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>102</int>
+      <int>153</int>
+      <int>255</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="hollow">
+     <boolean>true</boolean>
+    </void>
+   </object>
+  </void>
+  <void index="1">
+   <object class="whiteboard.DOvalModel" id="DOvalModel0">
+    <void id="Rectangle1" property="bounds">
+     <void class="java.awt.Rectangle" method="getField">
+      <string>x</string>
+      <void method="set">
+       <object idref="Rectangle1"/>
+       <int>197</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>y</string>
+      <void method="set">
+       <object idref="Rectangle1"/>
+       <int>282</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>width</string>
+      <void method="set">
+       <object idref="Rectangle1"/>
+       <int>50</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>height</string>
+      <void method="set">
+       <object idref="Rectangle1"/>
+       <int>50</int>
+      </void>
+     </void>
+    </void>
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>102</int>
+      <int>0</int>
+      <int>153</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="hollow">
+     <boolean>true</boolean>
+    </void>
+   </object>
+  </void>
+  <void index="2">
+   <object class="whiteboard.DOvalModel" id="DOvalModel1">
+    <void id="Rectangle2" property="bounds">
+     <void class="java.awt.Rectangle" method="getField">
+      <string>x</string>
+      <void method="set">
+       <object idref="Rectangle2"/>
+       <int>445</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>y</string>
+      <void method="set">
+       <object idref="Rectangle2"/>
+       <int>91</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>width</string>
+      <void method="set">
+       <object idref="Rectangle2"/>
+       <int>115</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>height</string>
+      <void method="set">
+       <object idref="Rectangle2"/>
+       <int>66</int>
+      </void>
+     </void>
+    </void>
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>102</int>
+      <int>255</int>
+      <int>153</int>
+      <int>255</int>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void index="3">
+   <object class="whiteboard.DLineModel" id="DLineModel0">
+    <void id="Rectangle3" property="bounds">
+     <void class="java.awt.Rectangle" method="getField">
+      <string>x</string>
+      <void method="set">
+       <object idref="Rectangle3"/>
+       <int>574</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>y</string>
+      <void method="set">
+       <object idref="Rectangle3"/>
+       <int>282</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>width</string>
+      <void method="set">
+       <object idref="Rectangle3"/>
+       <int>104</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>height</string>
+      <void method="set">
+       <object idref="Rectangle3"/>
+       <int>79</int>
+      </void>
+     </void>
+    </void>
+    <void property="bounds">
+     <object idref="Rectangle3"/>
+    </void>
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>255</int>
+      <int>102</int>
+      <int>102</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="x">
+     <int>574</int>
+    </void>
+    <void property="y">
+     <int>282</int>
+    </void>
+   </object>
+  </void>
+  <void index="4">
+   <object class="whiteboard.DTextModel" id="DTextModel0">
+    <void id="Rectangle4" property="bounds">
+     <void class="java.awt.Rectangle" method="getField">
+      <string>x</string>
+      <void method="set">
+       <object idref="Rectangle4"/>
+       <int>287</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>y</string>
+      <void method="set">
+       <object idref="Rectangle4"/>
+       <int>103</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>width</string>
+      <void method="set">
+       <object idref="Rectangle4"/>
+       <int>95</int>
+      </void>
+     </void>
+     <void class="java.awt.Rectangle" method="getField">
+      <string>height</string>
+      <void method="set">
+       <object idref="Rectangle4"/>
+       <int>108</int>
+      </void>
+     </void>
+    </void>
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>255</int>
+      <int>255</int>
+      <int>102</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="font">
+     <string>Academy Engraved LET</string>
+    </void>
+    <void property="text">
+     <string>12</string>
+    </void>
+   </object>
+  </void>
+ </array>
+</java>

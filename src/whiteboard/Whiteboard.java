@@ -730,6 +730,10 @@ public class Whiteboard extends JFrame {
                 }
             	
             	canvas.setNull ();
+            	File f=new File("store.bin");
+    			BoardThread bt = new BoardThread ();
+                bt.init ( 1, f, canvas );
+                bt.start ();
                 repaint ();
             }
         } );
@@ -838,6 +842,7 @@ public class Whiteboard extends JFrame {
 //        }
         canvas.recolorShape ( color );
         canvas.repaint ();
+        
 //        try {
 //            servercomInter.pubishAddModel ( id, model, color );
 //        } catch (RemoteException ex) {

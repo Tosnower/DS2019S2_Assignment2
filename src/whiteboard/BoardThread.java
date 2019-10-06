@@ -22,7 +22,7 @@ public class BoardThread extends Thread
 	private Canvas canvas;
 	private int action;
 	private File file; 
-	BoardThread()
+	public BoardThread()
 	{
 		
 	}
@@ -59,8 +59,8 @@ public class BoardThread extends Thread
 	    	
 			xmlout.writeObject(models);
 			xmlout.close();
-			JOptionPane.showMessageDialog(null, "Successfully Save!", "Message", JOptionPane.INFORMATION_MESSAGE);
-			
+			//JOptionPane.showMessageDialog(null, "Successfully Save!", "Message", JOptionPane.INFORMATION_MESSAGE);
+			System.out.println("Successfully Save!");
 		} 
 		catch (Exception e) 
 		{
@@ -81,7 +81,8 @@ public class BoardThread extends Thread
 				f.createNewFile();
 			
 			ImageIO.write(image, "jpg",f);
-			JOptionPane.showMessageDialog(null, "Successfully Save Image!", "Message", JOptionPane.INFORMATION_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "Successfully Save Image!", "Message", JOptionPane.INFORMATION_MESSAGE);
+			System.out.println("Successfully Save Image!");
 	    }
 		catch(Exception e)
 		{
@@ -107,8 +108,8 @@ public class BoardThread extends Thread
                 canvas.board.servercomInter.pubishAddModel(id, models[i], models[i].getColor());
                 
 			}
-			
-			JOptionPane.showMessageDialog(null, "Successfully Open!", "Message", JOptionPane.INFORMATION_MESSAGE);	
+			System.out.println("Successfully Open!");
+			//JOptionPane.showMessageDialog(null, "Successfully Open!", "Message", JOptionPane.INFORMATION_MESSAGE);	
 			
 		} 
 		catch (Exception e) 
