@@ -86,6 +86,15 @@ public class Startclient {
                     whiteboard.setUserId ( 0 );
                     serverChat = new ServerChat (chat);
                     client.setWhiteboard ( whiteboard );
+                    whiteboard.canvas.setNull ();
+                	File f=new File("store.bin");
+        			BoardThread bt = new BoardThread ();
+                    bt.init ( 1, f, whiteboard.canvas );
+                    bt.start ();
+                    whiteboard.repaint ();
+                    
+                    
+                    
                     db.ipdb DB = new db.ipdb("board.db");
                     DB.createnewboard("first");
                 }

@@ -64,7 +64,8 @@ public class BoardThread extends Thread
 		} 
 		catch (Exception e) 
 		{
-			JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.INFORMATION_MESSAGE);
+			//JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.INFORMATION_MESSAGE);
+			System.out.println("Error:"+e.toString());
 		}
 	}
 	
@@ -86,7 +87,8 @@ public class BoardThread extends Thread
 	    }
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.INFORMATION_MESSAGE);
+			//JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.INFORMATION_MESSAGE);
+			System.out.println("Error:"+e.toString());
 		}
 	}
 	
@@ -114,8 +116,8 @@ public class BoardThread extends Thread
 		} 
 		catch (Exception e) 
 		{
-			JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.INFORMATION_MESSAGE);
-			
+			//JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.INFORMATION_MESSAGE);
+			System.out.println("Error:"+e.toString());
 		}    	
 	}
 	

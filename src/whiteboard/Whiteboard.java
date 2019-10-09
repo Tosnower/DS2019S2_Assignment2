@@ -751,7 +751,7 @@ public class Whiteboard extends JFrame {
                 int result = fc.showOpenDialog ( frmBoard );
 
                 if (result == JFileChooser.APPROVE_OPTION) {
-
+                	
                     File f = fc.getSelectedFile ();
                     //open(f);
                     clear ();
