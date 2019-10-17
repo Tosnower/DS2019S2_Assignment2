@@ -42,7 +42,7 @@ public class ClientChat {
     private JPanel left;
     private JPanel right;
     public static String username;
-    public static JPanel whiteboead;
+    public static JPanel whiteboard;
 
     /**
      * Launch the application.
@@ -65,6 +65,7 @@ public class ClientChat {
     public void logout() {
         try {
             modelUsers.removeAllElements();
+            clientThread.isLogged=false;
             socket.close();
         }
         catch (IOException e){
@@ -73,12 +74,12 @@ public class ClientChat {
 
     }
 
-    public ClientChat(JPanel jPanel,JPanel whiboad, String name) {
+    public ClientChat(JPanel jPanel,JPanel wb, String name) {
 
         serverIP = "localhost";
         username = name;
         serverPort1 = 8000;
-        whiteboead = whiboad;
+        whiteboard = wb;
         try {
             socket = new Socket(serverIP, serverPort1);
 
@@ -420,6 +421,7 @@ public class ClientChat {
                 if (command.equals("Login_False")) {
                     addMsg("Login Fail");
                     // 登录失败，断开连接，结束客户端线程
+                    isLogged = false;
                     socket.close();
                     return;
                 }
@@ -502,10 +504,12 @@ public class ClientChat {
                             getnewUser = (String) getresponse.get("user");
                             getMsg = (String) getresponse.get("text");
                             socket.close();
-                            whiteboead.removeAll();
-                            addMsg("(" + getnewUser + ")To Me: " + getMsg);
-
-                            break;
+                            whiteboard.removeAll();
+                            left.setVisible(false);
+                            right.setVisible(false);
+                            //addMsg("(" + getnewUser + ")To Me: " + getMsg);
+                            JOptionPane.showMessageDialog(null, "You have been poped up by manager!");
+                            return;
 
                         case "Send_Fail":
 

@@ -16,7 +16,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
 
     public boolean login(ClientcomInter a) throws RemoteException{
         System.out.println(a.getName() + "  got connected....");
-        int allowed =JOptionPane.showConfirmDialog( Startclient.frame, a.getName()+" want to connect, are you allow?");
+        int allowed =JOptionPane.showConfirmDialog( Startclient.frame, a.getName()+" want to connect, do you allow?");
         if(0==allowed)
         {
             a.tell("You have Connected successfully.");
