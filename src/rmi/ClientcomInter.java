@@ -12,6 +12,6 @@ public interface ClientcomInter extends Remote{
     public void addModel(String modelId, DShapeModel model, Color color)throws RemoteException;
     public void moveModel(String modelId, int x, int y) throws RemoteException;
     public void addDraw(DShapeModel model, Color pencilcolor) throws RemoteException;
-    public void drawDistortion (String modelId, Point pivotKnob, Point movingKnob) throws RemoteException;
-    public void drawText (String modelId, DShapeModel model, Color color, String font, String text) throws RemoteException;
+    public void drawDistortion(String modelId, Point pivotKnob, Point movingKnob) throws RemoteException;
+    public void drawText(String modelId, DShapeModel model, Color color, String font, String text) throws RemoteException;
 }

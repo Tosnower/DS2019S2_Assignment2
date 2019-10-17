@@ -13,16 +13,18 @@ import java.rmi.Naming;
 import java.util.*;
 
 public class Startclient {
-    private ClientCom client;
+    static ClientCom client;
     private ServercomInter server;
     private ClientChat clientChat;
     private ServerChat serverChat;
     private Whiteboard whiteboard;
+    Boolean issuper=false;
     public void doConnect(){
         if (connect.getText().equals("Connect")){
             if (name.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type a name."); return;}
             if (ip.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type an IP."); return;}
             try{
+                meddle.setVisible(true);
                 client=new ClientCom(name.getText());
                 client.setGUI(this);
 
@@ -37,15 +39,24 @@ public class Startclient {
                     whiteboard = new Whiteboard ( whiteBoard, server );
                     //TODO userid 由服务端分配
                     whiteboard.setUserId ( 1 );
-                    clientChat = new ClientChat (chat);
+                    clientChat = new ClientChat (chat,whiteBoard,name.getText());
                     client.setWhiteboard ( whiteboard );
+                    frame.setSize(1400,600);
                 }
             }catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, we wouldn't connect....");}
         }else{
             try {
+                meddle.setVisible(false);
                 server.logout(client);
+                chat.removeAll();
+                whiteBoard.removeAll();
+                clientChat.logout();
+                clientChat=null;
+                client.setWhiteboard(null);
                 name.setEditable(true);
                 ip.setEditable(true);
+                server.logout(client);
+                frame.setSize(1400,100);
             }
             catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, cannot discoonnect bconnect....");}
 
@@ -72,13 +83,16 @@ public class Startclient {
                     connect.setText("Disconnect");
                     whiteboard = new Whiteboard ( whiteBoard, server );
                     whiteboard.setUserId ( 0 );
-                    serverChat = new ServerChat (chat);
+                    serverChat = new ServerChat (chat,name.getText());
                     client.setWhiteboard ( whiteboard );
                 }
+                frame.setSize(1400,600);
+                meddle.setVisible(true);
             }catch(Exception e){
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(frame, "ERROR, we wouldn't create board");
             }
+            issuper=true;
             createnewboard.setVisible(false);
             top.setVisible(false);
         }catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, we cannot create board");}
@@ -134,8 +148,8 @@ public class Startclient {
         meddle = new JPanel (  );
 //        bottom =new JPanel();
 
-        whiteBoard = new JPanel (  );
-        JPanel cn =new JPanel();
+        whiteBoard = new JPanel ();
+        cn =new JPanel();
 
         ip=new JTextField("127.0.0.1");
         tf=new JTextField();
@@ -146,7 +160,7 @@ public class Startclient {
         createnewboard =new JButton("createnewboard");
         JButton bt=new JButton("Send");
         lst=new JList();
-        chat = new JPanel (  );
+        chat = new JPanel ();
 
 
 
@@ -168,6 +182,7 @@ public class Startclient {
         meddle.setLayout(new BorderLayout ( 5,0 ));
         meddle.add ( whiteBoard, BorderLayout.CENTER);
         meddle.add ( cn, BorderLayout.EAST );
+        meddle.setVisible(false);
 
 //        bottom.setLayout(new BorderLayout(5,5));
 //        bottom.add(tf, BorderLayout.CENTER);
@@ -189,7 +204,7 @@ public class Startclient {
         createnewboard.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){ createBoad();   }  });
         frame.setContentPane(main);
-        frame.setSize(1400,600);
+        frame.setSize(1400,100);
         frame.setVisible(true);
     }
     JTextArea tx;
@@ -199,6 +214,7 @@ public class Startclient {
     JList lst;
     JPanel top;
     JPanel meddle;
+    JPanel cn;
 //    JPanel bottom;
     JPanel whiteBoard;
     JPanel main;

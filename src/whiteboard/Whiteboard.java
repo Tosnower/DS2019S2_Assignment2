@@ -22,7 +22,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 import rmi.ServercomInter;
 
 public class Whiteboard extends JFrame {
@@ -67,6 +67,7 @@ public class Whiteboard extends JFrame {
     private int drawline = 0;
     private int drawtext = 0;
     public static Color pencilcolor = null;
+    public static Color pencilcolorchoosed = Color.black;
 
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
@@ -102,8 +103,6 @@ public class Whiteboard extends JFrame {
         jPanel.setLayout ( new BorderLayout ( 1, 1 ) );
         JPanel buttons = new JPanel ();
         buttons.setLayout ( new GridLayout ( 13, 1, 0, 0 ) );
-
-//		frmBoard.getContentPane().add(canvas);
 
 
         tableModel = new TableModel ();
@@ -210,11 +209,11 @@ public class Whiteboard extends JFrame {
                 locx = e.getX ();
                 locy = e.getY ();
                 DOvalModel model = new DOvalModel ( locx, locy, 80, 50, Color.BLACK );
-                Color color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                while (color == null || color.equals ( Color.white )) {
-                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
-                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                }
+                Color color = pencilcolorchoosed;
+//                while (color == null || color.equals ( Color.white )) {
+//                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
+//                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
+//                }
                 int ret = JOptionPane.showConfirmDialog ( null, "Filled Shape?", "Please choose an option", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
                 if (ret == JOptionPane.YES_OPTION)
                     model.setHollow ( false );
@@ -270,11 +269,11 @@ public class Whiteboard extends JFrame {
                 locx = e.getX ();
                 locy = e.getY ();
                 DOvalModel model = new DOvalModel ( locx, locy, 50, 50, Color.BLACK );
-                Color color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                while (color == null || color.equals ( Color.white )) {
-                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
-                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                }
+                Color color = pencilcolorchoosed;
+//                while (color == null || color.equals ( Color.white )) {
+//                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
+//                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
+//                }
                 int ret = JOptionPane.showConfirmDialog ( null, "Filled Shape?", "Please choose an option", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
                 if (ret == JOptionPane.YES_OPTION)
                     model.setHollow ( false );
@@ -326,11 +325,11 @@ public class Whiteboard extends JFrame {
                 locx = e.getX ();
                 locy = e.getY ();
                 DRectModel model = new DRectModel ( locx, locy, 50, 80, Color.BLACK );
-                Color color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                while (color == null || color.equals ( Color.white )) {
-                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
-                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                }
+                Color color = pencilcolorchoosed;
+//                while (color == null || color.equals ( Color.white )) {
+//                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
+//                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
+//                }
                 int ret = JOptionPane.showConfirmDialog ( null, "Filled Shape?", "Please choose an option", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
                 if (ret == JOptionPane.YES_OPTION)
                     model.setHollow ( false );
@@ -382,11 +381,11 @@ public class Whiteboard extends JFrame {
                 locx = e.getX ();
                 locy = e.getY ();
                 DRectModel model = new DRectModel ( locx, locy, 50, 50, Color.BLACK );
-                Color color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                while (color == null || color.equals ( Color.white )) {
-                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
-                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                }
+                Color color = pencilcolorchoosed;
+//                while (color == null || color.equals ( Color.white )) {
+//                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
+//                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
+//                }
                 int ret = JOptionPane.showConfirmDialog ( null, "Filled Shape?", "Please choose an option", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE );
                 if (ret == JOptionPane.YES_OPTION)
                     model.setHollow ( false );
@@ -440,11 +439,11 @@ public class Whiteboard extends JFrame {
                 Point p1 = new Point ( locx - 15, locy - 15 );
                 Point p2 = new Point ( locx + 15, locy + 15 );
                 DLineModel model = new DLineModel ( p1, p2 );
-                Color color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                while (color == null || color.equals ( Color.white )) {
-                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
-                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
-                }
+                Color color = pencilcolorchoosed;
+//                while (color == null || color.equals ( Color.white )) {
+//                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
+//                    color = JColorChooser.showDialog ( jPanel, "Set Color", model.getColor () );
+//                }
                 String id = canvas.addShape ( model, null );
                 canvas.recolorShape ( color );
                 canvas.repaint ();
@@ -633,11 +632,11 @@ public class Whiteboard extends JFrame {
                 canvas.removeMouseListener ( I4_Circle );
                 canvas.removeMouseListener ( I4_Square );
                 pencilcolor = null;
-                pencilcolor = JColorChooser.showDialog ( jPanel, "Set Color", Color.BLACK );
-                while (pencilcolor == null || pencilcolor.equals ( Color.white )) {
-                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
-                    pencilcolor = JColorChooser.showDialog ( jPanel, "Set Color", Color.BLACK );
-                }
+                pencilcolor = pencilcolorchoosed;
+//                while (pencilcolor == null || pencilcolor.equals ( Color.white )) {
+//                    JOptionPane.showMessageDialog ( null, "please choose a valid color!", "Error", JOptionPane.INFORMATION_MESSAGE );
+//                    pencilcolor = JColorChooser.showDialog ( jPanel, "Set Color", Color.BLACK );
+//                }
                 canvas.addMouseMotionListener ( I1 );
                 canvas.addMouseListener ( I3 );
                 canvas.removeDrag ();
@@ -799,10 +798,43 @@ public class Whiteboard extends JFrame {
             }
         } );
         buttons.add ( mntmSaveAs );
+        JButton colorchoose = new JButton();
+        colorchoose.setOpaque(true);
+        colorchoose.setBorderPainted(false);
+        colorchoose.setBackground(Color.BLACK);
+        JColorChooser chooser = new JColorChooser();
+        AbstractColorChooserPanel panels[] = chooser.getChooserPanels();
+        for (int i = 0; i < panels.length; i ++) {
+            chooser.removeChooserPanel(panels[i]);
+        }
+        chooser.addChooserPanel(new colorchooser());
+        JDialog color = JColorChooser.createDialog(colorchoose, "Set Color", true,chooser,new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.out.println(chooser.getColor());
+                colorchoose.setBackground(chooser.getColor());
+                pencilcolorchoosed=chooser.getColor();
+            }
+        },null);
+        colorchoose.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+                color.setVisible(true);
+            }
+        });
 
+        colorchoose.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+        colorchoose.setBounds(0, 210, 33, 23);
+        buttons.add(colorchoose);
+//        JPanel frame = new JPanel();
+//        frame.add(new JButton("dasdfsfsdfsdf"));
+//        frame.setLocation(0,0);
+//        frame.setSize(500,500);
+//        buttons.add(frame);
+//        frame.setVisible(false);
 
 //		mnFile.addSeparator();
-        JButton mntmClose = new JButton ( "Close" );
+        JButton mntmClose = new JButton ( "X" );
         mntmClose.setSize ( 30, 30 );
 //		mnFile.add(mntmClose);
         mntmClose.addActionListener ( new ActionListener () {
@@ -813,7 +845,7 @@ public class Whiteboard extends JFrame {
         } );
         buttons.add ( mntmClose );
 
-        buttons.setPreferredSize ( new Dimension ( 30, 390 ) );
+        buttons.setPreferredSize ( new Dimension ( 60, 390 ) );
         jPanel.add ( buttons, BorderLayout.WEST );
         canvas = new Canvas ( this );
         jPanel.add ( canvas, BorderLayout.CENTER );
@@ -882,6 +914,27 @@ public class Whiteboard extends JFrame {
                 models[i++] = entry.getValue ().getModel ();
             }
 
+            xmlout.writeObject ( models );
+            xmlout.close ();
+            JOptionPane.showMessageDialog ( null, "Successfully Save!", "Message", JOptionPane.INFORMATION_MESSAGE );
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog ( null, e.toString (), "Error", JOptionPane.INFORMATION_MESSAGE );
+        }
+    }
+
+    public void savetodb(File file) {
+        try {
+            XMLEncoder xmlout = new XMLEncoder ( new BufferedOutputStream ( new FileOutputStream ( file ) ) );
+
+            ConcurrentHashMap <String, DShape> shapes = canvas.getShapes ();
+            DShapeModel[] models = new DShapeModel[shapes.size ()];
+
+            int i = 0;
+            for (Map.Entry <String, DShape> entry : shapes.entrySet ()) {
+                System.out.println ( entry.getKey () + "：" + entry.getValue () );
+                models[i++] = entry.getValue ().getModel ();
+            }
 
             xmlout.writeObject ( models );
             xmlout.close ();

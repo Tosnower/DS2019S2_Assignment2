@@ -52,6 +52,7 @@ public class ClientCom extends UnicastRemoteObject implements ClientcomInter {
         whiteboard.drawText ( modelId, model, color, font, text);
     }
 
+
     public void setGUI(Startclient t){
         ui=t ;
     }

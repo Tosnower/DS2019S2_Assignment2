@@ -10,7 +10,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 public class Servercom extends UnicastRemoteObject implements ServercomInter {
-
     private Vector v=new Vector();
     public Servercom() throws RemoteException{}
     private Vector history=new Vector();

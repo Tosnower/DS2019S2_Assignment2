@@ -25,7 +25,7 @@ public class ServerChat {
      */
     //private ClientThread clientThread;
     public Socket socket;
-//    JFrame frmtcp;
+    //    JFrame frmtcp;
     public Thread serverThread;
     private JTextField textServerIP;
     private JTextField textServerPort;
@@ -44,7 +44,9 @@ public class ServerChat {
     private JPanel right;
 
     public static String serverIP;
+    public static String username;
     public static int serverPort1;
+
 
     int getport;
     String gethost;
@@ -62,7 +64,7 @@ public class ServerChat {
     /**
      * 客户端映射，key -> String：客户端名称； value -> ClientHandler： 客户端处理线程
      */
-    private HashMap<String, ClientHandler> clientHandlerMap = new HashMap<String,ClientHandler>();
+    private HashMap<String, ClientHandler> clientHandlerMap = new HashMap<String, ClientHandler>();
 
     /**
      * Launch the application.
@@ -87,22 +89,21 @@ public class ServerChat {
 //            }
 //        });
 //    }
-
-
-
-    public ServerChat(JPanel jPanel) {
+    public ServerChat(JPanel jPanel, String name) {
         serverIP = "localhost";
+        username = name;
         serverPort1 = 8000;
         initialize(jPanel);
         modelUsers = new DefaultListModel<String>();
         listUsers.setModel(modelUsers);
-        modelUsers.addElement("Manager");
+        modelUsers.addElement("Manager: " + username);
 
     }
+
     /**
      * Initialize the contents of the frame.
      */
-    private void  initialize(JPanel jPanel) {
+    private void initialize(JPanel jPanel) {
 
 //        frmtcp = new JFrame();
 //        frmtcp.setResizable(false);
@@ -110,9 +111,9 @@ public class ServerChat {
 //        frmtcp.setBounds(100, 100, 715, 476);
 //        frmtcp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frmtcp.getContentPane().setLayout(null);
-        jPanel.setLayout ( new BorderLayout (5,5 ));
-        left = new JPanel (  );
-        left.setLayout ( new BorderLayout ( 5,5 ) );
+        jPanel.setLayout(new BorderLayout(5, 5));
+        left = new JPanel();
+        left.setLayout(new BorderLayout(5, 5));
 
         // left north
         JScrollPane scrollPane = new JScrollPane(); //信息显示
@@ -120,46 +121,50 @@ public class ServerChat {
         textAreaRecord = new JTextArea();
         textAreaRecord.setEditable(false);
         scrollPane.setViewportView(textAreaRecord);
-        left.add(scrollPane,BorderLayout.CENTER);
+        left.add(scrollPane, BorderLayout.CENTER);
 
         //left meddle
-        JPanel bottom = new JPanel (  );
-        bottom.setLayout ( new GridLayout(3,1,5,5) );
-        bottom.setPreferredSize ( new Dimension ( 300,120 ) );
-        JPanel bottomtop = new JPanel (  );
-        bottomtop.setLayout ( new GridLayout ( 1,2,5,0 ) );
+        JPanel bottom = new JPanel();
+        bottom.setLayout(new GridLayout(3, 1, 5, 5));
+        bottom.setPreferredSize(new Dimension(300, 120));
+        JPanel bottomtop = new JPanel();
+        bottomtop.setLayout(new GridLayout(1, 2, 5, 0));
         rdbtnBrocast = new JRadioButton("Send To All");
         buttonGroup.add(rdbtnBrocast);
 //        rdbtnBrocast.setBounds(226, 309, 132, 22);
-        bottomtop.add( rdbtnBrocast );
+        bottomtop.add(rdbtnBrocast);
         rdbtnPrivateChat = new JRadioButton("Send To One");
         buttonGroup.add(rdbtnPrivateChat);
         rdbtnBrocast.setSelected(true);
-        bottomtop.add( rdbtnPrivateChat );
+        bottomtop.add(rdbtnPrivateChat);
 //        rdbtnPrivateChat.setBounds(356, 309, 157, 22);
-        bottom.add( bottomtop );
+        bottom.add(bottomtop);
 //        left.add(meddle,BorderLayout.SOUTH);
 
         //left bottom
 
 
 //        bottom.setPreferredSize ( new Dimension ( 300,150 ) );
-        JPanel bottomButton = new JPanel (  );
+        JPanel bottomButton = new JPanel();
         //加入聊天信息输入框
         JScrollPane scrollPane_1 = new JScrollPane();   //信息输入框
 //        scrollPane_1.setBounds(14, 332, 518, 73);
-        bottom.add ( scrollPane_1 );
+        bottom.add(scrollPane_1);
         textAreaMsg = new JTextArea();
         scrollPane_1.setViewportView(textAreaMsg);
         //添加button
         btnSend = new JButton("Send");
         btnSend.setEnabled(true);
-        bottomButton.add ( btnSend );
+        bottomButton.add(btnSend);
 //        btnSend.setBounds(444, 409, 88, 27);
         JButton btnEmoji = new JButton("Emoji");
         btnEmoji.setEnabled(true);
-        bottomButton.add ( btnEmoji );
-        bottom.add ( bottomButton );
+        bottomButton.add(btnEmoji);
+        JButton popThePerson = new JButton("pop");
+        popThePerson.setEnabled(true);
+        bottomButton.add(popThePerson);
+
+        bottom.add(bottomButton);
 //        btnEmoji.setBounds(344, 409, 88, 27);
 //        jPanel.add(btnEmoji);
 
@@ -168,88 +173,133 @@ public class ServerChat {
         //定义二维数组作为表格数据
         Object[][] tableData =
                 {
-                        new Object[]{"\uD83D\uDE00" , "\uD83D\uDE01" , "\uD83D\uDE02"},
-                        new Object[]{"\uD83D\uDE05", "\uD83D\uDE0C" , "\uD83D\uDC91"},
-                        new Object[]{"\uD83D\uDE09", "\uD83D\uDE16" , "\uD83D\uDE2D"},
-                        new Object[]{"\uD83D\uDE12", "\uD83D\uDE28" , "\uD83D\uDE35"},
-                        new Object[]{"\uD83D\uDE1B" , "\uD83D\uDC75" , "\uD83D\uDE20"}
+                        new Object[]{"\uD83D\uDE00", "\uD83D\uDE01", "\uD83D\uDE02"},
+                        new Object[]{"\uD83D\uDE05", "\uD83D\uDE0C", "\uD83D\uDC91"},
+                        new Object[]{"\uD83D\uDE09", "\uD83D\uDE16", "\uD83D\uDE2D"},
+                        new Object[]{"\uD83D\uDE12", "\uD83D\uDE28", "\uD83D\uDE35"},
+                        new Object[]{"\uD83D\uDE1B", "\uD83D\uDC75", "\uD83D\uDE20"}
                 };
         //定义一维数据作为列标题
-        Object[] columnTitle = {"" , "" , ""};
+        Object[] columnTitle = {"", "", ""};
         JWindow jWindow = new JWindow();
         //以二维数组和一维数组来创建一个JTable对象
-        table = new JTable(tableData , columnTitle);
+        table = new JTable(tableData, columnTitle);
         jWindow.add(table);
-        jWindow.setSize(300,250);
+        jWindow.setSize(300, 250);
 
         table.getTableHeader().setVisible(false);
         table.setSelectionBackground(new Color(24, 242, 255));
         table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         table.setFont(new Font("Menu.font", Font.PLAIN, 20));
         table.setRowHeight(50);
-        DefaultTableCellRenderer r=new DefaultTableCellRenderer();
+        DefaultTableCellRenderer r = new DefaultTableCellRenderer();
         r.setHorizontalAlignment(JLabel.CENTER);
-        table.setDefaultRenderer(Object.class,r);
+        table.setDefaultRenderer(Object.class, r);
         //FitTableColumns(table);
         table.setEnabled(false);
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                int row =((JTable)e.getSource()).rowAtPoint(e.getPoint()); //获得行位置
-                int  col=((JTable)e.getSource()).columnAtPoint(e.getPoint()); //获得列位置
-                String cellVal=(String)(table.getValueAt(row,col)); //获得点击单元格数据
+                int row = ((JTable) e.getSource()).rowAtPoint(e.getPoint()); //获得行位置
+                int col = ((JTable) e.getSource()).columnAtPoint(e.getPoint()); //获得列位置
+                String cellVal = (String) (table.getValueAt(row, col)); //获得点击单元格数据
                 jWindow.setVisible(false);
-                textAreaMsg.setText(textAreaMsg.getText()+cellVal);
+                textAreaMsg.setText(textAreaMsg.getText() + cellVal);
             }
         });
 
         btnEmoji.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(jWindow.isVisible()){
+                if (jWindow.isVisible()) {
                     jWindow.setVisible(false);
-                }else{
+                } else {
                     jWindow.setVisible(true);
                 }
             }
         });
 
+
+
+        popThePerson.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                if (null != serverThread) {
+
+                    String toUsername = listUsers.getSelectedValue();
+
+                    if (toUsername == null) {
+
+                        JOptionPane.showMessageDialog(null, "Please Select a person");
+
+                    } else {
+
+                        // msgChat= Send_One(textAreaMsg.getText(),toUsername).toJson();
+                        ClientHandler clientHandler = clientHandlerMap.get(toUsername);
+                        if (null != clientHandler) {
+                            String msgpop = beenpoped("You have been poped up by manager", "Manager: " + username).toJson();
+
+                            try {
+                                clientHandler.dos.writeUTF(msgpop);
+                                clientHandler.dos.flush();
+                            } catch (IOException e) {
+                                //e.printStackTrace();
+                            }
+                            try {
+
+                                poptheperson(textAreaMsg.getText(), "Manager: " + username);
+                            }
+                            catch (IOException e){
+                                addMsg("can't pop up the person");
+                            }
+
+                        }
+                        addMsg("pop the person successful");
+                        textAreaMsg.setText("");
+                    }
+
+                }
+            }
+        });
+
+
         btnSend.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if (null != serverThread){
+                if (null != serverThread) {
 
-                    String msgChat=null;
-                    if(rdbtnBrocast.isSelected()){
+                    String msgChat = null;
+                    if (rdbtnBrocast.isSelected()) {
 
                         // msgChat="TALKTO_ALL#"+textAreaMsg.getText();
-                        msgChat=Send_All(textAreaMsg.getText(),"Manager").toJson();
+                        msgChat = Send_All(textAreaMsg.getText(), "Manager:" + username).toJson();
+
                         try {
-                            broadcastMsg("Manager", msgChat);
+                            broadcastMsg("Manager:" + username, msgChat);
                         } catch (IOException e) {
                             // e.printStackTrace();
                         }
-                        addMsg("I Say: "+textAreaMsg.getText());
+                        addMsg("I Say: " + textAreaMsg.getText());
                         textAreaMsg.setText("");
                     }
 
 
-                    if(rdbtnPrivateChat.isSelected()){
+                    if (rdbtnPrivateChat.isSelected()) {
 
-                        String toUsername= listUsers.getSelectedValue();
+                        String toUsername = listUsers.getSelectedValue();
 
-                        if (toUsername==null){
+                        if (toUsername == null) {
 
                             JOptionPane.showMessageDialog(null, "Please Select a person");
 
-                        }else {
+                        } else {
 
                             // msgChat= Send_One(textAreaMsg.getText(),toUsername).toJson();
                             ClientHandler clientHandler = clientHandlerMap.get(toUsername);
                             if (null != clientHandler) {
 
-                                String msgTalkTo = Send_One(textAreaMsg.getText(), "Manager").toJson();
+                                String msgTalkTo = Send_One(textAreaMsg.getText(), "Manager: " + username).toJson();
 
                                 try {
                                     clientHandler.dos.writeUTF(msgTalkTo);
@@ -269,22 +319,18 @@ public class ServerChat {
 
         left.add(bottom, BorderLayout.SOUTH);
 
-        jPanel.add ( left, BorderLayout.CENTER );
+        jPanel.add(left, BorderLayout.CENTER);
 
         //right
-        right = new JPanel (  );
+        right = new JPanel();
         JScrollPane scrollPane_2 = new JScrollPane();
 //        scrollPane_2.setBounds(0, 0, 149, 334);
-        scrollPane_2.setPreferredSize ( new Dimension ( 100,500 ) );
-        right.add ( scrollPane_2 );
+        scrollPane_2.setPreferredSize(new Dimension(100, 500));
+        right.add(scrollPane_2);
         listUsers = new JList<String>();
         listUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane_2.setViewportView(listUsers);
-        jPanel.add(right,BorderLayout.EAST);
-
-
-
-
+        jPanel.add(right, BorderLayout.EAST);
 
 
 //         btnConnect = new JButton("\u767B\u5F55");
@@ -293,15 +339,9 @@ public class ServerChat {
         // 连接按钮事件处理程序
 
 
-
 //        JLabel lblNewLabel_2 = new JLabel("Select Model:");
 //        meddle.add ( lblNewLabel_2 );
 //        lblNewLabel_2.setBounds(14, 313, 172, 18);
-
-
-
-
-
 
 
 //        JLabel label = new JLabel("Message");
@@ -309,15 +349,9 @@ public class ServerChat {
 //        jPanel.add(label);
 
 
-
-
-
-
 //        JLabel label_2 = new JLabel("Online");
 //        label_2.setBounds(543, 55, 72, 18);
 //        jPanel.add(label_2);
-
-
 
 
 //        lblRoomInfo = new JLabel("Totol");
@@ -343,16 +377,14 @@ public class ServerChat {
             public void componentMoved(ComponentEvent e) {
                 super.componentMoved(e);
                 Point xy = btnEmoji.getLocationOnScreen();
-                jWindow.setLocation((int)xy.getX()+25,(int)xy.getY()+25);
+                jWindow.setLocation((int) xy.getX() + 25, (int) xy.getY() + 25);
 
             }
         });
-        serverThread = new Thread(new ServerThread()) ;
+        serverThread = new Thread(new ServerThread());
         serverThread.start();
 
     }
-
-
 
 
     class ClientHandler implements Runnable {
@@ -379,7 +411,7 @@ public class ServerChat {
 
         @Override
         public void run() {
-            while(isRunning && isConnected) {
+            while (isRunning && isConnected) {
                 try {
                     // 读取客户端发送的报文
                     String msg = dis.readUTF();
@@ -393,13 +425,12 @@ public class ServerChat {
                     switch (command) {
                         // 处理登录报文
                         case "Connect":
-                            String loginUser =  response.getString("ip");
+                            String loginUser = response.getString("ip");
                             // 如果该用户名已登录，则返回失败报文，否则返回成功报文
-                            if(clientHandlerMap.containsKey(loginUser)) {
+                            if (clientHandlerMap.containsKey(loginUser)) {
                                 String send_str = Login_False().toJson();
                                 dos.writeUTF(send_str);
                             } else {
-
 
 
                                 String send_str = Login_Success().toJson();
@@ -412,7 +443,7 @@ public class ServerChat {
 
                                 ArrayList<String> userlist = new ArrayList<String>();
 
-                                for(String username : clientHandlerMap.keySet()) {
+                                for (String username : clientHandlerMap.keySet()) {
 
                                     userlist.add(username);
 
@@ -440,38 +471,38 @@ public class ServerChat {
 
                         case "Send_All":
 
-                            String getMsg =  response.getString("text");
+                            String getMsg = response.getString("text");
 
                             //String msgTalkToAll="TALKTO_ALL#"+username+"#"+getMsg;
-                            String msgTalkToAll=Send_All(getMsg,username).toJson();
+                            String msgTalkToAll = Send_All(getMsg, username).toJson();
                             System.out.println(msg);
                             //String getMsg = loginUser;
-                            addMsg("("+username+") says :"+getMsg);
+                            addMsg("(" + username + ") says :" + getMsg);
                             broadcastMsg(username, msgTalkToAll);
                             break;
 
                         case "Send_One":
                             System.out.println("Send_One");
-                            loginUser =  response.getString("user");
-                            String text =  response.getString("text");
-                            System.out.println("Send_One:"+loginUser);
+                            loginUser = response.getString("user");
+                            String text = response.getString("text");
+                            System.out.println("Send_One:" + loginUser);
 
-                            if (loginUser.equals("Manager")){
+                            if (loginUser.equals("Manager: " + username)) {
 
-                                addMsg("("+username+") says :"+text);
+                                addMsg("(" + username + ") says :" + text);
 
-                            }else{
-                                ClientHandler clientHandler=clientHandlerMap.get(loginUser);
-                                if(null!=clientHandler){
+                            } else {
+                                ClientHandler clientHandler = clientHandlerMap.get(loginUser);
+                                if (null != clientHandler) {
 
                                     //String msgTalkTo="TALKTO#"+username+"#"+ loginUser;
-                                    String msgTalkTo = Send_One(text,username).toJson();
+                                    String msgTalkTo = Send_One(text, username).toJson();
 
-                                    try{
+                                    try {
                                         clientHandler.dos.writeUTF(msgTalkTo);
                                         clientHandler.dos.flush();
 
-                                    }catch(IOException e){
+                                    } catch (IOException e) {
                                         clientHandlerMap.remove(loginUser);
                                         String send_str = Send_Fail().toJson();
                                         dos.writeUTF(send_str);
@@ -487,14 +518,14 @@ public class ServerChat {
 
 
                         case "Login_Out":
-                            loginUser =  response.getString("ip");
+                            loginUser = response.getString("ip");
                             clientHandlerMap.remove(username);
 
                             //String msgLogout="LOGOUT#"+username;
                             String msgLogout = New_Login(loginUser).toJson();
 
                             broadcastMsg(username, msgLogout);
-                            isConnected=false;
+                            isConnected = false;
                             socket.close();
                             break;
 
@@ -513,12 +544,13 @@ public class ServerChat {
 
         /**
          * 将某个用户发来的消息广播给其它用户
+         *
          * @param fromUsername 发来消息的用户
-         * @param msg 需要广播的消息
+         * @param msg          需要广播的消息
          */
-        private void broadcastMsg(String fromUsername, String msg) throws IOException{
-            for(String toUserName : clientHandlerMap.keySet()) {
-                if(fromUsername.equals(toUserName) == false) {
+        private void broadcastMsg(String fromUsername, String msg) throws IOException {
+            for (String toUserName : clientHandlerMap.keySet()) {
+                if (fromUsername.equals(toUserName) == false) {
                     DataOutputStream dos = clientHandlerMap.get(toUserName).dos;
                     dos.writeUTF(msg);
                     dos.flush();
@@ -554,12 +586,28 @@ public class ServerChat {
         return request;
     }
 
+    public static Document pop_the_person(String newuser) {
+        Document request = new Document();
+        request.append("Login_out", newuser);
+        request.append("command", "Login_out");
+        return request;
+    }
+
     public static Document Send_All(String text) {
         Document request = new Document();
         request.append("command", "Send_All");
         request.append("text", text);
         return request;
     }
+
+    public static Document beenpoped(String text, String user) {
+        Document request = new Document();
+        request.append("command", "beenpoped");
+        request.append("text", text);
+        request.append("user", user);
+        return request;
+    }
+
 
     public static Document Send_One(String text, String user) {
         Document request = new Document();
@@ -587,14 +635,13 @@ public class ServerChat {
                 isRunning = true;
                 // 修改启动和停止按钮状态
                 //btnStart.setEnabled(false);
-               // btnStop.setEnabled(true);
+                // btnStop.setEnabled(true);
                 addMsg("Star Server Successful");
 
                 //String myinfo = socket.getLocalAddress()+ ":"+ socket.getLocalPort();
 
-                Thread t = new Thread(() ->Synchronous_Userlist());
+                Thread t = new Thread(() -> Synchronous_Userlist());
                 t.start();
-
 
 
             } catch (IOException e) {
@@ -612,7 +659,7 @@ public class ServerChat {
         public void run() {
             startServer();
             // 当服务器处于运行状态时，循环监听客户端的连接请求
-            while(isRunning) {
+            while (isRunning) {
                 try {
                     Socket socket = server.accept();
                     // 创建与客户端交互的线程
@@ -627,9 +674,9 @@ public class ServerChat {
 
     }
 
-    public void Synchronous_Userlist(){
+    public void Synchronous_Userlist() {
 
-        while(true) {
+        while (true) {
 
             try {
                 sleep(10000);
@@ -638,8 +685,8 @@ public class ServerChat {
             }
             modelUsers.removeAllElements();
             ArrayList<String> userlist = new ArrayList<String>();
-            userlist.add("Manager");
-            modelUsers.addElement("Manager");
+            userlist.add("Manager: " + username);
+            modelUsers.addElement("Manager: " + username);
             for (String username : clientHandlerMap.keySet()) {
                 userlist.add(username);
                 modelUsers.addElement(username);
@@ -688,11 +735,12 @@ public class ServerChat {
         return request;
     }
 
-    public static Document Login_out(String newuser) {
-        Document request = new Document();
-        request.append("Login_out", newuser);
-        request.append("command", "Login_out");
-        return request;
+    private void poptheperson(String fromUsername, String msg) throws IOException {
+        for (String toUserName : clientHandlerMap.keySet()) {
+            if (fromUsername.equals(toUserName) == false) {
+                clientHandlerMap.remove(toUserName);
+            }
+        }
     }
 
     public static Document Send_Fail() {
@@ -711,12 +759,13 @@ public class ServerChat {
 
     /**
      * 将某个用户发来的消息广播给其它用户
+     *
      * @param fromUsername 发来消息的用户
-     * @param msg 需要广播的消息
+     * @param msg          需要广播的消息
      */
-    private void broadcastMsg(String fromUsername, String msg) throws IOException{
-        for(String toUserName : clientHandlerMap.keySet()) {
-            if(fromUsername.equals(toUserName) == false) {
+    private void broadcastMsg(String fromUsername, String msg) throws IOException {
+        for (String toUserName : clientHandlerMap.keySet()) {
+            if (fromUsername.equals(toUserName) == false) {
                 DataOutputStream dos = clientHandlerMap.get(toUserName).dos;
                 dos.writeUTF(msg);
                 dos.flush();
