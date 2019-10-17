@@ -670,7 +670,7 @@ public class Whiteboard extends JFrame {
 
 
         Icon iconeraser = new ImageIcon ( "img/eraser.jpg" );
-        addEraser = new JButton ( "icon" );
+        addEraser = new JButton ( "" ,iconeraser);
         addEraser.addActionListener ( new ActionListener () {
             public void actionPerformed(ActionEvent e) {
                 canvas.removeMouseMotionListener ( I1 );
@@ -714,7 +714,8 @@ public class Whiteboard extends JFrame {
 //		JMenu mnFile = new JMenu("File");
 //		menuBar.add(mnFile);
 //		//mnFile.addSeparator();
-        JButton mntmNew = new JButton ( "New" );
+        Icon iconnew = new ImageIcon ( "img/new.jpg" );
+        JButton mntmNew = new JButton ( "",iconnew );
         mntmNew.setSize ( 30, 30 );
 //		mnFile.add(mntmNew);
         mntmNew.addActionListener ( new ActionListener () {
@@ -727,7 +728,8 @@ public class Whiteboard extends JFrame {
         buttons.add ( mntmNew );
 
 //		mnFile.addSeparator();
-        JButton mntmOpen = new JButton ( "Open" );
+        Icon iconopen = new ImageIcon ( "img/open.jpg" );
+        JButton mntmOpen = new JButton ( "",iconopen );
         mntmOpen.setSize ( 30, 30 );
 //		mnFile.add(mntmOpen);
         mntmOpen.addActionListener ( new ActionListener () {
@@ -751,7 +753,8 @@ public class Whiteboard extends JFrame {
 
 
 //		mnFile.addSeparator();
-        JButton mntmSave = new JButton ( "Save" );
+        Icon iconsave = new ImageIcon ( "img/save.jpg" );
+        JButton mntmSave = new JButton ( "",iconsave );
         mntmSave.setSize ( 30, 30 );
 //		mnFile.add(mntmSave);
         mntmSave.addActionListener ( new ActionListener () {
@@ -774,7 +777,8 @@ public class Whiteboard extends JFrame {
 
 
 //		mnFile.addSeparator();
-        JButton mntmSaveAs = new JButton ( "Save As Img" );
+        Icon iconsaveas = new ImageIcon ( "img/saveas.jpg" );
+        JButton mntmSaveAs = new JButton ( "",iconsaveas );
         mntmSaveAs.setSize ( 30, 30 );
 //		mnFile.add(mntmSaveAs);
         mntmSaveAs.addActionListener ( new ActionListener () {
@@ -804,10 +808,10 @@ public class Whiteboard extends JFrame {
         colorchoose.setBackground(Color.BLACK);
         JColorChooser chooser = new JColorChooser();
         AbstractColorChooserPanel panels[] = chooser.getChooserPanels();
-        for (int i = 0; i < panels.length; i ++) {
-            chooser.removeChooserPanel(panels[i]);
-        }
-        chooser.addChooserPanel(new colorchooser());
+        //for (int i = 0; i < panels.length; i ++) {
+            //chooser.removeChooserPanel(panels[i]);
+        //}
+        //chooser.addChooserPanel(new colorchooser());
         JDialog color = JColorChooser.createDialog(colorchoose, "Set Color", true,chooser,new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
@@ -820,6 +824,7 @@ public class Whiteboard extends JFrame {
             public void actionPerformed(ActionEvent e)
             {
                 color.setVisible(true);
+                
             }
         });
 
@@ -834,7 +839,8 @@ public class Whiteboard extends JFrame {
 //        frame.setVisible(false);
 
 //		mnFile.addSeparator();
-        JButton mntmClose = new JButton ( "X" );
+        Icon iconclose = new ImageIcon ( "img/close.jpg" );
+        JButton mntmClose = new JButton ( "",iconclose );
         mntmClose.setSize ( 30, 30 );
 //		mnFile.add(mntmClose);
         mntmClose.addActionListener ( new ActionListener () {
