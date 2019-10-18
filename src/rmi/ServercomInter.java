@@ -19,4 +19,5 @@ public interface ServercomInter extends Remote{
     public void pubishAddDraw(DShapeModel model, Color pencilcolor) throws RemoteException;
     public void pubishDistortion(String modelId, Point pivotKnob, Point movingKnob) throws RemoteException;
     public void pubishAddText(String modelId, DShapeModel model, Color color, String font, String text) throws RemoteException;
+    public void removeallModel() throws RemoteException;
 }

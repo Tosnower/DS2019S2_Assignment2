@@ -25,7 +25,7 @@ public class Canvas extends JPanel {
     private ArrayList <Point> knobs;
     private int x = 0;
     private int y = 0;
-    private Whiteboard board;
+    Whiteboard board;
     private MouseMotionAdapter dragListener = null;
     private int dragFlag = 0;
 
@@ -39,17 +39,18 @@ public class Canvas extends JPanel {
                 if (board.getMode () != 2) {
                     int dx = e.getX () - x;
                     int dy = e.getY () - y;
-
-                    int newX = e.getX ();
-                    int newY = e.getY ();
-                    if (newX != x || newY != y) {
+                    x = e.getX ();
+                    y = e.getY ();
+                    //int newX = e.getX ();
+                    //int newY = e.getY ();
+                    //if (newX != x || newY != y) {
                         if (selected != null) {
-                            selected.moveTo ( newX, newY );
-
+                            //selected.moveTo ( newX, newY );
+                        	selected.moveBy ( dx, dy );
                             board.updateTable ( selected );
                             repaint ();
                             try {
-                                board.servercomInter.pubishMoveModel ( selected.getModelId (), newX, newY );
+                                board.servercomInter.pubishMoveModel ( selected.getModelId (), dx, dy );
                             } catch (RemoteException ex) {
                                 ex.printStackTrace ();
                             }
@@ -64,11 +65,12 @@ public class Canvas extends JPanel {
                                 ex.printStackTrace ();
                             }
                         }
+                        //x = e.getX ();
+                        //y = e.getY ();
                     }
-                    x = e.getX ();
-                    y = e.getY ();
+                    
                 }
-            }
+            //}
         };
         drag ();
 //			setPreferredSize(new Dimension(800, 400));
@@ -136,9 +138,9 @@ public class Canvas extends JPanel {
         }
     }
 
-    public void drawMove(String modelId, int x, int y) {
+    public void drawMove(String modelId, int dx, int dy) {
         DShape dShape = shapes.get ( modelId );
-        dShape.moveTo ( x, y );
+        dShape.moveBy ( dx, dy );
         board.updateTable ( dShape );
         repaint ();
     }
@@ -146,6 +148,7 @@ public class Canvas extends JPanel {
     public void drawDistortion(String modelId, Point pivotKnob, Point movingKnob) {
         DShape dShape = shapes.get ( modelId );
         dShape.resize ( pivotKnob, movingKnob );
+        board.updateTable(dShape);
         repaint ();
     }
 

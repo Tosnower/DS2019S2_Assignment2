@@ -101,7 +101,8 @@ public class BoardThread extends Thread
 			
 			for(int i = 0; i < models.length; i++)
 			{
-				canvas.addShape(models[i],null);
+				String id=canvas.addShape(models[i],null);
+				canvas.board.servercomInter.pubishAddModel(id, models[i], models[i].getColor());
 			}
 			JOptionPane.showMessageDialog(null, "Successfully Open!", "Message", JOptionPane.INFORMATION_MESSAGE);	
 			

@@ -31,9 +31,9 @@ public class ClientCom extends UnicastRemoteObject implements ClientcomInter {
     }
 
     @Override
-    public void moveModel(String modelId, int x, int y) throws RemoteException {
+    public void moveModel(String modelId, int dx, int dy) throws RemoteException {
         System.out.println ("执行moveModel");
-        whiteboard.canvas.drawMove ( modelId,x,y );
+        whiteboard.canvas.drawMove ( modelId,dx,dy );
     }
 
     @Override
@@ -52,6 +52,15 @@ public class ClientCom extends UnicastRemoteObject implements ClientcomInter {
         whiteboard.drawText ( modelId, model, color, font, text);
     }
 
+    
+    
+    
+    @Override
+    public void removeallModel() throws RemoteException
+    {
+    	whiteboard.canvas.setNull();
+    }
+    
 
     public void setGUI(Startclient t){
         ui=t ;

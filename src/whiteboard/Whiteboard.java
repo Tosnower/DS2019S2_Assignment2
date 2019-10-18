@@ -721,6 +721,11 @@ public class Whiteboard extends JFrame {
         mntmNew.addActionListener ( new ActionListener () {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	try {
+                    servercomInter.removeallModel ();
+                } catch (RemoteException ex) {
+                    ex.printStackTrace ();
+                }
                 canvas.setNull ();
                 repaint ();
             }
@@ -739,10 +744,16 @@ public class Whiteboard extends JFrame {
                 int result = fc.showOpenDialog ( frmBoard );
 
                 if (result == JFileChooser.APPROVE_OPTION) {
-
+                	try {
+                        servercomInter.removeallModel ();
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace ();
+                    }
+                    canvas.setNull ();
+                    repaint ();
                     File f = fc.getSelectedFile ();
                     //open(f);
-                    clear ();
+                    //clear ();
                     BoardThread bt = new BoardThread ();
                     bt.init ( 2, f, canvas );
                     bt.start ();

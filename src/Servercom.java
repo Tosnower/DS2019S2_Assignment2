@@ -87,11 +87,11 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     }
 
     @Override
-    public void pubishMoveModel(String modelId, int x, int y) throws RemoteException {
+    public void pubishMoveModel(String modelId, int dx, int dy) throws RemoteException {
         for(int i=0;i<v.size();i++){
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
-                tmp.moveModel (modelId,x, y);
+                tmp.moveModel (modelId,dx, dy);
             }catch(Exception e){
                 //problem with the client not connected.
                 //Better to remove it
@@ -136,6 +136,24 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         }
     }
 
+    
+    
+    
+    @Override
+    public void removeallModel() throws RemoteException
+    {
+    	for(int i=0;i<v.size();i++){
+            try{
+                ClientcomInter tmp=(ClientcomInter)v.get(i);
+                tmp.removeallModel();
+            }catch(Exception e){
+                //problem with the client not connected.
+                //Better to remove it
+            }
+        }
+    }
+    
+    
     public Vector getConnected() throws RemoteException{
         return v;
     }
