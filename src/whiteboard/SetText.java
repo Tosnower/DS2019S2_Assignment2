@@ -82,12 +82,13 @@ public class SetText {
 				DTextModel model = new DTextModel();
 				int temp=textField.getText().length();
 				model.setBounds(locx-temp/2, locy-60, temp*40+20, 120);
-				Color color = JColorChooser.showDialog(frmSetText, "Set Color", model.getColor());
-				while(color==null||color.equals(Color.white))
-				{
-					JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
-					color = JColorChooser.showDialog(frmSetText, "Set Color", model.getColor());
-				}
+				Color color = canvas.board.pencilcolorchoosed;
+						//JColorChooser.showDialog(frmSetText, "Set Color", model.getColor());
+				//while(color==null||color.equals(Color.white))
+				//{
+				//	JOptionPane.showMessageDialog(null, "please choose a valid color!","Error",JOptionPane.INFORMATION_MESSAGE);
+				//	color = JColorChooser.showDialog(frmSetText, "Set Color", model.getColor());
+				//}
 
 				String id = canvas.addShape(model,null);
 				canvas.recolorShape(color);

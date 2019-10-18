@@ -68,7 +68,8 @@ public class Whiteboard extends JFrame {
     private int drawtext = 0;
     public static Color pencilcolor = null;
     public static Color pencilcolorchoosed = Color.black;
-
+    private boolean IsManager;
+    private File file_=null;
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
@@ -85,11 +86,12 @@ public class Whiteboard extends JFrame {
     /**
      * Create the application.
      */
-    public Whiteboard(JPanel jPanel, ServercomInter servercomInter) {
+    public Whiteboard(JPanel jPanel, ServercomInter servercomInter, boolean manager) {
         this.servercomInter = servercomInter;
+        this.IsManager=manager;
         initialize ( jPanel );
+        
     }
-
     /**
      * Initialize the contents of the frame.
      */
@@ -152,6 +154,12 @@ public class Whiteboard extends JFrame {
                 canvas.addShape ( model, null );
 
                 canvas.repaint ();
+                
+                try {
+                	 servercomInter.pubishAddDraw (model, pencilcolor);
+				} catch (RemoteException ex) {
+					ex.printStackTrace ();
+				}
             }
 
         };
@@ -728,10 +736,11 @@ public class Whiteboard extends JFrame {
                 }
                 canvas.setNull ();
                 repaint ();
+                file_=null;
             }
         } );
         buttons.add ( mntmNew );
-
+        if(!IsManager) mntmNew.setEnabled(false);
 //		mnFile.addSeparator();
         Icon iconopen = new ImageIcon ( "img/open.jpg" );
         JButton mntmOpen = new JButton ( "",iconopen );
@@ -757,11 +766,12 @@ public class Whiteboard extends JFrame {
                     BoardThread bt = new BoardThread ();
                     bt.init ( 2, f, canvas );
                     bt.start ();
+                    file_=f;
                 }
             }
         } );
         buttons.add ( mntmOpen );
-
+        if(!IsManager) mntmOpen.setEnabled(false);
 
 //		mnFile.addSeparator();
         Icon iconsave = new ImageIcon ( "img/save.jpg" );
@@ -770,22 +780,34 @@ public class Whiteboard extends JFrame {
 //		mnFile.add(mntmSave);
         mntmSave.addActionListener ( new ActionListener () {
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = new JFileChooser ();
-                fc.setDialogTitle ( "Save" );
-                int result = fc.showSaveDialog ( frmBoard );
+            	if(file_==null)
+            	{
+            		JFileChooser fc = new JFileChooser ();
+            		fc.setDialogTitle ( "Save" );
+            		int result = fc.showSaveDialog ( frmBoard );
 
-                if (result == JFileChooser.APPROVE_OPTION) {
+            		if (result == JFileChooser.APPROVE_OPTION) 
+            		{
 
-                    File f = fc.getSelectedFile ();
-                    //save(f);
-                    BoardThread bt = new BoardThread ();
-                    bt.init ( 1, f, canvas );
-                    bt.start ();
-                }
+            			File f = fc.getSelectedFile ();
+            			//save(f);
+            			BoardThread bt = new BoardThread ();
+            			bt.init ( 1, f, canvas );
+            			bt.start ();
+            			file_=f;
+            		}
+            	}
+				else
+				{
+					BoardThread bt=new BoardThread();
+		            bt.init(1, file_,canvas);
+		            bt.start();
+				}
             }
+            	
         } );
         buttons.add ( mntmSave );
-
+        if(!IsManager) mntmSave.setEnabled(false);
 
 //		mnFile.addSeparator();
         Icon iconsaveas = new ImageIcon ( "img/saveas.jpg" );
@@ -794,25 +816,49 @@ public class Whiteboard extends JFrame {
 //		mnFile.add(mntmSaveAs);
         mntmSaveAs.addActionListener ( new ActionListener () {
             public void actionPerformed(ActionEvent e) {
+            	Object[] Choices = {"Save As Image", "Save As Another File"};
+                int ret = JOptionPane.showOptionDialog ( null, "What type of file would you like to save?", "option", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, Choices, Choices[0] );
+                if(ret==0)
+                {
+                	JFileChooser fc = new JFileChooser ();
+                	fc.setDialogTitle ( "Save As Image" );
+                	int result = fc.showSaveDialog ( frmBoard );
 
-                JFileChooser fc = new JFileChooser ();
-                fc.setDialogTitle ( "Save As Image" );
-                int result = fc.showSaveDialog ( frmBoard );
+                	if (result == JFileChooser.APPROVE_OPTION) 
+                	{
 
-                if (result == JFileChooser.APPROVE_OPTION) {
-
-                    File f = fc.getSelectedFile ();
-                    if (f.getName ().matches ( "^.+\\.jpg$" )) {
-                        BoardThread bt = new BoardThread ();
-                        bt.init ( 3, f, canvas );
-                        bt.start ();
-                    } else
-                        JOptionPane.showMessageDialog ( null, "only jpg format is accepted!", "Error", JOptionPane.INFORMATION_MESSAGE );
+                		File f = fc.getSelectedFile ();
+                		if (f.getName ().matches ( "^.+\\.jpg$" )) 
+                		{
+                			BoardThread bt = new BoardThread ();
+                			bt.init ( 3, f, canvas );
+                			bt.start ();
+                		} 
+                		else
+                			JOptionPane.showMessageDialog ( null, "only jpg format is accepted!", "Error", JOptionPane.INFORMATION_MESSAGE );
+                	}
+                
                 }
+                else
+                {
+                	JFileChooser fc=new JFileChooser();
+    				fc.setDialogTitle("Save As");
+    				int result = fc.showSaveDialog(frmBoard);
 
+    		        if (result == JFileChooser.APPROVE_OPTION) 
+    		        {
+    		           
+    		            File f = fc.getSelectedFile();
+    		            //save(f);
+    		            BoardThread bt=new BoardThread();
+    		            bt.init(1, f,canvas);
+    		            bt.start();
+    		        }
+                }
             }
         } );
         buttons.add ( mntmSaveAs );
+        if(!IsManager) mntmSaveAs.setEnabled(false);
         JButton colorchoose = new JButton();
         colorchoose.setOpaque(true);
         colorchoose.setBorderPainted(false);
@@ -861,7 +907,7 @@ public class Whiteboard extends JFrame {
             }
         } );
         buttons.add ( mntmClose );
-
+        if(!IsManager) mntmClose.setEnabled(false);
         buttons.setPreferredSize ( new Dimension ( 60, 390 ) );
         jPanel.add ( buttons, BorderLayout.WEST );
         canvas = new Canvas ( this );
