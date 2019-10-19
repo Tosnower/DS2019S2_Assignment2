@@ -865,10 +865,10 @@ public class Whiteboard extends JFrame {
         colorchoose.setBackground(Color.BLACK);
         JColorChooser chooser = new JColorChooser();
         AbstractColorChooserPanel panels[] = chooser.getChooserPanels();
-        //for (int i = 0; i < panels.length; i ++) {
-            //chooser.removeChooserPanel(panels[i]);
-        //}
-        //chooser.addChooserPanel(new colorchooser());
+        for (int i = 0; i < panels.length; i ++) {
+            chooser.removeChooserPanel(panels[i]);
+        }
+        chooser.addChooserPanel(new colorchooser());
         JDialog color = JColorChooser.createDialog(colorchoose, "Set Color", true,chooser,new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
@@ -1019,13 +1019,11 @@ public class Whiteboard extends JFrame {
         try {
             if (!f.exists ())
                 f.createNewFile ();
-
             ImageIO.write ( image, "jpg", f );
             JOptionPane.showMessageDialog ( null, "Successfully Save Image!", "Message", JOptionPane.INFORMATION_MESSAGE );
         } catch (Exception e) {
             JOptionPane.showMessageDialog ( null, e.toString (), "Error", JOptionPane.INFORMATION_MESSAGE );
         }
-
 
     }
 

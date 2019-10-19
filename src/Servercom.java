@@ -13,6 +13,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     private Vector v=new Vector();
     public Servercom() throws RemoteException{}
     private Vector history=new Vector();
+    private Vector modelhistory=new Vector();
 
     public boolean login(ClientcomInter a) throws RemoteException{
         System.out.println(a.getName() + "  got connected....");
@@ -46,6 +47,9 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         return true;
     }
 
+
+
+
     public void publish(String s) throws RemoteException{
         System.out.println(s);
         history.add(s);
@@ -73,12 +77,133 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
 
     }
 
+    public void resumemodelhistory(ClientcomInter a) throws RemoteException
+    {
+        for(int i=0;i<modelhistory.size();i++){
+            try{
+                System.out.println(modelhistory.get(i).getClass());
+                if(modelhistory.get(i).getClass()==Models.class)
+                {
+                    Models newmodel = ((Models) modelhistory.get(i));
+                    a.addModel(newmodel.modelId,newmodel.model,newmodel.color);
+                }
+                else if(modelhistory.get(i).getClass()==MoveModels.class)
+                {
+                    MoveModels newmodel = ((MoveModels) modelhistory.get(i));
+                    a.moveModel(newmodel.modelId,newmodel.dx,newmodel.dy);
+                }
+                else if(modelhistory.get(i).getClass()==Draw.class)
+                {
+                    Draw newmodel = ((Draw) modelhistory.get(i));
+                    a.addDraw(newmodel.model,newmodel.pencilcolor);
+                }
+                else if(modelhistory.get(i).getClass()==Distortion.class)
+                {
+                    Distortion newmodel = ((Distortion) modelhistory.get(i));
+                    a.drawDistortion(newmodel.modelId,newmodel.pivotKnob,newmodel.movingKnob);
+                }
+                else if(modelhistory.get(i).getClass()==AddText.class)
+                {
+                    AddText newmodel = ((AddText) modelhistory.get(i));
+                    a.drawText(newmodel.modelId,newmodel.model,newmodel.color,newmodel.font,newmodel.text);
+                }
+
+
+            }catch(Exception e){
+                //problem with the client not connected.
+                //Better to remove it
+            }
+        }
+
+    }
+
+    public class Models {
+        public String modelId;
+        public DShapeModel model;
+        public Color color;
+
+        public Models(String modelId, DShapeModel model, Color color) {
+            this.modelId = modelId;
+            this.model = model;
+            this.color =color;
+        }
+
+        public String getModelId() { return this.modelId; }
+        public DShapeModel getModel() { return this.model; }
+        public Color getColor() { return this.color; }
+    }
+
+    public class MoveModels {
+        public String modelId;
+        public int dx;
+        public int dy;
+
+        public MoveModels(String modelId, int dx, int dy) {
+            this.modelId = modelId;
+            this.dx = dx;
+            this.dy =dy;
+        }
+    }
+
+    public class Draw {
+        public DShapeModel model;
+        public Color pencilcolor;
+
+        public Draw(DShapeModel model, Color pencilcolor) {
+            this.model = model;
+            this.pencilcolor = pencilcolor;
+        }
+    }
+
+    public class Distortion {
+        public String modelId;
+        public Point pivotKnob;
+        public Point movingKnob;
+
+        public Distortion(String modelId, Point pivotKnob, Point movingKnob){
+            this.modelId = modelId;
+            this.pivotKnob = pivotKnob;
+            this.movingKnob=movingKnob;
+        }
+    }
+
+    public class AddText {
+        public String modelId;
+        public DShapeModel model;
+        public Color color;
+        public String font;
+        public String text;
+
+        public AddText(String modelId, DShapeModel model, Color color, String font, String text){
+            this.modelId = modelId;
+            this.model = model;
+            this.color=color;
+            this.font=font;
+            this.text=text;
+        }
+    }
+
 
     public void pubishAddModel(String modelId, DShapeModel model, Color color) throws RemoteException {
+        modelhistory.add(new Models(modelId,model,color));
+        for(int i=0;i<modelhistory.size();i++){
+            try{
+                System.out.println(modelhistory.get(i).getClass());
+                if(modelhistory.get(i).getClass()==Models.class){
+                    System.out.println(modelhistory.get(i).getClass());
+                    System.out.println(((Models) modelhistory.get(i)).modelId);
+                    System.out.println("is model");
+                }
+            }catch(Exception e){
+                //problem with the client not connected.
+                //Better to remove it
+            }
+        }
         for(int i=0;i<v.size();i++){
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
                 tmp.addModel (modelId, model,color);
+
             }catch(Exception e){
                 //problem with the client not connected.
                 //Better to remove it
@@ -88,6 +213,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
 
     @Override
     public void pubishMoveModel(String modelId, int dx, int dy) throws RemoteException {
+        modelhistory.add(new MoveModels(modelId,dx, dy));
         for(int i=0;i<v.size();i++){
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
@@ -100,6 +226,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     }
 
     public void pubishAddDraw(DShapeModel model, Color pencilcolor) throws RemoteException {
+        modelhistory.add(new Draw(model, pencilcolor));
         for(int i=0;i<v.size();i++){
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
@@ -112,6 +239,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     }
 
     public void pubishDistortion(String modelId, Point pivotKnob, Point movingKnob) throws RemoteException {
+        modelhistory.add(new Distortion(modelId, pivotKnob, movingKnob));
         for(int i=0;i<v.size();i++){
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
@@ -125,6 +253,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
 
     @Override
     public void pubishAddText(String modelId, DShapeModel model, Color color, String font, String text) throws RemoteException {
+        modelhistory.add(new AddText(modelId, model, color, font, text));
         for(int i=0;i<v.size();i++){
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
@@ -137,8 +266,6 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     }
 
     
-    
-    
     @Override
     public void removeallModel() throws RemoteException
     {
@@ -146,6 +273,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
                 tmp.removeallModel();
+                modelhistory.clear();
             }catch(Exception e){
                 //problem with the client not connected.
                 //Better to remove it

@@ -233,10 +233,16 @@ public class ServerChat {
 
                         JOptionPane.showMessageDialog(null, "Please Select a person");
 
-                    } else {
+                    }
+                    else if(toUsername.equals("Manager: " + username))
+                    {
+                        JOptionPane.showMessageDialog(null, "You can kick off yourself");
+                    }
+                    else {
 
                         // msgChat= Send_One(textAreaMsg.getText(),toUsername).toJson();
                         ClientHandler clientHandler = clientHandlerMap.get(toUsername);
+
                         if (null != clientHandler) {
                             String msgpop = beenpoped("You have been poped up by manager", "Manager: " + username).toJson();
 
@@ -254,6 +260,13 @@ public class ServerChat {
                                 addMsg("can't pop up the person");
                             }
 
+                        }
+                        String msgChat = null;
+                        msgChat = Send_All(toUsername.toString()+" leaved the chat room","NOTICE").toJson();
+                        try {
+                            broadcastMsg("", msgChat);
+                        } catch (IOException e) {
+                             e.printStackTrace();
                         }
                         addMsg("pop the person successful");
                         textAreaMsg.setText("");
@@ -293,7 +306,12 @@ public class ServerChat {
 
                             JOptionPane.showMessageDialog(null, "Please Select a person");
 
-                        } else {
+                        }
+                        else if(toUsername.equals("Manager: " + username))
+                        {
+                            JOptionPane.showMessageDialog(null, "You can sent something to yourself");
+                        }
+                        else {
 
                             // msgChat= Send_One(textAreaMsg.getText(),toUsername).toJson();
                             ClientHandler clientHandler = clientHandlerMap.get(toUsername);
@@ -737,7 +755,7 @@ public class ServerChat {
 
     private void poptheperson(String fromUsername, String msg) throws IOException {
         for (String toUserName : clientHandlerMap.keySet()) {
-            if (fromUsername.equals(toUserName) == false) {
+            if (fromUsername.equals(toUserName) == true) {
                 clientHandlerMap.remove(toUserName);
             }
         }

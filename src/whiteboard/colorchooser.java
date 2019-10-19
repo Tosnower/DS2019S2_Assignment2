@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 
 public class colorchooser extends AbstractColorChooserPanel {
     public void buildChooser() {
-        setLayout(new GridLayout(3, 3));
+        setLayout(new GridLayout(4, 4));
         makeAddButton("Red", Color.red);
         makeAddButton("Green", Color.green);
         makeAddButton("Blue", Color.blue);
@@ -18,6 +18,16 @@ public class colorchooser extends AbstractColorChooserPanel {
         makeAddButton("cyan",Color.cyan);
         makeAddButton("magenta",Color.magenta);
         makeAddButton("black", Color.black);
+        makeAddButton("a", new Color(100,100,100));
+        makeAddButton("b", new Color(100,150,200));
+        makeAddButton("c", new Color(100,200,200));
+        makeAddButton("d", new Color(150,200,200));
+        makeAddButton("e", new Color(150,100,200));
+        makeAddButton("f", new Color(200,100,100));
+        makeAddButton("g", new Color(200,150,100));
+        makeAddButton("h", new Color(200,150,150));
+        makeAddButton("i", new Color(200,100,150));
+        makeAddButton("g", new Color(150,100,100));
     }
 
     public void updateChooser() {

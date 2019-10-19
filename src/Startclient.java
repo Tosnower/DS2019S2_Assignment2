@@ -27,12 +27,11 @@ public class Startclient {
                 meddle.setVisible(true);
                 client=new ClientCom(name.getText());
                 client.setGUI(this);
-
                 server=(ServercomInter)Naming.lookup("rmi://"+ip.getText()+"/myabc");
                 Boolean loginsuccess = server.login(client);
                 if(loginsuccess) {
                     updateUsers(server.getConnected());
-                    server.resumehistory(client);
+
                     connect.setText("Disconnect");
                     name.setEditable(false);
                     ip.setEditable(false);
@@ -41,7 +40,11 @@ public class Startclient {
                     whiteboard.setUserId ( 1 );
                     clientChat = new ClientChat (chat,whiteBoard,name.getText());
                     client.setWhiteboard ( whiteboard );
+                    server.resumemodelhistory(client);
                     frame.setSize(1400,600);
+                }else {
+                    JOptionPane.showMessageDialog(frame, "You are not allowed or cannot connect to the service.");
+
                 }
             }catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, we wouldn't connect....");}
         }else{

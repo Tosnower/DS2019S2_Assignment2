@@ -322,6 +322,12 @@ public class ClientChat {
 
         void sendChatMag() {
             String msgChat = null;
+
+            if(textAreaMsg.getText().length()==0){
+
+                JOptionPane.showMessageDialog(null, "enter something to send");
+
+            }
             if (rdbtnBrocast.isSelected()) {
 
                 // msgChat="TALKTO_ALL#"+textAreaMsg.getText();
@@ -333,14 +339,19 @@ public class ClientChat {
 
             if (rdbtnPrivateChat.isSelected()) {
 
-
                 String toUsername = listUsers.getSelectedValue();
 
                 if (toUsername == null) {
 
                     JOptionPane.showMessageDialog(null, "Please Select a person");
 
-                } else {
+                }
+                else if(toUsername.equals(username))
+                {
+                    JOptionPane.showMessageDialog(null, "You can sent something to yourself");
+                }
+
+                else {
                     // msgChat="TALKTO#"+toUsername+"#"+textAreaMsg.getText();
                     msgChat = Send_One(textAreaMsg.getText(), toUsername).toJson();
                     addMsg("From me To " + toUsername + " :" + textAreaMsg.getText());
@@ -390,8 +401,6 @@ public class ClientChat {
 //            }
 //        }
 //
-
-
 
 
         public void login() {
