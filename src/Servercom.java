@@ -186,19 +186,6 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
 
     public void pubishAddModel(String modelId, DShapeModel model, Color color) throws RemoteException {
         modelhistory.add(new Models(modelId,model,color));
-        for(int i=0;i<modelhistory.size();i++){
-            try{
-                System.out.println(modelhistory.get(i).getClass());
-                if(modelhistory.get(i).getClass()==Models.class){
-                    System.out.println(modelhistory.get(i).getClass());
-                    System.out.println(((Models) modelhistory.get(i)).modelId);
-                    System.out.println("is model");
-                }
-            }catch(Exception e){
-                //problem with the client not connected.
-                //Better to remove it
-            }
-        }
         for(int i=0;i<v.size();i++){
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);

@@ -348,7 +348,7 @@ public class ClientChat {
                 }
                 else if(toUsername.equals(username))
                 {
-                    JOptionPane.showMessageDialog(null, "You can sent something to yourself");
+                    JOptionPane.showMessageDialog(null, "You cannot sent something to yourself");
                 }
 
                 else {

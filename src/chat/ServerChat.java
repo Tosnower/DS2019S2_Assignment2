@@ -309,7 +309,7 @@ public class ServerChat {
                         }
                         else if(toUsername.equals("Manager: " + username))
                         {
-                            JOptionPane.showMessageDialog(null, "You can sent something to yourself");
+                            JOptionPane.showMessageDialog(null, "You cannot sent something to yourself");
                         }
                         else {
 
