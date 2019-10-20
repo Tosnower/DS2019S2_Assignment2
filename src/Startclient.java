@@ -76,6 +76,7 @@ public class Startclient {
             ServercomInter b=new Servercom ();
             Naming.rebind("rmi://localhost/myabc", b);
             System.out.println("[System] Chat Server is ready.");
+
             try{
                 client=new ClientCom(name.getText());
                 client.setGUI(this);

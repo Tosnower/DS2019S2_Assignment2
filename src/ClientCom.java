@@ -44,6 +44,7 @@ public class ClientCom extends UnicastRemoteObject implements ClientcomInter {
 
     @Override
     public void drawDistortion(String modelId, Point pivotKnob, Point movingKnob) throws RemoteException {
+        System.out.println ("执行drawDistortion");
         whiteboard.canvas.drawDistortion ( modelId, pivotKnob, movingKnob);
     }
 

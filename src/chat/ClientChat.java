@@ -1,7 +1,7 @@
 package chat;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import util.Document;
+import util.httpURLConectionGET;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -37,12 +37,16 @@ public class ClientChat {
     private JList<String> listUsers;
     private JRadioButton rdbtnBrocast;
     private JRadioButton rdbtnPrivateChat;
+    private final ButtonGroup buttonGroup2 = new ButtonGroup();
     private JTextArea textAreaMsg;
     private DefaultListModel<String> modelUsers;
     private JPanel left;
     private JPanel right;
     public static String username;
     public static JPanel whiteboard;
+    private JRadioButton rdbtnen;
+    private JRadioButton rdbtnch;
+    private JButton btnTrans;
 
     /**
      * Launch the application.
@@ -162,8 +166,8 @@ public class ClientChat {
 
         //left meddle
         JPanel bottom = new JPanel();
-        bottom.setLayout(new GridLayout(3, 1, 5, 5));
-        bottom.setPreferredSize(new Dimension(300, 120));
+        bottom.setLayout(new GridLayout(3, 1, 5, 0));
+        bottom.setPreferredSize(new Dimension(300, 150));
         JPanel bottomtop = new JPanel();
         bottomtop.setLayout(new GridLayout(1, 2, 5, 0));
         rdbtnBrocast = new JRadioButton("Send To All");
@@ -185,23 +189,40 @@ public class ClientChat {
         textAreaMsg = new JTextArea();
         scrollPane_1.setViewportView(textAreaMsg);
         //添加button
+        rdbtnen = new JRadioButton("en");
+        rdbtnch = new JRadioButton("ch");
+        rdbtnch.setSelected(true);
+        buttonGroup2.add(rdbtnen);
+        buttonGroup2.add(rdbtnch);
+        JPanel buttonG = new JPanel (  );
+        buttonG.setLayout ( new BorderLayout ( 0,0 ) );
+        buttonG.add ( rdbtnen, BorderLayout.NORTH );
+        buttonG.add ( rdbtnch, BorderLayout.SOUTH );
+        bottomButton.add(buttonG);
+        btnTrans = new JButton("Trans(en->ch)");
+        btnTrans.setEnabled(true);
+        btnTrans.setPreferredSize ( new Dimension ( 100,20 ) );
+        bottomButton.add(btnTrans);
+
         btnSend = new JButton("Send");
         btnSend.setEnabled(true);
+        btnSend.setPreferredSize ( new Dimension ( 50,20 ) );
         bottomButton.add(btnSend);
 //        btnSend.setBounds(444, 409, 88, 27);
         JButton btnEmoji = new JButton("Emoji");
         btnEmoji.setEnabled(true);
+        btnEmoji.setPreferredSize ( new Dimension ( 50,20 ) );
         bottomButton.add(btnEmoji);
         bottom.add(bottomButton);
         JTable table;
         //定义二维数组作为表格数据
         Object[][] tableData =
                 {
-                        new Object[]{"\uD83D\uDE00", "\uD83D\uDE01", "\uD83D\uDE02"},
-                        new Object[]{"\uD83D\uDE05", "\uD83D\uDE0C", "\uD83D\uDC91"},
-                        new Object[]{"\uD83D\uDE09", "\uD83D\uDE16", "\uD83D\uDE2D"},
-                        new Object[]{"\uD83D\uDE12", "\uD83D\uDE28", "\uD83D\uDE35"},
-                        new Object[]{"\uD83D\uDE1B", "\uD83D\uDC75", "\uD83D\uDE20"}
+                        new Object[]{"(▼ _ ▼)" , " ┑(￣Д ￣)┍ " , "↖(▔＾▔)↗"},
+                        new Object[]{" (●′ω`●) ", "（●>∀<●）" , " (≥﹏ ≤)"},
+                        new Object[]{" °(°ˊДˋ°) °", " (つ﹏⊂) " , "  (￣ε ￣) "},
+                        new Object[]{" (◍'౪`◍)ﾉﾞ", " (๑´ڡ`๑) " , "ℰ⋆‿⋆ℰ "},
+                        new Object[]{"╰(*´︶`*)╯" , "(；′⌒`)" , "(/ω＼) "}
                 };
         //定义一维数据作为列标题
         Object[] columnTitle = {"", "", ""};
@@ -241,6 +262,67 @@ public class ClientChat {
                 } else {
                     jWindow.setVisible(true);
                 }
+            }
+        });
+
+        rdbtnch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnTrans.setText("Trans(en->ch)");
+
+            }
+        });
+
+        rdbtnen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnTrans.setText("Trans(ch->en)");
+
+            }
+        });
+        btnTrans.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String out;
+
+                boolean containEmoji=false;
+                for(int i =0; i < 5; i++){
+
+                    if(containEmoji){
+                        break;
+                    }
+                    for(int j =0; j<3;j++){
+
+                        //System.out.println(tableData[i][j].toString());
+                        if(containEmoji){
+                            break;
+                        }
+                        if(textAreaMsg.getText().contains(tableData[i][j].toString())){
+                            containEmoji=true;
+                        }
+                    }
+                }
+
+                if(containEmoji){
+
+                    JOptionPane.showMessageDialog(null, "Translation messages cannot contain emoticons");
+
+
+                }else{
+                    if (rdbtnen.isSelected()){
+                        out =  httpURLConectionGET.Translate("ch","en",textAreaMsg.getText());
+                    }else{
+                        out =  httpURLConectionGET.Translate("en","ch",textAreaMsg.getText());
+                    }
+                    if(out.equals("error")){
+                        JOptionPane.showMessageDialog(null, "Translation ERROR");
+
+                    }else{
+                        textAreaMsg.setText(out);
+                    }
+
+                }
+
             }
         });
 

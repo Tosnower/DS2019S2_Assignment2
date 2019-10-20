@@ -4,7 +4,9 @@ import java.awt.*;
 import java.util.*; 
  
 
-public class DLine extends DShape { 
+public class DLine extends DShape {
+
+    public int stroke = 8;
  
 	public DLine()
 	{
@@ -14,22 +16,39 @@ public class DLine extends DShape {
     public DLine(DShapeModel model, String modelId)
     {
         super(model, modelId);
-
+        this.stroke = model.stroke;
     }
+
+//    public DLine(DLineModel model, String modelId, int stroke)
+//    {
+//        super(model, modelId);
+//        this.stroke = model.stroke;
+//    }
  
 
   
     public void draw(Graphics g, boolean selected) { 
         DLineModel model= getModel();
         Rectangle bounds = model.getBounds();
-        g.setColor(getColor()); 
-        
-        ((Graphics2D) g).setStroke(new BasicStroke(8));
-        //g.drawLine(model.getPoint1().x, model.getPoint1().y, model.getPoint2().x, model.getPoint2().y); 
-        g.drawLine(bounds.x, bounds.y, bounds.x+bounds.width, bounds.y+bounds.height);
-        if(selected) {
-        	drawKnobs(g); 
+        Boolean isDiagonal = model.getDiagonal();
+        g.setColor(getColor());
+//        System.out.println ("draw diagonal"+isDiagonal);
+        if (isDiagonal) {
+            ((Graphics2D) g).setStroke(new BasicStroke(stroke));
+            //g.drawLine(model.getPoint1().x, model.getPoint1().y, model.getPoint2().x, model.getPoint2().y);
+            g.drawLine(bounds.x, bounds.y, bounds.x+bounds.width, bounds.y+bounds.height);
+            if(selected) {
+                drawKnobs(g);
+            }
+        } else {
+            ((Graphics2D) g).setStroke(new BasicStroke(stroke));
+            //g.drawLine(model.getPoint1().x, model.getPoint1().y, model.getPoint2().x, model.getPoint2().y);
+            g.drawLine(bounds.x, bounds.y+bounds.height, bounds.x+bounds.width, bounds.y);
+            if(selected) {
+                drawKnobs(g);
+            }
         }
+
     } 
  
   

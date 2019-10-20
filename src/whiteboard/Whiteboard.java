@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.util.Map;
@@ -122,7 +123,7 @@ public class Whiteboard extends JFrame {
                 y2 = e.getY ();
                 Point p1;
                 Point p2 = new Point ( x2, y2 );
-//                System.out.println ("x1:"+x1+" y1:"+y1);
+                System.out.println ("x1:"+x1+" y1:"+y1);
                 if (x1 != -999 && y1 != -999) {
                     p1 = new Point ( x1, y1 );
                     p2 = new Point ( x2, y2 );
@@ -146,20 +147,42 @@ public class Whiteboard extends JFrame {
 
         MouseMotionAdapter I2 = new MouseMotionAdapter () {
             public void mouseDragged(MouseEvent e) {
-                int x = e.getX ();
-                int y = e.getY ();
+                int x2 = e.getX ();
+                int y2 = e.getY ();
+                Point p1;
+                Point p2 = new Point ( x2, y2 );
+                System.out.println ("x1:"+x1+" y1:"+y1);
+                if (x1 != -999 && y1 != -999) {
+                    p1 = new Point ( x1, y1 );
+                    p2 = new Point ( x2, y2 );
+                    if (p1 != p2) {
+                        DLineModel model = new DLineModel ( p1, p2, erasersize );
+                        canvas.recolorShape ( Color.WHITE );
+                        canvas.addShape ( model, null );
+                        canvas.repaint ();
+                        try {
+                            servercomInter.pubishAddDraw (model, pencilcolor);
+                        } catch (RemoteException ex) {
+                            ex.printStackTrace ();
+                        }
 
-                DRectModel model = new DRectModel ( x, y, erasersize, erasersize, Color.WHITE );
+                    }
+                }
+                x1 = x2;
+                y1 = y2;
 
-                canvas.addShape ( model, null );
-
-                canvas.repaint ();
-                
-                try {
-                	 servercomInter.pubishAddDraw (model, pencilcolor);
-				} catch (RemoteException ex) {
-					ex.printStackTrace ();
-				}
+//                System.out.println ("x:"+e.getX ()+" y:"+e.getY ());
+////                DRectModel model = new DRectModel ( x, y, erasersize, erasersize, Color.WHITE );
+//                DOvalModel model = new DOvalModel ( x, y, erasersize, erasersize, Color.WHITE );
+//                canvas.addShape ( model, null );
+//
+//                canvas.repaint ();
+//
+//                try {
+//                	 servercomInter.pubishAddDraw (model, pencilcolor);
+//				} catch (RemoteException ex) {
+//					ex.printStackTrace ();
+//				}
             }
 
         };
@@ -710,6 +733,7 @@ public class Whiteboard extends JFrame {
 
                 canvas.addMouseMotionListener ( I2 );
                 canvas.addMouseListener ( I3 );
+                canvas.removeDrag ();
             }
         } );
         addEraser.setFont ( new Font ( "Times New Roman", Font.PLAIN, 12 ) );
@@ -742,6 +766,7 @@ public class Whiteboard extends JFrame {
         buttons.add ( mntmNew );
         if(!IsManager) mntmNew.setEnabled(false);
 //		mnFile.addSeparator();
+
         Icon iconopen = new ImageIcon ( "img/open.jpg" );
         JButton mntmOpen = new JButton ( "",iconopen );
         mntmOpen.setSize ( 30, 30 );
@@ -916,9 +941,11 @@ public class Whiteboard extends JFrame {
     }
 
     public void drawModel(DShapeModel model, Color color, String id) {
-        canvas.addShape ( model, id );
-        canvas.recolorShape ( color );
-        canvas.repaint ();
+        if (canvas.addShape ( model, id )!=null){
+            canvas.recolorShape ( color );
+            canvas.repaint ();
+        }
+
     }
 
     public void drawPenEraser(DShapeModel model, Color pencilcolor) {

@@ -2,6 +2,7 @@ package chat;
 
 import sun.tools.jps.Jps;
 import util.Document;
+import util.httpURLConectionGET;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -36,12 +37,16 @@ public class ServerChat {
     private JList<String> listUsers;
     private JLabel lblRoomInfo;
     private final ButtonGroup buttonGroup = new ButtonGroup();
+    private final ButtonGroup buttonGroup2 = new ButtonGroup();
     private JRadioButton rdbtnBrocast;
     private JRadioButton rdbtnPrivateChat;
     private JTextArea textAreaMsg;
     private DefaultListModel<String> modelUsers;
     private JPanel left;
     private JPanel right;
+    private JRadioButton rdbtnen;
+    private JRadioButton rdbtnch;
+    private JButton btnTrans;
 
     public static String serverIP;
     public static String username;
@@ -125,10 +130,10 @@ public class ServerChat {
 
         //left meddle
         JPanel bottom = new JPanel();
-        bottom.setLayout(new GridLayout(3, 1, 5, 5));
-        bottom.setPreferredSize(new Dimension(300, 120));
+        bottom.setLayout(new GridLayout(3, 1, 5, 0));
+        bottom.setPreferredSize(new Dimension(300, 150));
         JPanel bottomtop = new JPanel();
-        bottomtop.setLayout(new GridLayout(1, 2, 5, 0));
+        bottomtop.setLayout(new GridLayout(1, 2, 0, 0));
         rdbtnBrocast = new JRadioButton("Send To All");
         buttonGroup.add(rdbtnBrocast);
 //        rdbtnBrocast.setBounds(226, 309, 132, 22);
@@ -146,6 +151,7 @@ public class ServerChat {
 
 //        bottom.setPreferredSize ( new Dimension ( 300,150 ) );
         JPanel bottomButton = new JPanel();
+        bottomButton.setLayout ( new FlowLayout (  ) );
         //加入聊天信息输入框
         JScrollPane scrollPane_1 = new JScrollPane();   //信息输入框
 //        scrollPane_1.setBounds(14, 332, 518, 73);
@@ -153,16 +159,31 @@ public class ServerChat {
         textAreaMsg = new JTextArea();
         scrollPane_1.setViewportView(textAreaMsg);
         //添加button
+        rdbtnen = new JRadioButton("en");
+        rdbtnch = new JRadioButton("ch");
+        rdbtnch.setSelected(true);
+        buttonGroup2.add(rdbtnen);
+        buttonGroup2.add(rdbtnch);
+        JPanel buttonG = new JPanel (  );
+        buttonG.setLayout ( new BorderLayout ( 0,0 ) );
+        buttonG.add ( rdbtnen, BorderLayout.NORTH );
+        buttonG.add ( rdbtnch, BorderLayout.SOUTH );
+        bottomButton.add(buttonG);
+        btnTrans = new JButton("Trans(en->ch)");
+        btnTrans.setEnabled(true);
+        btnTrans.setPreferredSize ( new Dimension ( 100,20 ) );
+        bottomButton.add(btnTrans);
+
         btnSend = new JButton("Send");
         btnSend.setEnabled(true);
+        btnSend.setPreferredSize ( new Dimension ( 50,20 ) );
         bottomButton.add(btnSend);
 //        btnSend.setBounds(444, 409, 88, 27);
         JButton btnEmoji = new JButton("Emoji");
         btnEmoji.setEnabled(true);
+        btnEmoji.setPreferredSize ( new Dimension ( 50,20 ) );
         bottomButton.add(btnEmoji);
-        JButton popThePerson = new JButton("pop");
-        popThePerson.setEnabled(true);
-        bottomButton.add(popThePerson);
+
 
         bottom.add(bottomButton);
 //        btnEmoji.setBounds(344, 409, 88, 27);
@@ -173,11 +194,11 @@ public class ServerChat {
         //定义二维数组作为表格数据
         Object[][] tableData =
                 {
-                        new Object[]{"\uD83D\uDE00", "\uD83D\uDE01", "\uD83D\uDE02"},
-                        new Object[]{"\uD83D\uDE05", "\uD83D\uDE0C", "\uD83D\uDC91"},
-                        new Object[]{"\uD83D\uDE09", "\uD83D\uDE16", "\uD83D\uDE2D"},
-                        new Object[]{"\uD83D\uDE12", "\uD83D\uDE28", "\uD83D\uDE35"},
-                        new Object[]{"\uD83D\uDE1B", "\uD83D\uDC75", "\uD83D\uDE20"}
+                        new Object[]{"(▼ _ ▼)" , " ┑(￣Д ￣)┍ " , "↖(▔＾▔)↗"},
+                        new Object[]{" (●′ω`●) ", "（●>∀<●）" , " (≥﹏ ≤)"},
+                        new Object[]{" °(°ˊДˋ°) °", " (つ﹏⊂) " , "  (￣ε ￣) "},
+                        new Object[]{" (◍'౪`◍)ﾉﾞ", " (๑´ڡ`๑) " , "ℰ⋆‿⋆ℰ "},
+                        new Object[]{"╰(*´︶`*)╯" , "(；′⌒`)" , "(/ω＼) "}
                 };
         //定义一维数据作为列标题
         Object[] columnTitle = {"", "", ""};
@@ -219,62 +240,68 @@ public class ServerChat {
                 }
             }
         });
-
-
-
-        popThePerson.addActionListener(new ActionListener() {
+        rdbtnch.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
-                if (null != serverThread) {
+            public void actionPerformed(ActionEvent e) {
+                btnTrans.setText("Trans(en->ch)");
 
-                    String toUsername = listUsers.getSelectedValue();
+            }
+        });
 
-                    if (toUsername == null) {
+        rdbtnen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnTrans.setText("Trans(ch->en)");
 
-                        JOptionPane.showMessageDialog(null, "Please Select a person");
+            }
+        });
+        btnTrans.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String out;
 
+                boolean containEmoji=false;
+                for(int i =0; i < 5; i++){
+
+                    if(containEmoji){
+                        break;
                     }
-                    else if(toUsername.equals("Manager: " + username))
-                    {
-                        JOptionPane.showMessageDialog(null, "You can kick off yourself");
+                    for(int j =0; j<3;j++){
+
+                        //System.out.println(tableData[i][j].toString());
+                        if(containEmoji){
+                            break;
+                        }
+                        if(textAreaMsg.getText().contains(tableData[i][j].toString())){
+                            containEmoji=true;
+                        }
                     }
-                    else {
+                }
 
-                        // msgChat= Send_One(textAreaMsg.getText(),toUsername).toJson();
-                        ClientHandler clientHandler = clientHandlerMap.get(toUsername);
+                if(containEmoji){
 
-                        if (null != clientHandler) {
-                            String msgpop = beenpoped("You have been poped up by manager", "Manager: " + username).toJson();
+                    JOptionPane.showMessageDialog(null, "Translation messages cannot contain emoticons");
 
-                            try {
-                                clientHandler.dos.writeUTF(msgpop);
-                                clientHandler.dos.flush();
-                            } catch (IOException e) {
-                                //e.printStackTrace();
-                            }
-                            try {
 
-                                poptheperson(textAreaMsg.getText(), "Manager: " + username);
-                            }
-                            catch (IOException e){
-                                addMsg("can't pop up the person");
-                            }
+                }else{
+                    if (rdbtnen.isSelected()){
+                        out =  httpURLConectionGET.Translate("ch","en",textAreaMsg.getText());
+                    }else{
+                        out =  httpURLConectionGET.Translate("en","ch",textAreaMsg.getText());
+                    }
+                    if(out.equals("error")){
+                        JOptionPane.showMessageDialog(null, "Translation ERROR");
 
-                        }
-                        String msgChat = null;
-                        msgChat = Send_All(toUsername.toString()+" leaved the chat room","NOTICE").toJson();
-                        try {
-                            broadcastMsg("", msgChat);
-                        } catch (IOException e) {
-                             e.printStackTrace();
-                        }
-                        addMsg("pop the person successful");
-                        textAreaMsg.setText("");
+                    }else{
+                        textAreaMsg.setText(out);
                     }
 
                 }
+
             }
         });
+
+
 
 
         btnSend.addActionListener(new ActionListener() {
@@ -341,15 +368,72 @@ public class ServerChat {
 
         //right
         right = new JPanel();
+        right.setLayout ( new BorderLayout(5, 5) );
         JScrollPane scrollPane_2 = new JScrollPane();
 //        scrollPane_2.setBounds(0, 0, 149, 334);
         scrollPane_2.setPreferredSize(new Dimension(100, 500));
-        right.add(scrollPane_2);
+        right.add(scrollPane_2,BorderLayout.CENTER);
+        JButton popThePerson = new JButton("pop");
+        popThePerson.setEnabled(true);
+        right.add(popThePerson,BorderLayout.SOUTH);
         listUsers = new JList<String>();
         listUsers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane_2.setViewportView(listUsers);
         jPanel.add(right, BorderLayout.EAST);
 
+        popThePerson.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                if (null != serverThread) {
+
+                    String toUsername = listUsers.getSelectedValue();
+
+                    if (toUsername == null) {
+
+                        JOptionPane.showMessageDialog(null, "Please Select a person");
+
+                    }
+                    else if(toUsername.equals("Manager: " + username))
+                    {
+                        JOptionPane.showMessageDialog(null, "You can kick off yourself");
+                    }
+                    else {
+
+                        // msgChat= Send_One(textAreaMsg.getText(),toUsername).toJson();
+                        ClientHandler clientHandler = clientHandlerMap.get(toUsername);
+
+                        if (null != clientHandler) {
+                            String msgpop = beenpoped("You have been poped up by manager", "Manager: " + username).toJson();
+
+                            try {
+                                clientHandler.dos.writeUTF(msgpop);
+                                clientHandler.dos.flush();
+                            } catch (IOException e) {
+                                //e.printStackTrace();
+                            }
+                            try {
+
+                                poptheperson(textAreaMsg.getText(), "Manager: " + username);
+                            }
+                            catch (IOException e){
+                                addMsg("can't pop up the person");
+                            }
+
+                        }
+                        String msgChat = null;
+                        msgChat = Send_All(toUsername.toString()+" leaved the chat room","NOTICE").toJson();
+                        try {
+                            broadcastMsg("", msgChat);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        addMsg("pop the person successful");
+                        textAreaMsg.setText("");
+                    }
+
+                }
+            }
+        });
 
 //         btnConnect = new JButton("\u767B\u5F55");
 //         btnConnect.setBounds(596, 20, 95, 27);
