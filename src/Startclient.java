@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.rmi.Naming;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Startclient {
     static ClientCom client;
@@ -18,6 +20,7 @@ public class Startclient {
     private ClientChat clientChat;
     private ServerChat serverChat;
     private Whiteboard whiteboard;
+    public ExecutorService threadPool = Executors.newFixedThreadPool(10);
     Boolean issuper=false;
     public void doConnect(){
         if (connect.getText().equals("Connect")){
@@ -38,7 +41,7 @@ public class Startclient {
                     whiteboard = new Whiteboard ( whiteBoard, server, false );
                     //TODO userid 由服务端分配
                     whiteboard.setUserId ( 1 );
-                    clientChat = new ClientChat (chat,whiteBoard,name.getText());
+                    clientChat = new ClientChat (chat,whiteBoard,name.getText(), threadPool);
                     client.setWhiteboard ( whiteboard );
                     server.resumemodelhistory(client);
                     frame.setSize(1400,600);
@@ -87,7 +90,7 @@ public class Startclient {
                     connect.setText("Disconnect");
                     whiteboard = new Whiteboard ( whiteBoard, server, true );
                     whiteboard.setUserId ( 0 );
-                    serverChat = new ServerChat (chat,name.getText());
+                    serverChat = new ServerChat (chat,name.getText(), threadPool);
                     client.setWhiteboard ( whiteboard );
                 }
                 frame.setSize(1400,600);

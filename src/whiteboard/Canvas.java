@@ -117,7 +117,6 @@ public class Canvas extends JPanel {
 //	                    }
 
 //                    }
-
                     repaint ();
                 }
 
@@ -255,6 +254,7 @@ public class Canvas extends JPanel {
                 shapes.put ( id, shape );
                 order.add ( id );
                 board.add ( shape );
+                repaint (  );
             }
         }
 

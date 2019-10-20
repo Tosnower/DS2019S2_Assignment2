@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -47,6 +48,7 @@ public class ServerChat {
     private JRadioButton rdbtnen;
     private JRadioButton rdbtnch;
     private JButton btnTrans;
+    public ExecutorService threadPool;
 
     public static String serverIP;
     public static String username;
@@ -94,7 +96,8 @@ public class ServerChat {
 //            }
 //        });
 //    }
-    public ServerChat(JPanel jPanel, String name) {
+    public ServerChat(JPanel jPanel, String name, ExecutorService threadPool) {
+        this.threadPool = threadPool;
         serverIP = "localhost";
         username = name;
         serverPort1 = 8000;
@@ -102,7 +105,6 @@ public class ServerChat {
         modelUsers = new DefaultListModel<String>();
         listUsers.setModel(modelUsers);
         modelUsers.addElement("Manager: " + username);
-
     }
 
     /**
@@ -240,6 +242,7 @@ public class ServerChat {
                 }
             }
         });
+
         rdbtnch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -255,6 +258,7 @@ public class ServerChat {
 
             }
         });
+
         btnTrans.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -300,9 +304,6 @@ public class ServerChat {
 
             }
         });
-
-
-
 
         btnSend.addActionListener(new ActionListener() {
             @Override
@@ -483,8 +484,11 @@ public class ServerChat {
 
             }
         });
+
         serverThread = new Thread(new ServerThread());
-        serverThread.start();
+        threadPool.execute ( serverThread );
+//        serverThread.start();
+
 
     }
 
@@ -759,14 +763,16 @@ public class ServerChat {
          */
         @Override
         public void run() {
+            System.out.println ("启动serverthread");
             startServer();
             // 当服务器处于运行状态时，循环监听客户端的连接请求
             while (isRunning) {
                 try {
                     Socket socket = server.accept();
                     // 创建与客户端交互的线程
-                    Thread thread = new Thread(new ClientHandler(socket));
-                    thread.start();
+                    threadPool.execute ( new ClientHandler(socket) );
+//                    Thread thread = new Thread(new ClientHandler(socket));
+//                    thread.start();
 
                 } catch (IOException e) {
                     System.out.println("Dont have connect");

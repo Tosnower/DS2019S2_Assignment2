@@ -29,7 +29,8 @@ public class DOval extends DShape{
 			g.fillOval(bounds.x, bounds.y, bounds.width, bounds.height);
 		else
 			g.drawOval(bounds.x, bounds.y, bounds.width, bounds.height);
-		if(selected) drawKnobs(g); 
+		if(selected)
+			drawKnobs(g);
 	
 	
 	}

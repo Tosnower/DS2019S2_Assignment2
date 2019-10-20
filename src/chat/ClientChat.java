@@ -12,6 +12,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -47,6 +48,7 @@ public class ClientChat {
     private JRadioButton rdbtnen;
     private JRadioButton rdbtnch;
     private JButton btnTrans;
+    public ExecutorService threadPool;
 
     /**
      * Launch the application.
@@ -78,7 +80,7 @@ public class ClientChat {
 
     }
 
-    public ClientChat(JPanel jPanel,JPanel wb, String name) {
+    public ClientChat(JPanel jPanel, JPanel wb, String name, ExecutorService threadPool) {
 
         serverIP = "localhost";
         username = name;
@@ -92,7 +94,7 @@ public class ClientChat {
             JOptionPane.showMessageDialog(null, "Cant Find Server");
 
         }
-
+        this.threadPool = threadPool;
 
         initialize(jPanel);
         // 初始化成员变量和随机用户名
@@ -363,7 +365,8 @@ public class ClientChat {
         });
 
         clientThread = new ClientThread();
-        clientThread.start();
+        threadPool.execute ( clientThread );
+//        clientThread.start();
 
     }
 
