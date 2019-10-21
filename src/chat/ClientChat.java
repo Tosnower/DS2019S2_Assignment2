@@ -70,6 +70,9 @@ public class ClientChat {
      */
     public void logout() {
         try {
+        	//String leftmsg=Send_All(username+" has left the chat room","NOTICE").toJson();
+        	//broadcastMsg("", leftmsg);
+            
             modelUsers.removeAllElements();
             clientThread.isLogged=false;
             socket.close();
@@ -80,6 +83,8 @@ public class ClientChat {
 
     }
 
+    
+    
     public ClientChat(JPanel jPanel, JPanel wb, String name, ExecutorService threadPool) {
 
         serverIP = "localhost";
@@ -311,18 +316,20 @@ public class ClientChat {
 
 
                 }else{
-                    if (rdbtnen.isSelected()){
-                        out =  httpURLConectionGET.Translate("ch","en",textAreaMsg.getText());
-                    }else{
-                        out =  httpURLConectionGET.Translate("en","ch",textAreaMsg.getText());
-                    }
-                    if(out.equals("error")){
-                        JOptionPane.showMessageDialog(null, "Translation ERROR");
+                    //if (rdbtnen.isSelected()){
+                    //    out =  httpURLConectionGET.Translate("ch","en",textAreaMsg.getText());
+                    //}else{
+                    //    out =  httpURLConectionGET.Translate("en","ch",textAreaMsg.getText());
+                    //}
+                    //if(out.equals("error")){
+                    //    JOptionPane.showMessageDialog(null, "Translation ERROR");
 
-                    }else{
-                        textAreaMsg.setText(out);
-                    }
-
+                    //}else{
+                    //    textAreaMsg.setText(out);
+                    //}
+                	TransThread tt=new TransThread();
+                	tt.init(rdbtnen, rdbtnch, textAreaMsg);
+                	tt.start();
                 }
 
             }
@@ -603,6 +610,7 @@ public class ClientChat {
                             right.setVisible(false);
                             //addMsg("(" + getnewUser + ")To Me: " + getMsg);
                             JOptionPane.showMessageDialog(null, "You have been poped up by manager!");
+                            System.exit(1);
                             return;
 
                         case "Send_Fail":
@@ -615,7 +623,8 @@ public class ClientChat {
                 } catch (IOException e) {
                     // TODO 处理异常
                     isLogged = false;
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "The manager has left the chat room!");
+                    System.exit(1);
                 }
             }
         }

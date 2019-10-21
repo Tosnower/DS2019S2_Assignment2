@@ -2,6 +2,7 @@ import chat.ClientChat;
 import chat.ServerChat;
 import rmi.ClientcomInter;
 import rmi.ServercomInter;
+import util.Document;
 import whiteboard.Whiteboard;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import javax.swing.border.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.rmi.Naming;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -52,7 +54,9 @@ public class Startclient {
             }catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, we wouldn't connect....");}
         }else{
             try {
-                meddle.setVisible(false);
+            
+            	
+            	meddle.setVisible(false);
                 server.logout(client);
                 chat.removeAll();
                 whiteBoard.removeAll();
@@ -63,6 +67,7 @@ public class Startclient {
                 ip.setEditable(true);
                 server.logout(client);
                 frame.setSize(1400,100);
+                
             }
             catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, cannot discoonnect bconnect....");}
 
@@ -144,10 +149,13 @@ public class Startclient {
 
     public static void main(String [] args){
         Startclient c=new Startclient();
+        
     }
+    
 
     //User Interface code.
     public Startclient(){
+    	
         frame=new JFrame("WhiteBoard");
         main =new JPanel();
 
@@ -213,6 +221,7 @@ public class Startclient {
         frame.setContentPane(main);
         frame.setSize(1400,100);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     JTextArea tx;
     JTextField tf,ip, name;
@@ -228,3 +237,4 @@ public class Startclient {
     JPanel chat;
     static public JFrame frame;
 }
+

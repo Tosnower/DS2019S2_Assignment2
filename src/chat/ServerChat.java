@@ -288,17 +288,20 @@ public class ServerChat {
 
 
                 }else{
-                    if (rdbtnen.isSelected()){
-                        out =  httpURLConectionGET.Translate("ch","en",textAreaMsg.getText());
-                    }else{
-                        out =  httpURLConectionGET.Translate("en","ch",textAreaMsg.getText());
-                    }
-                    if(out.equals("error")){
-                        JOptionPane.showMessageDialog(null, "Translation ERROR");
+                    //if (rdbtnen.isSelected()){
+                    //    out =  httpURLConectionGET.Translate("ch","en",textAreaMsg.getText());
+                    //}else{
+                    //    out =  httpURLConectionGET.Translate("en","ch",textAreaMsg.getText());
+                    //}
+                    //if(out.equals("error")){
+                    //    JOptionPane.showMessageDialog(null, "Translation ERROR");
 
-                    }else{
-                        textAreaMsg.setText(out);
-                    }
+                    //}else{
+                    //    textAreaMsg.setText(out);
+                    //}
+                	TransThread tt=new TransThread();
+                	tt.init(rdbtnen, rdbtnch, textAreaMsg);
+                	tt.start();
 
                 }
 
@@ -422,7 +425,7 @@ public class ServerChat {
 
                         }
                         String msgChat = null;
-                        msgChat = Send_All(toUsername.toString()+" leaved the chat room","NOTICE").toJson();
+                        msgChat = Send_All(toUsername.toString()+" has left the chat room","NOTICE").toJson();
                         try {
                             broadcastMsg("", msgChat);
                         } catch (IOException e) {
@@ -742,7 +745,7 @@ public class ServerChat {
                 // 修改启动和停止按钮状态
                 //btnStart.setEnabled(false);
                 // btnStop.setEnabled(true);
-                addMsg("Star Server Successful");
+                addMsg("Start Server Successful");
 
                 //String myinfo = socket.getLocalAddress()+ ":"+ socket.getLocalPort();
 
@@ -871,7 +874,7 @@ public class ServerChat {
      * @param fromUsername 发来消息的用户
      * @param msg          需要广播的消息
      */
-    private void broadcastMsg(String fromUsername, String msg) throws IOException {
+    public void broadcastMsg(String fromUsername, String msg) throws IOException {
         for (String toUserName : clientHandlerMap.keySet()) {
             if (fromUsername.equals(toUserName) == false) {
                 DataOutputStream dos = clientHandlerMap.get(toUserName).dos;
@@ -883,3 +886,6 @@ public class ServerChat {
 
 
 }
+
+
+
