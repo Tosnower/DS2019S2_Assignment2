@@ -15,6 +15,7 @@ import java.rmi.Naming;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Pattern;
 
 public class Startclient {
     static ClientCom client;
@@ -24,11 +25,25 @@ public class Startclient {
     private Whiteboard whiteboard;
     public ExecutorService threadPool = Executors.newFixedThreadPool(10);
     Boolean issuper=false;
-    public void doConnect(){
-        if (connect.getText().equals("Connect")){
+
+    static private final String IPV4_REGEX = "(([0-1]?[0-9]{1,2}\\.)|(2[0-4][0-9]\\.)|(25[0-5]\\.)){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))";
+    static private Pattern IPV4_PATTERN = Pattern.compile(IPV4_REGEX);
+
+    private static boolean isValidIPV4(final String s)
+    {
+        return IPV4_PATTERN.matcher(s).matches();
+    }
+
+
+    public void doConnect(JButton connect){
+        if (this.connect.getText().equals("Connect")){
             if (name.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type a name."); return;}
             if (ip.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type an IP."); return;}
             try{
+                if(!isValidIPV4(ip.getText())) {
+                    JOptionPane.showMessageDialog(frame, "You need to type a valid ip address");
+                    return;
+                }
                 meddle.setVisible(true);
                 client=new ClientCom(name.getText());
                 client.setGUI(this);
@@ -36,14 +51,13 @@ public class Startclient {
                 Boolean loginsuccess = server.login(client);
                 if(loginsuccess) {
                     updateUsers(server.getConnected());
-
-                    connect.setText("Disconnect");
+                    this.connect.setText("Disconnect");
                     name.setEditable(false);
                     ip.setEditable(false);
                     whiteboard = new Whiteboard ( whiteBoard, server, false );
                     //TODO userid 由服务端分配
                     whiteboard.setUserId ( 1 );
-                    clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(), threadPool);
+                    clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(), threadPool,connect);
                     client.setWhiteboard ( whiteboard );
                     server.resumemodelhistory(client);
                     clientChat.left.setVisible(true);
@@ -57,8 +71,6 @@ public class Startclient {
             }catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, we wouldn't connect....");}
         }else{
             try {
-            
-            	
             	meddle.setVisible(false);
             	tx.setVisible(false);
             	
@@ -79,7 +91,7 @@ public class Startclient {
             catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, cannot discoonnect bconnect....");}
 
             updateUsers(null);
-            connect.setText("Connect");
+            this.connect.setText("Connect");
             //Better to implement Logout ....
         }
     }
@@ -220,7 +232,7 @@ public class Startclient {
         main.setBorder(new EmptyBorder(10, 5, 10, 10) );
         //Events
         connect.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){ doConnect();   }  });
+            public void actionPerformed(ActionEvent e){ doConnect(connect);   }  });
         bt.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){ sendText();   }  });
         tf.addActionListener(new ActionListener(){

@@ -86,13 +86,14 @@ public class ClientChat {
 
     
     
-    public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, ExecutorService threadPool) {
+    public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, ExecutorService threadPool,JButton connect) {
 
         serverIP = "localhost";
         username = name;
         serverPort1 = 8000;
         whiteboard = wb;
         tx=ja;
+        btnConnect=connect;
         try {
             socket = new Socket(serverIP, serverPort1);
 
@@ -619,6 +620,7 @@ public class ClientChat {
                             left.setVisible(false);
                             right.setVisible(false);
                             modelUsers.removeAllElements();
+                            btnConnect.setText("connect");
                             //addMsg("(" + getnewUser + ")To Me: " + getMsg);
                             JOptionPane.showMessageDialog(null, "You have been poped up by manager!");
                             
