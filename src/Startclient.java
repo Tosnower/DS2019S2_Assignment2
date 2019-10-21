@@ -43,9 +43,12 @@ public class Startclient {
                     whiteboard = new Whiteboard ( whiteBoard, server, false );
                     //TODO userid 由服务端分配
                     whiteboard.setUserId ( 1 );
-                    clientChat = new ClientChat (chat,whiteBoard,name.getText(), threadPool);
+                    clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(), threadPool);
                     client.setWhiteboard ( whiteboard );
                     server.resumemodelhistory(client);
+                    clientChat.left.setVisible(true);
+                    clientChat.right.setVisible(true);
+                    tx.setVisible(true);
                     frame.setSize(1400,600);
                 }else {
                     JOptionPane.showMessageDialog(frame, "You are not allowed or cannot connect to the service.");
@@ -57,15 +60,19 @@ public class Startclient {
             
             	
             	meddle.setVisible(false);
+            	tx.setVisible(false);
+            	
+            	clientChat.logout();
                 server.logout(client);
                 chat.removeAll();
                 whiteBoard.removeAll();
-                clientChat.logout();
+                
                 clientChat=null;
                 client.setWhiteboard(null);
+                tx.setText("");
                 name.setEditable(true);
                 ip.setEditable(true);
-                server.logout(client);
+                //server.logout(client);
                 frame.setSize(1400,100);
                 
             }
@@ -186,6 +193,7 @@ public class Startclient {
         top.add(new JLabel("Server Address: "));
         top.add(ip);
         top.add(connect);
+        
 
 
         whiteBoard.setLayout ( new BorderLayout(0,0) );
@@ -194,6 +202,7 @@ public class Startclient {
 //        cn.add(new JScrollPane(tx), BorderLayout.CENTER);
 //        cn.add(lst, BorderLayout.EAST);
         cn.add ( chat, BorderLayout.WEST);
+        cn.add(tx, BorderLayout.EAST);
         meddle.setLayout(new BorderLayout ( 5,0 ));
         meddle.add ( whiteBoard, BorderLayout.CENTER);
         meddle.add ( cn, BorderLayout.EAST );
@@ -221,7 +230,24 @@ public class Startclient {
         frame.setContentPane(main);
         frame.setSize(1400,100);
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frame.addWindowListener(new WindowAdapter() {
+ 
+ 
+        public void windowClosing(WindowEvent e) {
+        		super.windowClosing(e);
+        		try{
+            	clientChat.logout();
+                server.logout(client);             
+        		}
+        		catch(Exception e1){}
+        		
+        		System.exit(0);
+
+        	}
+ 
+        }); 
     }
     JTextArea tx;
     JTextField tf,ip, name;

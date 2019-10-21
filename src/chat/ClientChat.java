@@ -41,15 +41,16 @@ public class ClientChat {
     private final ButtonGroup buttonGroup2 = new ButtonGroup();
     private JTextArea textAreaMsg;
     private DefaultListModel<String> modelUsers;
-    private JPanel left;
-    private JPanel right;
+    public JPanel left;
+    public JPanel right;
     public static String username;
     public static JPanel whiteboard;
     private JRadioButton rdbtnen;
     private JRadioButton rdbtnch;
     private JButton btnTrans;
+    private JButton btnEmoji;
     public ExecutorService threadPool;
-
+    private JTextArea tx;
     /**
      * Launch the application.
      */
@@ -68,13 +69,13 @@ public class ClientChat {
     /**
      * Create the application.
      */
-    public void logout() {
+    
+	public void logout() {
         try {
-        	//String leftmsg=Send_All(username+" has left the chat room","NOTICE").toJson();
-        	//broadcastMsg("", leftmsg);
-            
+        	
             modelUsers.removeAllElements();
             clientThread.isLogged=false;
+            //clientThread.stop();
             socket.close();
         }
         catch (IOException e){
@@ -85,12 +86,13 @@ public class ClientChat {
 
     
     
-    public ClientChat(JPanel jPanel, JPanel wb, String name, ExecutorService threadPool) {
+    public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, ExecutorService threadPool) {
 
         serverIP = "localhost";
         username = name;
         serverPort1 = 8000;
         whiteboard = wb;
+        tx=ja;
         try {
             socket = new Socket(serverIP, serverPort1);
 
@@ -216,7 +218,7 @@ public class ClientChat {
         btnSend.setPreferredSize ( new Dimension ( 50,20 ) );
         bottomButton.add(btnSend);
 //        btnSend.setBounds(444, 409, 88, 27);
-        JButton btnEmoji = new JButton("Emoji");
+        btnEmoji = new JButton("Emoji");
         btnEmoji.setEnabled(true);
         btnEmoji.setPreferredSize ( new Dimension ( 50,20 ) );
         bottomButton.add(btnEmoji);
@@ -601,16 +603,26 @@ public class ClientChat {
                             break;
 
                         case "beenpoped":
-                            modelUsers.removeAllElements();
+                            
                             getnewUser = (String) getresponse.get("user");
                             getMsg = (String) getresponse.get("text");
-                            socket.close();
+                            btnSend.setEnabled(false);
+                            btnTrans.setEnabled(false);
+                            btnEmoji.setEnabled(false);
+                            rdbtnen.setEnabled(false);
+                            rdbtnch.setEnabled(false);
+                            rdbtnBrocast.setEnabled(false);
+                            rdbtnPrivateChat.setEnabled(false);
+                            textAreaMsg.setEnabled(false);
                             whiteboard.removeAll();
+                            tx.setVisible(false);
                             left.setVisible(false);
                             right.setVisible(false);
+                            modelUsers.removeAllElements();
                             //addMsg("(" + getnewUser + ")To Me: " + getMsg);
                             JOptionPane.showMessageDialog(null, "You have been poped up by manager!");
-                            System.exit(1);
+                            
+                            //System.exit(1);
                             return;
 
                         case "Send_Fail":
@@ -622,9 +634,13 @@ public class ClientChat {
                     }
                 } catch (IOException e) {
                     // TODO 处理异常
+                    if(isLogged)
+                    {
+                    	JOptionPane.showMessageDialog(null, "The manager has left the chat room!");
+                    	System.exit(1);
+                    }
                     isLogged = false;
-                    JOptionPane.showMessageDialog(null, "The manager has left the chat room!");
-                    System.exit(1);
+                    
                 }
             }
         }
