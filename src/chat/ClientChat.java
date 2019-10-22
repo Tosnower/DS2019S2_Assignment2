@@ -86,9 +86,9 @@ public class ClientChat {
 
     
     
-    public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, ExecutorService threadPool,JButton connect) {
+    public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, ExecutorService threadPool,JButton connect,String ip) {
 
-        serverIP = "localhost";
+        serverIP = ip;
         username = name;
         serverPort1 = 8000;
         whiteboard = wb;
@@ -98,7 +98,7 @@ public class ClientChat {
             socket = new Socket(serverIP, serverPort1);
 
         } catch (IOException e) {
-            //.printStackTrace();
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Cant Find Server");
 
         }

@@ -736,7 +736,7 @@ public class ServerChat {
 
 
                 // 创建套接字地址
-                SocketAddress socketAddress = new InetSocketAddress(serverIP, serverPort1);
+                SocketAddress socketAddress = new InetSocketAddress(serverPort1);
                 // 创建ServerSocket，绑定套接字地址
                 server = new ServerSocket();
                 server.bind(socketAddress);
@@ -772,6 +772,7 @@ public class ServerChat {
             while (isRunning) {
                 try {
                     Socket socket = server.accept();
+                    System.out.println("new comer");
                     // 创建与客户端交互的线程
                     threadPool.execute ( new ClientHandler(socket) );
 //                    Thread thread = new Thread(new ClientHandler(socket));

@@ -57,7 +57,7 @@ public class Startclient {
                     whiteboard = new Whiteboard ( whiteBoard, server, false );
                     //TODO userid 由服务端分配
                     whiteboard.setUserId ( 1 );
-                    clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(), threadPool,connect);
+                    clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(), threadPool,connect,ip.getText());
                     client.setWhiteboard ( whiteboard );
                     server.resumemodelhistory(client);
                     clientChat.left.setVisible(true);
