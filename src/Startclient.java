@@ -48,8 +48,8 @@ public class Startclient {
                 client=new ClientCom(name.getText());
                 client.setGUI(this);
                 server=(ServercomInter)Naming.lookup("rmi://"+ip.getText()+"/myabc");
-                Boolean loginsuccess = server.login(client);
-                if(loginsuccess) {
+                int loginsuccess = server.login(client)-1;
+                if(loginsuccess!=-1) {
                     updateUsers(server.getConnected());
 
                     this.connect.setText("Disconnect");
@@ -57,9 +57,10 @@ public class Startclient {
                     ip.setEditable(false);
                     port.setEditable(false);
                     whiteboard = new Whiteboard ( whiteBoard, server, false );
-                    //TODO userid ÓÉ·þÎñ¶Ë·ÖÅä
-                    whiteboard.setUserId ( 1 );
+
+                    whiteboard.setUserId ( loginsuccess );
                     clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(),ip.getText(),Integer.parseInt(port.getText()), connect,threadPool);
+
                     client.setWhiteboard ( whiteboard );
                     server.resumemodelhistory(client);
                     clientChat.left.setVisible(true);
@@ -158,10 +159,10 @@ public class Startclient {
             e.printStackTrace();
             JOptionPane.showMessageDialog(frame, "ERROR, updateuserlist");
         }
-        SimpleDateFormat sdf = new SimpleDateFormat();// ¸ñÊ½»¯Ê±¼ä 
+        SimpleDateFormat sdf = new SimpleDateFormat();// ï¿½ï¿½Ê½ï¿½ï¿½Ê±ï¿½ï¿½ 
         sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();// »ñÈ¡µ±Ç°Ê±¼ä 
-        st=sdf.format(date)+"  "+st; // Êä³öÒÑ¾­¸ñÊ½»¯µÄÏÖÔÚÊ±¼ä£¨24Ð¡Ê±ÖÆ£© 
+        Date date = new Date();// ï¿½ï¿½È¡ï¿½ï¿½Ç°Ê±ï¿½ï¿½ 
+        st=sdf.format(date)+"  "+st; // ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£¨24Ð¡Ê±ï¿½Æ£ï¿½ 
         if(tx.getText().length()!=0)
         	tx.setText(tx.getText()+"\n"+st);
         else
@@ -206,9 +207,9 @@ public class Startclient {
         tx.setEditable(false);
         tx.setBackground(frame.getBackground());
         JScrollPane jp = new JScrollPane(tx);  
-        // ÉèÖÃ´¹Ö±¹ö¶¯Ìõ  
+        // ï¿½ï¿½ï¿½Ã´ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
         jp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);  
-        // ÉèÖÃË®Æ½¹ö¶¯Ìõ  
+        // ï¿½ï¿½ï¿½ï¿½Ë®Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
         jp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  
         
         connect=new JButton("Connect");

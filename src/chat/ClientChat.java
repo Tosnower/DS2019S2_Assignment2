@@ -85,11 +85,13 @@ public class ClientChat {
     }
 
     
-    
+
+
     public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, String ip, int port, JButton connect, ExecutorService threadPool) {
 
         serverIP =ip;
         		//"localhost";
+
         username = name;
         serverPort1 = port;
         		//8000;

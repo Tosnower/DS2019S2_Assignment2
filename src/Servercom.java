@@ -15,7 +15,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     private Vector history=new Vector();
     private Vector modelhistory=new Vector();
 
-    public boolean login(ClientcomInter a) throws RemoteException{
+    public int login(ClientcomInter a) throws RemoteException{
         System.out.println(a.getName() + "  got connected....");
         int allowed =JOptionPane.showConfirmDialog( Startclient.frame, a.getName()+" want to connect, do you allow?");
         if(0==allowed)
@@ -26,13 +26,10 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         else
         {
             a.tell("You are not allowed to connect");
-            return false;
+            return -1;
         }
         v.add(a);
-        
-
-
-        return true;
+        return v.size ();
     }
     public boolean creatorlogin(ClientcomInter a) throws RemoteException{
         v.add(a);
