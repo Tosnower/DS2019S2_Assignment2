@@ -20,12 +20,12 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         int allowed =JOptionPane.showConfirmDialog( Startclient.frame, a.getName()+" want to connect, do you allow?");
         if(0==allowed)
         {
-        	publish(a.getName()+ " has just connected.");
-            a.tell("You have Connected successfully.");
+        	publish(a.getName()+ " has just connected");
+            a.tell("You have Connected successfully");
         }
         else
         {
-            a.tell("You are not allowed to connect.");
+            a.tell("You are not allowed to connect");
             return false;
         }
         v.add(a);
@@ -36,7 +36,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     }
     public boolean creatorlogin(ClientcomInter a) throws RemoteException{
         v.add(a);
-        publish( " create board successfully.");
+        publish( " create board successfully");
         return true;
     }
 
@@ -44,7 +44,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         System.out.println(a.getName() + "  disconnected....");
         a.tell("You have disconnected.");
         v.remove(a);
-        publish(a.getName()+ " has just left.");
+        publish(a.getName()+ " has just left");
         //JOptionPane.showMessageDialog(null,a.getName()+ " has just left");
         return true;
     }

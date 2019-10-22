@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.rmi.Naming;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,10 +41,11 @@ public class Startclient {
                     connect.setText("Disconnect");
                     name.setEditable(false);
                     ip.setEditable(false);
+                    port.setEditable(false);
                     whiteboard = new Whiteboard ( whiteBoard, server, false );
-                    //TODO userid 鐢辨湇鍔＄鍒嗛厤
+                    //TODO userid 由服务端分配
                     whiteboard.setUserId ( 1 );
-                    clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(), threadPool);
+                    clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(),ip.getText(),Integer.parseInt(port.getText()), threadPool);
                     client.setWhiteboard ( whiteboard );
                     server.resumemodelhistory(client);
                     clientChat.left.setVisible(true);
@@ -72,6 +74,7 @@ public class Startclient {
                 tx.setText("");
                 name.setEditable(true);
                 ip.setEditable(true);
+                port.setEditable(true);
                 //server.logout(client);
                 frame.setSize(1400,100);
                 
@@ -102,7 +105,7 @@ public class Startclient {
                     connect.setText("Disconnect");
                     whiteboard = new Whiteboard ( whiteBoard, server, true );
                     whiteboard.setUserId ( 0 );
-                    serverChat = new ServerChat (chat,name.getText(), threadPool);
+                    serverChat = new ServerChat (chat,name.getText(),Integer.parseInt(port.getText()), threadPool);
                     client.setWhiteboard ( whiteboard );
                 }
                 frame.setSize(1400,600);
@@ -141,7 +144,15 @@ public class Startclient {
             e.printStackTrace();
             JOptionPane.showMessageDialog(frame, "ERROR, updateuserlist");
         }
-        tx.setText(tx.getText()+"\n"+st);
+        SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间 
+        sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();// 获取当前时间 
+        st=sdf.format(date)+"  "+st; // 输出已经格式化的现在时间（24小时制） 
+        if(tx.getText().length()!=0)
+        	tx.setText(tx.getText()+"\n"+st);
+        else
+        	tx.setText(st);
+        
     }
 
     public void updateUsers(Vector v){
@@ -168,7 +179,7 @@ public class Startclient {
 
         top =new JPanel();
         meddle = new JPanel (  );
-//        bottom =new JPanel();
+        bottom =new JPanel();
 
         whiteBoard = new JPanel ();
         cn =new JPanel();
@@ -176,8 +187,16 @@ public class Startclient {
         ip=new JTextField("127.0.0.1");
         tf=new JTextField();
         name=new JTextField("anomousy");
+        port=new JTextField("8000");
         tx=new JTextArea();
         tx.setEditable(false);
+        tx.setBackground(frame.getBackground());
+        JScrollPane jp = new JScrollPane(tx);  
+        // 设置垂直滚动条  
+        jp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);  
+        // 设置水平滚动条  
+        jp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  
+        
         connect=new JButton("Connect");
         createnewboard =new JButton("createnewboard");
         JButton bt=new JButton("Send");
@@ -192,23 +211,31 @@ public class Startclient {
         top.add(name);
         top.add(new JLabel("Server Address: "));
         top.add(ip);
+        top.add(new JLabel("Port Number: "));
+        top.add(port);
         top.add(connect);
         
 
 
         whiteBoard.setLayout ( new BorderLayout(0,0) );
-        whiteBoard.setPreferredSize ( new Dimension ( 1000, 600 ) );
+        whiteBoard.setPreferredSize ( new Dimension ( 1200, 600 ) );
         cn.setLayout(new BorderLayout(5,5));
 //        cn.add(new JScrollPane(tx), BorderLayout.CENTER);
 //        cn.add(lst, BorderLayout.EAST);
         cn.add ( chat, BorderLayout.WEST);
-        cn.add(tx, BorderLayout.EAST);
+        bottom.setLayout(new BorderLayout(10,10));
+        //bottom.add(tx, BorderLayout.CENTER);
+        bottom.add(jp, BorderLayout.CENTER);
+        bottom.setPreferredSize(new Dimension(100,100));
+        bottom.setVisible(true);
+        
         meddle.setLayout(new BorderLayout ( 5,0 ));
         meddle.add ( whiteBoard, BorderLayout.CENTER);
         meddle.add ( cn, BorderLayout.EAST );
+        meddle.add(bottom,BorderLayout.SOUTH);
         meddle.setVisible(false);
 
-//        bottom.setLayout(new BorderLayout(5,5));
+        
 //        bottom.add(tf, BorderLayout.CENTER);
 //        bottom.add(bt, BorderLayout.EAST);
 
@@ -250,14 +277,14 @@ public class Startclient {
         }); 
     }
     JTextArea tx;
-    JTextField tf,ip, name;
+    JTextField tf,ip, name,port;
     JButton connect;
     JButton createnewboard;
     JList lst;
     JPanel top;
     JPanel meddle;
     JPanel cn;
-//    JPanel bottom;
+    JPanel bottom;
     JPanel whiteBoard;
     JPanel main;
     JPanel chat;

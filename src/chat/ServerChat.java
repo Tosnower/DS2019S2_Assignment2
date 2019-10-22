@@ -96,11 +96,12 @@ public class ServerChat {
 //            }
 //        });
 //    }
-    public ServerChat(JPanel jPanel, String name, ExecutorService threadPool) {
+    public ServerChat(JPanel jPanel, String name, int port, ExecutorService threadPool) {
         this.threadPool = threadPool;
         serverIP = "localhost";
         username = name;
-        serverPort1 = 8000;
+        serverPort1 = port;
+        		//8000;
         initialize(jPanel);
         modelUsers = new DefaultListModel<String>();
         listUsers.setModel(modelUsers);
@@ -340,7 +341,7 @@ public class ServerChat {
                         }
                         else if(toUsername.equals("Manager: " + username))
                         {
-                            JOptionPane.showMessageDialog(null, "You cannot sent something to yourself");
+                            JOptionPane.showMessageDialog(null, "You cannot sent anything to yourself");
                         }
                         else {
 
@@ -399,7 +400,7 @@ public class ServerChat {
                     }
                     else if(toUsername.equals("Manager: " + username))
                     {
-                        JOptionPane.showMessageDialog(null, "You can kick off yourself");
+                        JOptionPane.showMessageDialog(null, "You cannot kick off yourself");
                     }
                     else {
 

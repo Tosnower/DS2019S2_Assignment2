@@ -86,11 +86,13 @@ public class ClientChat {
 
     
     
-    public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, ExecutorService threadPool) {
+    public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, String ip, int port, ExecutorService threadPool) {
 
-        serverIP = "localhost";
+        serverIP =ip;
+        		//"localhost";
         username = name;
-        serverPort1 = 8000;
+        serverPort1 = port;
+        		//8000;
         whiteboard = wb;
         tx=ja;
         try {
@@ -197,6 +199,7 @@ public class ClientChat {
         bottom.add(scrollPane_1);
         textAreaMsg = new JTextArea();
         scrollPane_1.setViewportView(textAreaMsg);
+         
         //添加button
         rdbtnen = new JRadioButton("en");
         rdbtnch = new JRadioButton("ch");
