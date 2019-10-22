@@ -6,9 +6,15 @@ import java.awt.image.BufferedImage;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +44,22 @@ public class BoardThread extends Thread
 		file=f;
 		canvas=c;
 	}
+	
+	private static String byte2Hex(byte[] bytes)
+	{
+		 StringBuffer stringBuffer = new StringBuffer();
+		 String temp = null;
+		 for (int i=0;i<bytes.length;i++){
+		  temp = Integer.toHexString(bytes[i] & 0xFF);
+		  if (temp.length()==1){
+		  //1得到一位的进行补0操作
+		  stringBuffer.append("0");
+		  }
+		  stringBuffer.append(temp);
+		 }
+		 return stringBuffer.toString();
+	}
+	
 	public synchronized void save(File file)
 	{
 		try 
@@ -59,6 +81,21 @@ public class BoardThread extends Thread
 	    	
 			xmlout.writeObject(models);
 			xmlout.close();
+			
+			byte[] bytesArray = new byte[(int) file.length()];
+			FileInputStream fis = new FileInputStream(file);
+			fis.read(bytesArray); //read file into bytes[]
+			fis.close();
+			String filestr=byte2Hex(bytesArray);
+			
+			MessageDigest md = MessageDigest.getInstance("SHA-256");  
+			md.update(filestr.getBytes("UTF-8"));
+	        
+			FileOutputStream fo=new FileOutputStream(file.getPath()+".hash");
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fo));
+			bw.write(byte2Hex(md.digest(bytesArray)));
+			bw.close();
+	        fo.close();
 			JOptionPane.showMessageDialog(null, "Successfully Save!", "Message", JOptionPane.INFORMATION_MESSAGE);
 			
 		} 
@@ -93,6 +130,24 @@ public class BoardThread extends Thread
 	{
 		try 
 		{
+			
+			byte[] bytesArray = new byte[(int) file.length()];
+			FileInputStream fis = new FileInputStream(file);
+			fis.read(bytesArray); //read file into bytes[]
+			fis.close();
+			String filestr=byte2Hex(bytesArray);
+			MessageDigest md = MessageDigest.getInstance("SHA-256");  
+			md.update(filestr.getBytes("UTF-8"));
+			String hashcode=byte2Hex(md.digest(bytesArray));
+			FileInputStream fin=new FileInputStream(file.getPath()+".hash");
+			BufferedReader br = new BufferedReader(new InputStreamReader(fin));
+			String str=br.readLine();
+			br.close();
+			System.out.println(str);
+			System.out.println(hashcode);
+			if(!str.equals(hashcode))
+				throw new Exception("the file has been destroyed!");
+			
 			XMLDecoder xmlin = new XMLDecoder(new FileInputStream(file));
 			DShapeModel[] models = (DShapeModel[]) xmlin.readObject();
 			xmlin.close();

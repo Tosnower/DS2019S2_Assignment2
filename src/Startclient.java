@@ -159,10 +159,10 @@ public class Startclient {
             e.printStackTrace();
             JOptionPane.showMessageDialog(frame, "ERROR, updateuserlist");
         }
-        SimpleDateFormat sdf = new SimpleDateFormat();// ��ʽ��ʱ�� 
+        SimpleDateFormat sdf = new SimpleDateFormat();
         sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();// ��ȡ��ǰʱ�� 
-        st=sdf.format(date)+"  "+st; // ����Ѿ���ʽ��������ʱ�䣨24Сʱ�ƣ� 
+        Date date = new Date();
+        st=sdf.format(date)+"  "+st; 
         if(tx.getText().length()!=0)
         	tx.setText(tx.getText()+"\n"+st);
         else
@@ -181,7 +181,8 @@ public class Startclient {
     }
 
     public static void main(String [] args){
-        Startclient c=new Startclient();
+    	
+    	Startclient c=new Startclient();
         
     }
     
@@ -207,9 +208,9 @@ public class Startclient {
         tx.setEditable(false);
         tx.setBackground(frame.getBackground());
         JScrollPane jp = new JScrollPane(tx);  
-        // ���ô�ֱ������  
+        
         jp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);  
-        // ����ˮƽ������  
+          
         jp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  
         
         connect=new JButton("Connect");
