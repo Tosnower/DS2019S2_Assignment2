@@ -17,7 +17,6 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
-
 public class Startclient {
     static ClientCom client;
     private ServercomInter server;
@@ -41,7 +40,7 @@ public class Startclient {
             if (name.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type a name."); return;}
             if (ip.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type an IP."); return;}
             try{
-                if(!isValidIPV4(ip.getText())) {
+            	if(!isValidIPV4(ip.getText())) {
                     JOptionPane.showMessageDialog(frame, "You need to type a valid ip address");
                     return;
                 }
@@ -52,14 +51,16 @@ public class Startclient {
                 Boolean loginsuccess = server.login(client);
                 if(loginsuccess) {
                     updateUsers(server.getConnected());
+
                     this.connect.setText("Disconnect");
                     name.setEditable(false);
                     ip.setEditable(false);
                     port.setEditable(false);
                     whiteboard = new Whiteboard ( whiteBoard, server, false );
-                    //TODO userid ç”±æœåŠ¡ç«¯åˆ†é…
+                    //TODO userid ÓÉ·þÎñ¶Ë·ÖÅä
                     whiteboard.setUserId ( 1 );
-                    clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(), threadPool,connect,ip.getText());                    client.setWhiteboard ( whiteboard );
+                    clientChat = new ClientChat (chat,whiteBoard,tx,name.getText(),ip.getText(),Integer.parseInt(port.getText()), connect,threadPool);
+                    client.setWhiteboard ( whiteboard );
                     server.resumemodelhistory(client);
                     clientChat.left.setVisible(true);
                     clientChat.right.setVisible(true);
@@ -72,6 +73,8 @@ public class Startclient {
             }catch(Exception e){e.printStackTrace();JOptionPane.showMessageDialog(frame, "ERROR, we wouldn't connect....");}
         }else{
             try {
+            
+            	
             	meddle.setVisible(false);
             	tx.setVisible(false);
             	
@@ -155,10 +158,10 @@ public class Startclient {
             e.printStackTrace();
             JOptionPane.showMessageDialog(frame, "ERROR, updateuserlist");
         }
-        SimpleDateFormat sdf = new SimpleDateFormat();// æ ¼å¼åŒ–æ—¶é—´ 
+        SimpleDateFormat sdf = new SimpleDateFormat();// ¸ñÊ½»¯Ê±¼ä 
         sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();// èŽ·å–å½“å‰æ—¶é—´ 
-        st=sdf.format(date)+"  "+st; // è¾“å‡ºå·²ç»æ ¼å¼åŒ–çš„çŽ°åœ¨æ—¶é—´ï¼ˆ24å°æ—¶åˆ¶ï¼‰ 
+        Date date = new Date();// »ñÈ¡µ±Ç°Ê±¼ä 
+        st=sdf.format(date)+"  "+st; // Êä³öÒÑ¾­¸ñÊ½»¯µÄÏÖÔÚÊ±¼ä£¨24Ð¡Ê±ÖÆ£© 
         if(tx.getText().length()!=0)
         	tx.setText(tx.getText()+"\n"+st);
         else
@@ -203,9 +206,9 @@ public class Startclient {
         tx.setEditable(false);
         tx.setBackground(frame.getBackground());
         JScrollPane jp = new JScrollPane(tx);  
-        // è®¾ç½®åž‚ç›´æ»šåŠ¨æ¡  
+        // ÉèÖÃ´¹Ö±¹ö¶¯Ìõ  
         jp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);  
-        // è®¾ç½®æ°´å¹³æ»šåŠ¨æ¡  
+        // ÉèÖÃË®Æ½¹ö¶¯Ìõ  
         jp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);  
         
         connect=new JButton("Connect");
