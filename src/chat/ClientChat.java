@@ -86,20 +86,20 @@ public class ClientChat {
 
     
     
-    public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, String ip, int port, ExecutorService threadPool) {
-
-        serverIP =ip;
-        		//"localhost";
-        username = name;
+	public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, String ip, int port, ExecutorService threadPool) {
+		serverIP =ip;
+        		//"localhost";        
+		username = name;
         serverPort1 = port;
         		//8000;
         whiteboard = wb;
         tx=ja;
+        btnConnect=connect;
         try {
             socket = new Socket(serverIP, serverPort1);
 
         } catch (IOException e) {
-            //.printStackTrace();
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Cant Find Server");
 
         }
@@ -622,6 +622,7 @@ public class ClientChat {
                             left.setVisible(false);
                             right.setVisible(false);
                             modelUsers.removeAllElements();
+                            btnConnect.setText("connect");
                             //addMsg("(" + getnewUser + ")To Me: " + getMsg);
                             JOptionPane.showMessageDialog(null, "You have been poped up by manager!");
                             
