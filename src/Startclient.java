@@ -3,6 +3,7 @@ import chat.ServerChat;
 import rmi.ClientcomInter;
 import rmi.ServercomInter;
 import util.Document;
+import whiteboard.Canvas;
 import whiteboard.Whiteboard;
 
 import javax.swing.*;
@@ -33,9 +34,8 @@ public class Startclient {
     {
         return IPV4_PATTERN.matcher(s).matches();
     }
-
-
     public void doConnect(JButton connect){
+        Canvas.nightmode=false;
         if (this.connect.getText().equals("Connect")){
             if (name.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type a name."); return;}
             if (ip.getText().length()<2){JOptionPane.showMessageDialog(frame, "You need to type an IP."); return;}

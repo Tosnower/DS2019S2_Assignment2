@@ -700,6 +700,20 @@ public class Whiteboard extends JFrame {
         buttons.add ( addText );
 
 
+        Icon iconmode=new ImageIcon("img/eraser.jpg");
+        JButton changemodebtn = new JButton("", iconmode);
+        changemodebtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+                canvas.changenightmode();
+                repaint();
+            }
+        });
+        changemodebtn.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+        changemodebtn.setBounds(0, 189, 33, 23);
+        buttons.add(changemodebtn);
+
+
         Icon iconeraser = new ImageIcon ( "img/eraser.jpg" );
         addEraser = new JButton ( "" ,iconeraser);
         addEraser.addActionListener ( new ActionListener () {

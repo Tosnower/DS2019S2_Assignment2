@@ -97,7 +97,12 @@ public abstract class DShape implements ModelListener, Serializable {
     }
 
     public void drawKnobs(Graphics g) {
-        g.setColor ( Color.BLACK );
+        if(Canvas.nightmode){
+            g.setColor ( Color.WHITE );
+        }
+        else {
+            g.setColor(Color.BLACK);
+        }
         for (int i = 0; i < getKnobs ().size (); i++) {
             Point p = getKnobs ().get ( i );
             g.fillRect ( p.x - 4, p.y - 4, 9, 9 );

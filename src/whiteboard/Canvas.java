@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
     public int count = 0;
+    static public boolean nightmode=false;
     private DShape selected;
     private Point pivotKnob;
     private Point movingKnob;
@@ -28,7 +29,22 @@ public class Canvas extends JPanel {
     Whiteboard board;
     private MouseMotionAdapter dragListener = null;
     private int dragFlag = 0;
+    Color lessblack = new Color(1,1,1);
 
+
+    public void changenightmode()
+    {
+        if(!nightmode)
+        {
+            setBackground(Color.black);
+            nightmode=true;
+        }
+        else
+        {
+            setBackground(Color.WHITE);
+            nightmode=false;
+        }
+    }
 
     public Canvas(Whiteboard board) {
         this.board = board;
@@ -195,13 +211,50 @@ public class Canvas extends JPanel {
         super.paintComponent ( g );
         String index;
         Iterator iter = order.iterator();
+
         while (iter.hasNext()) {
             index = (String) iter.next();
-//            System.out.println(index);
+            System.out.println("paintComponent");
+
             DShape shape = shapes.get ( index );
-            System.out.println (selected);
-            System.out.println (shape);
-            shape.draw ( g, (selected == shape) );
+//            System.out.println (selected);
+//            System.out.println (shape);
+            System.out.println(shape.getColor());
+            if(nightmode)
+            {
+                if(shape.getColor().equals(Color.BLACK)){
+                    System.out.println("daole");
+                    shape.setColor(Color.gray);
+                    shape.draw ( g, (selected == shape) );
+                    shape.setColor(Color.BLACK);
+                }
+                else if(shape.getColor().equals(Color.WHITE)){
+                    shape.setColor(lessblack);
+                    shape.draw ( g, (selected == shape) );
+                    shape.setColor(Color.WHITE);
+                }
+                else{
+                    shape.draw ( g, (selected == shape) );
+                }
+            }
+            else {
+                if(shape.getColor().equals(Color.gray))
+                {
+                    shape.setColor(Color.BLACK);
+                    shape.draw ( g, (selected == shape) );
+                    shape.setColor(Color.gray);
+                }
+                else if(shape.getColor().equals(lessblack))
+                {
+                    shape.setColor(Color.WHITE);
+                    shape.draw ( g, (selected == shape) );
+                    shape.setColor(lessblack);
+                }
+                else {
+                    shape.draw ( g, (selected == shape) );
+                }
+            }
+
         }
 //        for (Map.Entry <String, DShape> entry : shapes.entrySet ()) {
 //            System.out.println(entry.getKey()+"："+entry.getValue());
@@ -218,6 +271,7 @@ public class Canvas extends JPanel {
 
     public String addShape(DShapeModel model, String id) {
         if (id == null) {
+            System.out.println("id is null");
             id = Integer.toString ( board.userId ) + Integer.toString ( count++ );
             if (board.getMode () != 2) {
                 DShape shape = null;
@@ -240,7 +294,9 @@ public class Canvas extends JPanel {
             return id;
         }
         if (!order.contains ( id )){
+            System.out.println("id not contained in order");
             if (board.getMode () != 2) {
+                System.out.println("id not contained in order 2");
                 DShape shape = null;
                 if (model instanceof DOvalModel)
                     shape = new DOval ( model, id );
@@ -257,7 +313,7 @@ public class Canvas extends JPanel {
                 repaint (  );
             }
         }
-
+        System.out.println("id will return null");
         return null;
     }
 

@@ -27,7 +27,7 @@ public class DLine extends DShape {
  
 
   
-    public void draw(Graphics g, boolean selected) { 
+    public void draw(Graphics g, boolean selected) {
         DLineModel model= getModel();
         Rectangle bounds = model.getBounds();
         Boolean isDiagonal = model.getDiagonal();
