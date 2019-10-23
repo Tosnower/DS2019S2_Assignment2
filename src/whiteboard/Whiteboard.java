@@ -32,6 +32,7 @@ public class Whiteboard extends JFrame {
     private static int normal = 0;
     private static int server = 1;
     private static int client = 2;
+    private Boolean isinnightmode = false;
 
     public ServercomInter servercomInter;
 
@@ -700,12 +701,22 @@ public class Whiteboard extends JFrame {
         buttons.add ( addText );
 
 
-        Icon iconmode=new ImageIcon("img/dark.jpg");
+        Icon iconmode=new ImageIcon("img/sunny.png");
+        Icon iconmoden=new ImageIcon("img/moon.png");
+
         JButton changemodebtn = new JButton("", iconmode);
         changemodebtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
                 canvas.changenightmode();
+                if(!isinnightmode){
+                    changemodebtn.setIcon(iconmoden);
+                    isinnightmode=true;
+                }
+                else{
+                    changemodebtn.setIcon(iconmode);
+                    isinnightmode=false;
+                }
                 repaint();
             }
         });

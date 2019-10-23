@@ -97,16 +97,13 @@ public class Startclient {
                 if (loginsuccess != 0) {
                     createnewboard.setVisible(false);
                     updateUsers(server.getConnected());
-
                     this.connect.setText("Disconnect");
                     name.setEditable(false);
                     ip.setEditable(false);
                     port.setEditable(false);
                     whiteboard = new Whiteboard(whiteBoard, server, false);
-
                     whiteboard.setUserId(loginsuccess);
                     clientChat = new ClientChat(chat, whiteBoard, tx, name.getText(), ip.getText(), Integer.parseInt(port.getText()), connect, threadPool);
-
                     client.setWhiteboard(whiteboard);
                     server.resumemodelhistory(client);
                     clientChat.left.setVisible(true);
