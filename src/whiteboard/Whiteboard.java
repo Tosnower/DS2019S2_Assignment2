@@ -28,7 +28,7 @@ import rmi.ServercomInter;
 
 public class Whiteboard extends JFrame {
     private int mode;
-    public int userId;
+    public char userId;
     private static int normal = 0;
     private static int server = 1;
     private static int client = 2;
@@ -1089,11 +1089,11 @@ public class Whiteboard extends JFrame {
         }
     }
 
-    public int getUserId() {
+    public char getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(char userId) {
         this.userId = userId;
     }
 }

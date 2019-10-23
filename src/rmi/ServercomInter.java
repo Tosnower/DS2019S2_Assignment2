@@ -8,7 +8,7 @@ import java.rmi.*;
 import java.util.*;
 
 public interface ServercomInter extends Remote{
-    public int login(ClientcomInter a)throws RemoteException ;
+    public char login(ClientcomInter a)throws RemoteException ;
     public void publish(String s)throws RemoteException ;
     public Vector getConnected() throws RemoteException ;
     public boolean logout(ClientcomInter a) throws RemoteException;

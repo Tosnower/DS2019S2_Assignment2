@@ -782,8 +782,9 @@ public class ServerChat {
                 try {
                     Socket socket = server.accept();
                     // 创建与客户端交互的线程
-                    threadPool.execute ( new ClientHandler(socket) );
-//                    Thread thread = new Thread(new ClientHandler(socket));
+
+                    Thread thread = new Thread(new ClientHandler(socket));
+                    threadPool.execute ( thread );
 //                    thread.start();
 
                 } catch (IOException e) {

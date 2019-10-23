@@ -48,8 +48,8 @@ public class Startclient {
                 client=new ClientCom(name.getText());
                 client.setGUI(this);
                 server=(ServercomInter)Naming.lookup("rmi://"+ip.getText()+"/myabc");
-                int loginsuccess = server.login(client)-1;
-                if(loginsuccess!=-1) {
+                char loginsuccess = server.login(client);
+                if(loginsuccess!=0) {
                     updateUsers(server.getConnected());
 
                     this.connect.setText("Disconnect");
@@ -119,7 +119,7 @@ public class Startclient {
                     updateUsers(server.getConnected());
                     connect.setText("Disconnect");
                     whiteboard = new Whiteboard ( whiteBoard, server, true );
-                    whiteboard.setUserId ( 0 );
+                    whiteboard.setUserId ( '0' );
                     serverChat = new ServerChat (chat,name.getText(),Integer.parseInt(port.getText()), threadPool);
                     client.setWhiteboard ( whiteboard );
                 }

@@ -11,11 +11,12 @@ import java.util.*;
 
 public class Servercom extends UnicastRemoteObject implements ServercomInter {
     private Vector v=new Vector();
+    private Vector uId = new Vector (  );
     public Servercom() throws RemoteException{}
     private Vector history=new Vector();
     private Vector modelhistory=new Vector();
 
-    public int login(ClientcomInter a) throws RemoteException{
+    public char login(ClientcomInter a) throws RemoteException{
         System.out.println(a.getName() + "  got connected....");
         int allowed =JOptionPane.showConfirmDialog( Startclient.frame, a.getName()+" want to connect, do you allow?");
         if(0==allowed)
@@ -26,10 +27,19 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         else
         {
             a.tell("You are not allowed to connect");
-            return -1;
+            return 0;
         }
         v.add(a);
-        return v.size ();
+        String s = "abcdefghijklmnopqrstuvwxyz";
+        char[] c = s.toCharArray();
+        Random random = new Random();
+        char userid = c[random.nextInt(c.length)];
+        while (uId.contains ( userid )) {
+            userid = c[random.nextInt(c.length)];
+        }
+        uId.add ( userid );
+        System.out.println ("userid:"+userid);
+        return userid;
     }
     public boolean creatorlogin(ClientcomInter a) throws RemoteException{
         v.add(a);
@@ -251,7 +261,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         }
     }
 
-    
+
     @Override
     public void removeallModel() throws RemoteException
     {
@@ -266,8 +276,8 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
             }
         }
     }
-    
-    
+
+
     public Vector getConnected() throws RemoteException{
         return v;
     }
