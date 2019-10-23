@@ -59,19 +59,7 @@ public class Canvas extends JPanel {
                     int newX = e.getX ();
                     int newY = e.getY ();
                     if (newX != x || newY != y) {
-                        if (selected != null) {
-                            selected.moveTo ( newX, newY );
-
-                            board.updateTable ( selected );
-                            repaint ();
-                            try {
-                                System.out.println ("model:"+selected.getModelId ()+"移动至:("+newX+","+newY+")");
-                                board.servercomInter.pubishMoveModel ( selected.getModelId (), newX, newY );
-                            } catch (RemoteException ex) {
-                                ex.printStackTrace ();
-                            }
-                        }
-                        if (movingKnob != null) {
+                    	if (movingKnob != null) {
                             movingKnob.x += dx;
                             movingKnob.y += dy;
                             selected.resize ( pivotKnob, movingKnob );
@@ -80,6 +68,19 @@ public class Canvas extends JPanel {
                                 board.servercomInter.pubishDistortion ( selected.getModelId (), pivotKnob, movingKnob );
                             } catch (RemoteException ex) {
                                 ex.printStackTrace ();
+                            }
+                        } else {
+                            if (selected != null) {
+                                selected.moveTo ( newX, newY );
+
+                                board.updateTable ( selected );
+                                repaint ();
+                                try {
+                                    System.out.println ("model:"+selected.getModelId ()+"移动至:("+newX+","+newY+")");
+                                    board.servercomInter.pubishMoveModel ( selected.getModelId (), newX, newY );
+                                } catch (RemoteException ex) {
+                                    ex.printStackTrace ();
+                                }
                             }
                         }
                     }

@@ -33,7 +33,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     }
     public boolean creatorlogin(ClientcomInter a) throws RemoteException{
         v.add(a);
-        publish( " create board successfully");
+        publish( "create board successfully");
         return true;
     }
 

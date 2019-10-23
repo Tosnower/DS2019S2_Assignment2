@@ -322,7 +322,7 @@ public class ServerChat {
 
                         try {
                             broadcastMsg("Manager:" + username, msgChat);
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             // e.printStackTrace();
                         }
                         addMsg("I Say: " + textAreaMsg.getText());
@@ -352,9 +352,10 @@ public class ServerChat {
                                 String msgTalkTo = Send_One(textAreaMsg.getText(), "Manager: " + username).toJson();
 
                                 try {
+                                	
                                     clientHandler.dos.writeUTF(msgTalkTo);
                                     clientHandler.dos.flush();
-                                } catch (IOException e) {
+                                } catch (Exception e) {
                                     //e.printStackTrace();
                                 }
 
@@ -378,7 +379,7 @@ public class ServerChat {
 //        scrollPane_2.setBounds(0, 0, 149, 334);
         scrollPane_2.setPreferredSize(new Dimension(100, 500));
         right.add(scrollPane_2,BorderLayout.CENTER);
-        JButton popThePerson = new JButton("pop");
+        JButton popThePerson = new JButton("kick");
         popThePerson.setEnabled(true);
         right.add(popThePerson,BorderLayout.SOUTH);
         listUsers = new JList<String>();
@@ -408,12 +409,13 @@ public class ServerChat {
                         ClientHandler clientHandler = clientHandlerMap.get(toUsername);
 
                         if (null != clientHandler) {
-                            String msgpop = beenpoped("You have been poped up by manager", "Manager: " + username).toJson();
+                            String msgpop = beenpoped("You have been kicked off by manager", "Manager: " + username).toJson();
 
                             try {
+                            	
                                 clientHandler.dos.writeUTF(msgpop);
                                 clientHandler.dos.flush();
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 //e.printStackTrace();
                             }
                             try {
@@ -421,18 +423,18 @@ public class ServerChat {
                                 poptheperson(textAreaMsg.getText(), "Manager: " + username);
                             }
                             catch (IOException e){
-                                addMsg("can't pop up the person");
+                                addMsg("can't kick off the person");
                             }
 
                         }
                         String msgChat = null;
-                        msgChat = Send_All(toUsername.toString()+" has left the chat room","NOTICE").toJson();
+                        msgChat = Send_All(toUsername.toString()+" has been removed from the chat room","NOTICE").toJson();
                         try {
                             broadcastMsg("", msgChat);
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        addMsg("pop the person successful");
+                        addMsg("kick the person successful");
                         textAreaMsg.setText("");
                     }
 
@@ -525,6 +527,7 @@ public class ServerChat {
                 try {
                     // 读取客户端发送的报文
                     String msg = dis.readUTF();
+                    
                     System.out.println(msg);
                     //String[] parts = msg.split("#");
 
@@ -539,12 +542,13 @@ public class ServerChat {
                             // 如果该用户名已登录，则返回失败报文，否则返回成功报文
                             if (clientHandlerMap.containsKey(loginUser)) {
                                 String send_str = Login_False().toJson();
+                                
                                 dos.writeUTF(send_str);
                             } else {
 
 
                                 String send_str = Login_Success().toJson();
-
+                                
                                 dos.writeUTF(send_str);
                                 // 将此客户端处理线程的信息添加到clientHandlerMap中
                                 clientHandlerMap.put(loginUser, this);
@@ -564,7 +568,7 @@ public class ServerChat {
 
                                 System.out.println(send_str);
 
-
+                                
                                 //dos.writeUTF(msgUserList.toString());
                                 dos.writeUTF(send_str);
 
@@ -609,12 +613,14 @@ public class ServerChat {
                                     String msgTalkTo = Send_One(text, username).toJson();
 
                                     try {
+                                    	
                                         clientHandler.dos.writeUTF(msgTalkTo);
                                         clientHandler.dos.flush();
 
                                     } catch (IOException e) {
                                         clientHandlerMap.remove(loginUser);
                                         String send_str = Send_Fail().toJson();
+                                        
                                         dos.writeUTF(send_str);
 
                                     }
@@ -642,7 +648,7 @@ public class ServerChat {
                         default:
                             break;
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
 
                     isConnected = false;
                     clientHandlerMap.remove(username);
@@ -657,11 +663,13 @@ public class ServerChat {
          *
          * @param fromUsername 发来消息的用户
          * @param msg          需要广播的消息
+         * @throws Exception 
          */
-        private void broadcastMsg(String fromUsername, String msg) throws IOException {
+        private void broadcastMsg(String fromUsername, String msg) throws Exception {
             for (String toUserName : clientHandlerMap.keySet()) {
                 if (fromUsername.equals(toUserName) == false) {
                     DataOutputStream dos = clientHandlerMap.get(toUserName).dos;
+                    
                     dos.writeUTF(msg);
                     dos.flush();
                 }
@@ -810,9 +818,10 @@ public class ServerChat {
             for (String toUserName : clientHandlerMap.keySet()) {
                 DataOutputStream dos = clientHandlerMap.get(toUserName).dos;
                 try {
+                	
                     dos.writeUTF(send_str);
                     dos.flush();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -874,11 +883,13 @@ public class ServerChat {
      *
      * @param fromUsername 发来消息的用户
      * @param msg          需要广播的消息
+     * @throws Exception 
      */
-    public void broadcastMsg(String fromUsername, String msg) throws IOException {
+    public void broadcastMsg(String fromUsername, String msg) throws Exception {
         for (String toUserName : clientHandlerMap.keySet()) {
             if (fromUsername.equals(toUserName) == false) {
                 DataOutputStream dos = clientHandlerMap.get(toUserName).dos;
+                
                 dos.writeUTF(msg);
                 dos.flush();
             }

@@ -448,7 +448,7 @@ public class ClientChat {
                 }
                 else if(toUsername.equals(username))
                 {
-                    JOptionPane.showMessageDialog(null, "You cannot sent something to yourself");
+                    JOptionPane.showMessageDialog(null, "You cannot sent anything to yourself");
                 }
 
                 else {
@@ -466,9 +466,10 @@ public class ClientChat {
 
             if (null != msgChat) {
                 try {
-                    dos.writeUTF(msgChat);
+                	
+                    dos.writeUTF(msgChat);                    
                     dos.flush();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -518,11 +519,12 @@ public class ClientChat {
 
                 String loginStr = Connect(send_str).toJson();
                 // String msgLogin = "LOGIN#" + username;
-
+                
                 dos.writeUTF(loginStr);
                 dos.flush();
                 // 读取服务器返回的信息，判断是否登录成功
                 String response = dis.readUTF();
+                
                 System.out.println(response);
                 Document getresponse = Document.parse(response);
                 String command = getresponse.getString("command");
@@ -541,7 +543,7 @@ public class ClientChat {
                     //btnConnect.setText("退出");
                     btnSend.setEnabled(true);
                 }
-            } catch (IOException | NullPointerException e2) {
+            } catch (Exception e2) {
 
                 addMsg("There has some exception, Please Check Server");
 
@@ -561,6 +563,7 @@ public class ClientChat {
 
                 try {
                     String msg = dis.readUTF();
+                    
                     //String[] parts = msg.split("#");
                     Document getresponse = Document.parse(msg);
                     String command = getresponse.getString("command");
@@ -626,7 +629,7 @@ public class ClientChat {
                             right.setVisible(false);
                             modelUsers.removeAllElements();
                             //addMsg("(" + getnewUser + ")To Me: " + getMsg);
-                            JOptionPane.showMessageDialog(null, "You have been poped up by manager!");
+                            JOptionPane.showMessageDialog(null, "You have been kicked off by manager!");
                             
                             //System.exit(1);
                             return;
@@ -643,6 +646,7 @@ public class ClientChat {
                     if(isLogged)
                     {
                     	JOptionPane.showMessageDialog(null, "The manager has left the chat room!");
+                    	
                     	System.exit(1);
                     }
                     isLogged = false;
