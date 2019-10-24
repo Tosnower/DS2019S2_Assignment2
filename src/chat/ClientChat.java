@@ -628,7 +628,7 @@ public class ClientChat {
                             left.setVisible(false);
                             right.setVisible(false);
                             modelUsers.removeAllElements();
-                            btnConnect.setText("connect");
+                            //btnConnect.setText("connect");
                             //addMsg("(" + getnewUser + ")To Me: " + getMsg);
                             JOptionPane.showMessageDialog(null, "You have been kicked off by manager!");
                             

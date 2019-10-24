@@ -25,16 +25,16 @@ import java.util.Enumeration;
 
 public class Startclient {
     static ClientCom client;
-    private ServercomInter server;
-    private ClientChat clientChat;
-    private ServerChat serverChat;
-    private Whiteboard whiteboard;
+    ServercomInter server;
+    ClientChat clientChat;
+    ServerChat serverChat;
+    Whiteboard whiteboard;
     public ExecutorService threadPool = Executors.newFixedThreadPool(10);
     Boolean issuper = false;
 
-    static private final String IPV4_REGEX = "(([0-1]?[0-9]{1,2}\\.)|(2[0-4][0-9]\\.)|(25[0-5]\\.)){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))";
+    static private final String IPV4_REGEX = "^(([0-9]\\.)|([1-9]\\d{1}\\.)|(1\\d{2}\\.)|(2[0-4]\\d{1}\\.)|(25[0-4]\\.)){3}(([0-9])|([1-9]\\d{1})|(1\\d{2})|(2[0-4]\\d{1})|(25[0-4]))$";
     static private Pattern IPV4_PATTERN = Pattern.compile(IPV4_REGEX);
-
+    static private final String PORT_REGEX = "^([1-9]|[1-9]\\d{1,3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]d{2}|655[0-2]d{1}|6553[0-5]|[1-6][0-5][0-5][0-3][0-5])$";    static private Pattern PORT_PATTERN = Pattern.compile(PORT_REGEX);
 
     public static String getServerIp() {
         String localip = null;// 本地IP，如果没有配置外网IP则返回它
@@ -69,26 +69,37 @@ public class Startclient {
     }
 
 
-    private static boolean isValidIPV4(final String s) {
+    static boolean isValidIPV4(final String s) {
         return IPV4_PATTERN.matcher(s).matches();
     }
-
+    
+    static boolean isValidPort(final String s){
+    	return PORT_PATTERN.matcher(s).matches();
+    }
+    
+/*
     public void doConnect(JButton connect) {
         Canvas.nightmode = false;
         if (this.connect.getText().equals("Connect")) {
             if (name.getText().length() < 2) {
-                JOptionPane.showMessageDialog(frame, "You need to type a name.");
+                JOptionPane.showMessageDialog(frame, "You need to type a name");
                 return;
             }
             if (ip.getText().length() < 2) {
-                JOptionPane.showMessageDialog(frame, "You need to type an IP.");
+                JOptionPane.showMessageDialog(frame, "You need to type an IP");
+                return;
+            }
+            if(!isValidPort(port.getText()))
+            {
+            	JOptionPane.showMessageDialog(frame, "You need to type a valid port number");
+                return;
+            }
+            if (!isValidIPV4(ip.getText())) {
+                JOptionPane.showMessageDialog(frame, "You need to type a valid ip address");
                 return;
             }
             try {
-                if (!isValidIPV4(ip.getText())) {
-                    JOptionPane.showMessageDialog(frame, "You need to type a valid ip address");
-                    return;
-                }
+                
                 meddle.setVisible(true);
                 client = new ClientCom(name.getText());
                 client.setGUI(this);
@@ -153,7 +164,8 @@ public class Startclient {
             //Better to implement Logout ....
         }
     }
-
+*/
+    /*
     public void createBoad() {
         try {
             if (name.getText().length() < 2) {
@@ -199,7 +211,7 @@ public class Startclient {
         }
 
     }
-
+*/
     public void sendText() {
         if (connect.getText().equals("Connect")) {
             JOptionPane.showMessageDialog(frame, "You need to connect first.");
@@ -333,10 +345,13 @@ public class Startclient {
 //        main.add(cn, BorderLayout.CENTER);
 //        main.add(bottom, BorderLayout.SOUTH);
         main.setBorder(new EmptyBorder(10, 5, 10, 10));
+        Startclient temp=this;
         //Events
         connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                doConnect(connect);
+            	ConnectThread ct=new ConnectThread(temp,connect);
+            	ct.start();
+                
             }
         });
         bt.addActionListener(new ActionListener() {
@@ -349,9 +364,11 @@ public class Startclient {
                 sendText();
             }
         });
+        
         createnewboard.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createBoad();
+                CreateThread ct=new CreateThread(temp);
+                ct.start();
             }
         });
         frame.setContentPane(main);
