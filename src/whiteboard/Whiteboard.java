@@ -974,26 +974,40 @@ public class Whiteboard extends JFrame {
     }
 
     public void drawModel(DShapeModel model, Color color, String id) {
-        if (canvas.addShape ( model, id )!=null){
-            canvas.recolorShape ( color );
-            canvas.repaint ();
-        }
+        new Thread() {
+            public void run(){
+                if (canvas.addShape ( model, id )!=null){
+                    canvas.recolorShape ( color );
+                    canvas.repaint ();
+                }
+            }
+        }.start ();
+
 
     }
 
     public void drawPenEraser(DShapeModel model, Color pencilcolor) {
-        canvas.recolorShape ( pencilcolor );
-        canvas.addShape ( model, null );
-        canvas.repaint ();
+        new Thread() {
+            public void run() {
+                canvas.recolorShape ( pencilcolor );
+                canvas.addShape ( model, null );
+                canvas.repaint ();
+            }
+        }.start ();
 
     }
 
     public void drawText(String modelId, DShapeModel model, Color color, String font, String text) {
-        canvas.addShape(model,modelId);
-        canvas.recolorShape(color);
-        canvas.setFont(font);
-        canvas.setText(text);
-        canvas.repaint();
+        new Thread (  ) {
+            public void run() {
+                canvas.addShape(model,modelId);
+                canvas.recolorShape(color);
+                canvas.setFont(font);
+                canvas.setText(text);
+                canvas.repaint();
+            }
+        }.start ();
+
 
     }
 

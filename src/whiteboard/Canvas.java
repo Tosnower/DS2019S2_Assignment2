@@ -228,18 +228,26 @@ public class Canvas extends JPanel {
     }
 
     public void drawMove(String modelId, int x, int y) {
-        System.out.println ("model:"+modelId+"移动至:("+x+","+y+")");
-        DShape dShape = shapes.get ( modelId );
-        dShape.moveTo ( x, y );
-        board.updateTable ( dShape );
-        repaint ();
+        new Thread (  ) {
+            public void run() {
+                System.out.println ( "model:" + modelId + "移动至:(" + x + "," + y + ")" );
+                DShape dShape = shapes.get ( modelId );
+                dShape.moveTo ( x, y );
+                board.updateTable ( dShape );
+                repaint ();
+            }
+        }.start ();
     }
 
     public void drawDistortion(String modelId, Point pivotKnob, Point movingKnob) {
-        System.out.println ("drawDistortion model:"+modelId+"从("+pivotKnob.x+","+pivotKnob.y+") "+"移动至:("+movingKnob.x+","+movingKnob.y+")");
-        DShape dShape = shapes.get ( modelId );
-        dShape.resize ( pivotKnob, movingKnob );
-        repaint ();
+        new Thread (  ) {
+            public void run() {
+                System.out.println ( "drawDistortion model:" + modelId + "从(" + pivotKnob.x + "," + pivotKnob.y + ") " + "移动至:(" + movingKnob.x + "," + movingKnob.y + ")" );
+                DShape dShape = shapes.get ( modelId );
+                dShape.resize ( pivotKnob, movingKnob );
+                repaint ();
+            }
+        }.start ();
     }
 
     public void getSelection(Point pt) {
