@@ -406,6 +406,10 @@ public class Canvas extends JPanel {
         return shapes;
     }
 
+    public ConcurrentLinkedQueue <String> getOrder() {
+        return order;
+    }
+
     public void setText(String text) {
         if (selected ()) {
             ((DText) selected).setText ( text );

@@ -16,9 +16,11 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -67,13 +69,20 @@ public class BoardThread extends Thread
 			XMLEncoder xmlout =new XMLEncoder(new BufferedOutputStream(new FileOutputStream(file)));
 
 			ConcurrentHashMap <String, DShape> shapes = canvas.getShapes();
+			ConcurrentLinkedQueue <String> order = canvas.getOrder ();
 	    	DShapeModel[] models = new DShapeModel[shapes.size()];
 
 	    	int i=0;
-			for(Map.Entry <String, DShape> entry : shapes.entrySet()) {
-				System.out.println(entry.getKey()+"："+entry.getValue());
-				models[i++] = entry.getValue ().getModel ();
+			Iterator iter = order.iterator();
+			while (iter.hasNext()) {
+				String index = (String) iter.next();
+//				System.out.println(index+"："+entry.getValue());
+				models[i++] = shapes.get ( index ).getModel ();
 			}
+//			for(Map.Entry <String, DShape> entry : shapes.entrySet()) {
+//				System.out.println(entry.getKey()+"："+entry.getValue());
+//				models[i++] = entry.getValue ().getModel ();
+//			}
 //	    	for(int i = 0; i < models.length; i ++){
 //	    		models[i] = shapes.get(i).getModel();
 //
