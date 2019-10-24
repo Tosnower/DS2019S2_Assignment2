@@ -34,14 +34,14 @@ public class DLine extends DShape {
         g.setColor(getColor());
 //        System.out.println ("draw diagonal"+isDiagonal);
         if (isDiagonal) {
-            ((Graphics2D) g).setStroke(new BasicStroke(stroke));
+            ((Graphics2D) g).setStroke(new BasicStroke(stroke, JOIN_ROUND, JOIN_ROUND));
             //g.drawLine(model.getPoint1().x, model.getPoint1().y, model.getPoint2().x, model.getPoint2().y);
             g.drawLine(bounds.x, bounds.y, bounds.x+bounds.width, bounds.y+bounds.height);
             if(selected) {
                 drawKnobs(g);
             }
         } else {
-            ((Graphics2D) g).setStroke(new BasicStroke(stroke));
+            ((Graphics2D) g).setStroke(new BasicStroke(stroke, JOIN_ROUND, JOIN_ROUND));
             //g.drawLine(model.getPoint1().x, model.getPoint1().y, model.getPoint2().x, model.getPoint2().y);
             g.drawLine(bounds.x, bounds.y+bounds.height, bounds.x+bounds.width, bounds.y);
             if(selected) {
