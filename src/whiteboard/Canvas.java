@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -28,7 +29,15 @@ public class Canvas extends JPanel {
     private int y = 0;
     Whiteboard board;
     private MouseMotionAdapter dragListener = null;
+    private MouseListener releaseListener = null;
     private int dragFlag = 0;
+    private boolean isMove = false;
+    private boolean isDistor = false;
+    private String tmpId;
+    private Point tmpPivot;
+    private Point tmpMoving;
+    private int tmpNewX;
+    private int tmpNewY;
     Color lessblack = new Color(1,1,1);
 
 
@@ -63,24 +72,34 @@ public class Canvas extends JPanel {
                             movingKnob.x += dx;
                             movingKnob.y += dy;
                             selected.resize ( pivotKnob, movingKnob );
-                            try {
-                                System.out.println ("drawDistortion model:"+selected.getModelId ()+"从("+pivotKnob.x+","+pivotKnob.y+") "+"移动至:("+movingKnob.x+","+movingKnob.y+")");
-                                board.servercomInter.pubishDistortion ( selected.getModelId (), pivotKnob, movingKnob );
-                            } catch (RemoteException ex) {
-                                ex.printStackTrace ();
-                            }
+                            isDistor = true;
+                            tmpPivot = pivotKnob;
+                            tmpMoving = movingKnob;
+                            tmpId = selected.getModelId ();
+                            repaint ();
+//                            try {
+//                                System.out.println ("drawDistortion model:"+selected.getModelId ()+"从("+pivotKnob.x+","+pivotKnob.y+") "+"移动至:("+movingKnob.x+","+movingKnob.y+")");
+//                                board.servercomInter.pubishDistortion ( selected.getModelId (), pivotKnob, movingKnob );
+//                            } catch (RemoteException ex) {
+//                                ex.printStackTrace ();
+//                            }
                         } else {
                             if (selected != null) {
                                 selected.moveTo ( newX, newY );
 
                                 board.updateTable ( selected );
+
+                                isMove = true;
+                                tmpId = selected.getModelId ();
+                                tmpNewX = newX;
+                                tmpNewY = newY;
                                 repaint ();
-                                try {
-                                    System.out.println ("model:"+selected.getModelId ()+"移动至:("+newX+","+newY+")");
-                                    board.servercomInter.pubishMoveModel ( selected.getModelId (), newX, newY );
-                                } catch (RemoteException ex) {
-                                    ex.printStackTrace ();
-                                }
+//                                try {
+//                                    System.out.println ("model:"+selected.getModelId ()+"移动至:("+newX+","+newY+")");
+//                                    board.servercomInter.pubishMoveModel ( selected.getModelId (), newX, newY );
+//                                } catch (RemoteException ex) {
+//                                    ex.printStackTrace ();
+//                                }
                             }
                         }
                     }
@@ -88,6 +107,54 @@ public class Canvas extends JPanel {
                     y = e.getY ();
                 }
             }
+        };
+        this.releaseListener = new MouseListener () {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (isDistor) {
+                    try {
+                        System.out.println ("broadcast drawDistortion model:"+tmpId+" 移动至:("+tmpMoving.x+","+tmpMoving.y+")");
+                        board.servercomInter.pubishDistortion ( tmpId, tmpPivot, tmpMoving );
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace ();
+                    }
+                }
+                if (isMove){
+                    try {
+                    System.out.println ("model:"+tmpId+"移动至:("+tmpNewX+","+tmpNewY+")");
+                        board.servercomInter.pubishMoveModel ( tmpId, tmpNewX, tmpNewY );
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace ();
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // TODO Auto-generated method stub
+
+            }
+
         };
         drag ();
 //			setPreferredSize(new Dimension(800, 400));
@@ -146,6 +213,7 @@ public class Canvas extends JPanel {
     public void drag() {
         if (this.dragFlag == 0) {
             this.addMouseMotionListener ( this.dragListener );
+            this.addMouseListener ( this.releaseListener );
             this.dragFlag=1;
         }
 
@@ -154,6 +222,7 @@ public class Canvas extends JPanel {
     public void removeDrag(){
         if (this.dragFlag == 1) {
             this.removeMouseMotionListener ( this.dragListener );
+            this.removeMouseListener ( this.releaseListener );
             this.dragFlag = 0;
         }
     }

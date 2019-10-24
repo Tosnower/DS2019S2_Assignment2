@@ -32,6 +32,7 @@ public class Whiteboard extends JFrame {
     private static int normal = 0;
     private static int server = 1;
     private static int client = 2;
+    private Boolean isinnightmode = false;
 
     public ServercomInter servercomInter;
 
@@ -127,7 +128,8 @@ public class Whiteboard extends JFrame {
                 if (x1 != -999 && y1 != -999) {
                     p1 = new Point ( x1, y1 );
                     p2 = new Point ( x2, y2 );
-                    if (p1 != p2) {
+//                    if (p1 != p2) {
+                    if(Math.abs ( p1.x-p2.x )>10 || Math.abs ( p1.y-p2.y )>10){
                         DLineModel model = new DLineModel ( p1, p2 );
                         canvas.recolorShape ( pencilcolor );
                         canvas.addShape ( model, null );
@@ -137,11 +139,15 @@ public class Whiteboard extends JFrame {
                         } catch (RemoteException ex) {
                             ex.printStackTrace ();
                         }
-
+                        x1 = x2;
+                        y1 = y2;
                     }
+                } else {
+                    x1 = x2;
+                    y1 = y2;
                 }
-                x1 = x2;
-                y1 = y2;
+
+
             }
         };
 
@@ -155,7 +161,7 @@ public class Whiteboard extends JFrame {
                 if (x1 != -999 && y1 != -999) {
                     p1 = new Point ( x1, y1 );
                     p2 = new Point ( x2, y2 );
-                    if (p1 != p2) {
+                    if (Math.abs ( p1.x-p2.x )>10 || Math.abs ( p1.y-p2.y )>10) {
                         DLineModel model = new DLineModel ( p1, p2, erasersize );
                         canvas.recolorShape ( Color.WHITE );
                         canvas.addShape ( model, null );
@@ -165,11 +171,14 @@ public class Whiteboard extends JFrame {
                         } catch (RemoteException ex) {
                             ex.printStackTrace ();
                         }
-
+                        x1 = x2;
+                        y1 = y2;
                     }
+                } else {
+                    x1 = x2;
+                    y1 = y2;
                 }
-                x1 = x2;
-                y1 = y2;
+
 
 //                System.out.println ("x:"+e.getX ()+" y:"+e.getY ());
 ////                DRectModel model = new DRectModel ( x, y, erasersize, erasersize, Color.WHITE );
@@ -700,12 +709,22 @@ public class Whiteboard extends JFrame {
         buttons.add ( addText );
 
 
-        Icon iconmode=new ImageIcon("img/dark.jpg");
+        Icon iconmode=new ImageIcon("img/sunny.png");
+        Icon iconmoden=new ImageIcon("img/moon.png");
+
         JButton changemodebtn = new JButton("", iconmode);
         changemodebtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
                 canvas.changenightmode();
+                if(!isinnightmode){
+                    changemodebtn.setIcon(iconmoden);
+                    isinnightmode=true;
+                }
+                else{
+                    changemodebtn.setIcon(iconmode);
+                    isinnightmode=false;
+                }
                 repaint();
             }
         });

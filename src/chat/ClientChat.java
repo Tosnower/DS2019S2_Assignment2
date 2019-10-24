@@ -84,7 +84,6 @@ public class ClientChat {
 
     }
 
-    
 
 
     public ClientChat(JPanel jPanel, JPanel wb, JTextArea ja, String name, String ip, int port, JButton connect, ExecutorService threadPool) {
@@ -426,6 +425,7 @@ public class ClientChat {
             if(textAreaMsg.getText().length()==0){
 
                 JOptionPane.showMessageDialog(null, "enter something to send");
+                return;
 
             }
             if (rdbtnBrocast.isSelected()) {
@@ -628,6 +628,7 @@ public class ClientChat {
                             left.setVisible(false);
                             right.setVisible(false);
                             modelUsers.removeAllElements();
+                            //btnConnect.setText("connect");
                             //addMsg("(" + getnewUser + ")To Me: " + getMsg);
                             JOptionPane.showMessageDialog(null, "You have been kicked off by manager!");
                             

@@ -317,6 +317,13 @@ public class ServerChat {
                     String msgChat = null;
                     if (rdbtnBrocast.isSelected()) {
 
+                        if(textAreaMsg.getText().length()==0){
+
+                            JOptionPane.showMessageDialog(null, "enter something to send");
+                            return;
+
+                        }
+
                         // msgChat="TALKTO_ALL#"+textAreaMsg.getText();
                         msgChat = Send_All(textAreaMsg.getText(), "Manager:" + username).toJson();
 
@@ -745,7 +752,7 @@ public class ServerChat {
 
 
                 // 创建套接字地址
-                SocketAddress socketAddress = new InetSocketAddress(serverIP, serverPort1);
+                SocketAddress socketAddress = new InetSocketAddress(serverPort1);
                 // 创建ServerSocket，绑定套接字地址
                 server = new ServerSocket();
                 server.bind(socketAddress);
