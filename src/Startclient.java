@@ -36,6 +36,7 @@ public class Startclient {
     static private Pattern IPV4_PATTERN = Pattern.compile(IPV4_REGEX);
     static private final String PORT_REGEX = "^([1-9]|[1-9]\\d{1,3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]d{2}|655[0-2]d{1}|6553[0-5]|[1-6][0-5][0-5][0-3][0-5])$";    static private Pattern PORT_PATTERN = Pattern.compile(PORT_REGEX);
 
+
     public static String getServerIp() {
         String localip = null;// 本地IP，如果没有配置外网IP则返回它
         String netip = null;// 外网IP
@@ -294,6 +295,7 @@ public class Startclient {
         tx.setBackground(frame.getBackground());
         JScrollPane jp = new JScrollPane(tx);
 
+
         jp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         jp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -303,6 +305,8 @@ public class Startclient {
         JButton bt = new JButton("Send");
         lst = new JList();
         chat = new JPanel();
+
+        jp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 
         top.setLayout(new GridLayout(1, 0, 5, 5));
@@ -348,8 +352,9 @@ public class Startclient {
         //Events
         connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	ConnectThread ct=new ConnectThread(temp,connect);
+                ConnectThread ct=new ConnectThread(temp,connect);
             	threadPool.execute ( ct );
+
                 
             }
         });
@@ -368,6 +373,7 @@ public class Startclient {
             public void actionPerformed(ActionEvent e) {
                 CreateThread ct=new CreateThread(temp);
                 threadPool.execute ( ct );
+
             }
         });
         frame.setContentPane(main);
