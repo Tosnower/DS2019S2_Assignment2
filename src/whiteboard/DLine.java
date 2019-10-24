@@ -3,6 +3,7 @@ package whiteboard;
 import java.awt.*;
 import java.util.*; 
  
+import static java.awt.BasicStroke.JOIN_ROUND;
 
 public class DLine extends DShape {
 
