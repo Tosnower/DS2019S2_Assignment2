@@ -1014,9 +1014,9 @@ public class Whiteboard extends JFrame {
         new Thread (  ) {
             public void run() {
                 canvas.addShape(model,modelId);
-                canvas.recolorShape(color);
-                canvas.setFont(font);
-                canvas.setText(text);
+//                canvas.recolorShape(color);
+//                canvas.setFont(font);
+//                canvas.setText(text);
                 canvas.repaint();
             }
         }.start ();
