@@ -17,6 +17,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
@@ -568,7 +569,8 @@ public class Whiteboard extends JFrame {
         };
 
 
-        Icon iconoval = new ImageIcon ( "img/oval.jpg" );
+        URL imageoval = ClassLoader.getSystemResource("oval.jpg");
+        Icon iconoval = new ImageIcon ( imageoval );
         addOval = new JButton ( "", iconoval );
         addOval.setFont ( new Font ( "Times New Roman", Font.PLAIN, 12 ) );
         addOval.addActionListener ( new ActionListener () {
@@ -589,7 +591,8 @@ public class Whiteboard extends JFrame {
         buttons.add ( addOval );
 
 
-        Icon iconcircle = new ImageIcon ( "img/circle.jpg" );
+        URL imagecircle = ClassLoader.getSystemResource("circle.jpg");
+        Icon iconcircle = new ImageIcon ( imagecircle);
         addCircle = new JButton ( "", iconcircle );
         addCircle.addActionListener ( new ActionListener () {
             public void actionPerformed(ActionEvent e) {
@@ -610,7 +613,8 @@ public class Whiteboard extends JFrame {
         buttons.add ( addCircle );
 
 
-        Icon iconrect = new ImageIcon ( "img/rect.jpg" );
+        URL imagerect = ClassLoader.getSystemResource("rect.jpg");
+        Icon iconrect = new ImageIcon ( imagerect );
         addRectangle = new JButton ( "", iconrect );
         addRectangle.addActionListener ( new ActionListener () {
             public void actionPerformed(ActionEvent e) {
@@ -631,7 +635,8 @@ public class Whiteboard extends JFrame {
         buttons.add ( addRectangle );
 
 
-        Icon iconsquare = new ImageIcon ( "img/square.jpg" );
+        URL imagersquare = ClassLoader.getSystemResource("square.jpg");
+        Icon iconsquare = new ImageIcon ( imagersquare );
         addSquare = new JButton ( "", iconsquare );
         addSquare.addActionListener ( new ActionListener () {
             public void actionPerformed(ActionEvent e) {
@@ -651,8 +656,8 @@ public class Whiteboard extends JFrame {
         addSquare.setSize ( 30, 30 );
         buttons.add ( addSquare );
 
-
-        Icon iconline = new ImageIcon ( "img/line.jpg" );
+        URL imageline = ClassLoader.getSystemResource("line.jpg");
+        Icon iconline = new ImageIcon ( imageline );
         addLine = new JButton ( "", iconline );
         addLine.addActionListener ( new ActionListener () {
             public void actionPerformed(ActionEvent e) {
@@ -672,7 +677,8 @@ public class Whiteboard extends JFrame {
         addLine.setSize ( 30, 30 );
         buttons.add ( addLine );
 
-        Icon iconpencil = new ImageIcon ( "img/pencil.jpg" );
+        URL imagepen = ClassLoader.getSystemResource("pencil.jpg");
+        Icon iconpencil = new ImageIcon ( imagepen);
         addPencil = new JButton ( "", iconpencil );
         addPencil.setFont ( new Font ( "Times New Roman", Font.PLAIN, 12 ) );
         addPencil.addActionListener ( new ActionListener () {
@@ -699,7 +705,8 @@ public class Whiteboard extends JFrame {
         buttons.add ( addPencil );
 
 
-        Icon icontext = new ImageIcon ( "img/text.jpg" );
+        URL imagetext = ClassLoader.getSystemResource("text.jpg");
+        Icon icontext = new ImageIcon ( imagetext );
         addText = new JButton ( "", icontext );
         addText.addActionListener ( new ActionListener () {
             public void actionPerformed(ActionEvent e) {
@@ -721,9 +728,11 @@ public class Whiteboard extends JFrame {
         addText.setSize ( 30, 30 );
         buttons.add ( addText );
 
+        URL imagesunny = ClassLoader.getSystemResource("sunny.png");
+        Icon iconmode=new ImageIcon(imagesunny);
+        URL imagemoon = ClassLoader.getSystemResource("moon.png");
+        Icon iconmoden=new ImageIcon(imagemoon);
 
-        Icon iconmode=new ImageIcon("img/sunny.png");
-        Icon iconmoden=new ImageIcon("img/moon.png");
 
         JButton changemodebtn = new JButton("", iconmode);
         changemodebtn.addActionListener(new ActionListener() {
@@ -746,7 +755,8 @@ public class Whiteboard extends JFrame {
         buttons.add(changemodebtn);
 
 
-        Icon iconeraser = new ImageIcon ( "img/eraser.jpg" );
+        URL imageeraser = ClassLoader.getSystemResource("eraser.jpg");
+        Icon iconeraser = new ImageIcon ( imageeraser );
         addEraser = new JButton ( "" ,iconeraser);
         addEraser.addActionListener ( new ActionListener () {
             public void actionPerformed(ActionEvent e) {
@@ -792,7 +802,8 @@ public class Whiteboard extends JFrame {
 //		JMenu mnFile = new JMenu("File");
 //		menuBar.add(mnFile);
 //		//mnFile.addSeparator();
-        Icon iconnew = new ImageIcon ( "img/new.jpg" );
+        URL imagenew = ClassLoader.getSystemResource("new.jpg");
+        Icon iconnew = new ImageIcon ( imagenew );
         JButton mntmNew = new JButton ( "",iconnew );
         mntmNew.setSize ( 30, 30 );
 //		mnFile.add(mntmNew);
@@ -813,7 +824,8 @@ public class Whiteboard extends JFrame {
         if(!IsManager) mntmNew.setEnabled(false);
 //		mnFile.addSeparator();
 
-        Icon iconopen = new ImageIcon ( "img/open.jpg" );
+        URL imageopen = ClassLoader.getSystemResource("open.jpg");
+        Icon iconopen = new ImageIcon ( imageopen );
         JButton mntmOpen = new JButton ( "",iconopen );
         mntmOpen.setSize ( 30, 30 );
 //		mnFile.add(mntmOpen);
@@ -845,7 +857,8 @@ public class Whiteboard extends JFrame {
         if(!IsManager) mntmOpen.setEnabled(false);
 
 //		mnFile.addSeparator();
-        Icon iconsave = new ImageIcon ( "img/save.jpg" );
+        URL imagesave = ClassLoader.getSystemResource("save.jpg");
+        Icon iconsave = new ImageIcon ( imagesave );
         JButton mntmSave = new JButton ( "",iconsave );
         mntmSave.setSize ( 30, 30 );
 //		mnFile.add(mntmSave);
@@ -881,7 +894,8 @@ public class Whiteboard extends JFrame {
         if(!IsManager) mntmSave.setEnabled(false);
 
 //		mnFile.addSeparator();
-        Icon iconsaveas = new ImageIcon ( "img/saveas.jpg" );
+        URL imagesaveas = ClassLoader.getSystemResource("saveas.jpg");
+        Icon iconsaveas = new ImageIcon ( imagesaveas);
         JButton mntmSaveAs = new JButton ( "",iconsaveas );
         mntmSaveAs.setSize ( 30, 30 );
 //		mnFile.add(mntmSaveAs);
@@ -967,7 +981,8 @@ public class Whiteboard extends JFrame {
 //        frame.setVisible(false);
 
 //		mnFile.addSeparator();
-        Icon iconclose = new ImageIcon ( "img/close.jpg" );
+        URL imageclose = ClassLoader.getSystemResource("close.jpg");
+        Icon iconclose = new ImageIcon ( imageclose);
         JButton mntmClose = new JButton ( "",iconclose );
         mntmClose.setSize ( 30, 30 );
 //		mnFile.add(mntmClose);
