@@ -782,7 +782,7 @@ public class ServerChat {
          */
         @Override
         public void run() {
-            System.out.println ("启动serverthread");
+            System.out.println ("Start serverthread");
             startServer();
             // When the server is running, loop listens to the client's connection request
             while (isRunning) {
