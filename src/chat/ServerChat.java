@@ -21,9 +21,9 @@ import static java.lang.Thread.sleep;
 
 public class ServerChat {
 
-    // 定义成员变量
+    // Define member variables
     /**
-     * 客户端通信线程
+     * Client communication thread
      */
     //private ClientThread clientThread;
     public Socket socket;
@@ -57,19 +57,19 @@ public class ServerChat {
 
     int getport;
     String gethost;
-    // 添加用于功能实现的成员变量
+    // Add member variables for functional implementation
     /**
-     * 服务器套接字
+     * Server socket
      */
     private ServerSocket server;
 
     /**
-     * 判断服务器是否在运行
+     * Determine if the server is running
      */
     private boolean isRunning;
 
     /**
-     * 客户端映射，key -> String：客户端名称； value -> ClientHandler： 客户端处理线程
+     * Client mapping，key -> String：Client name； value -> ClientHandler： Client processing thread
      */
     private HashMap<String, ClientHandler> clientHandlerMap = new HashMap<String, ClientHandler>();
 
@@ -77,7 +77,7 @@ public class ServerChat {
      * Launch the application.
      */
     /**
-     * Launch the application.
+     * Launch the application.Client mapping
      */
 //    public static void main(String[] args) {
 //
@@ -124,7 +124,7 @@ public class ServerChat {
         left.setLayout(new BorderLayout(5, 5));
 
         // left north
-        JScrollPane scrollPane = new JScrollPane(); //信息显示
+        JScrollPane scrollPane = new JScrollPane(); //Information display
 //        scrollPane.setBounds(14, 72, 518, 228);
         textAreaRecord = new JTextArea();
         textAreaRecord.setEditable(false);
@@ -155,13 +155,13 @@ public class ServerChat {
 //        bottom.setPreferredSize ( new Dimension ( 300,150 ) );
         JPanel bottomButton = new JPanel();
         bottomButton.setLayout ( new FlowLayout (  ) );
-        //加入聊天信息输入框
-        JScrollPane scrollPane_1 = new JScrollPane();   //信息输入框
+        //Add chat message input box
+        JScrollPane scrollPane_1 = new JScrollPane();   //Information input box
 //        scrollPane_1.setBounds(14, 332, 518, 73);
         bottom.add(scrollPane_1);
         textAreaMsg = new JTextArea();
         scrollPane_1.setViewportView(textAreaMsg);
-        //添加button
+        //add button
         rdbtnen = new JRadioButton("en");
         rdbtnch = new JRadioButton("ch");
         rdbtnch.setSelected(true);
@@ -192,9 +192,9 @@ public class ServerChat {
 //        btnEmoji.setBounds(344, 409, 88, 27);
 //        jPanel.add(btnEmoji);
 
-        // 初始化 表情包
+        // Initialize emojis
         JTable table;
-        //定义二维数组作为表格数据
+        //Define a two-dimensional array as tabular data
         Object[][] tableData =
                 {
                         new Object[]{"(▼ _ ▼)" , " ┑(￣Д ￣)┍ " , "↖(▔＾▔)↗"},
@@ -203,10 +203,10 @@ public class ServerChat {
                         new Object[]{" (◍'౪`◍)ﾉﾞ", " (๑´ڡ`๑) " , "ℰ⋆‿⋆ℰ "},
                         new Object[]{"╰(*´︶`*)╯" , "(；′⌒`)" , "(/ω＼) "}
                 };
-        //定义一维数据作为列标题
+        //Define one-dimensional data as column headings
         Object[] columnTitle = {"", "", ""};
         JWindow jWindow = new JWindow();
-        //以二维数组和一维数组来创建一个JTable对象
+        //Create a JTable object with a two-dimensional array and a one-dimensional array
         table = new JTable(tableData, columnTitle);
         jWindow.add(table);
         jWindow.setSize(300, 250);
@@ -225,9 +225,9 @@ public class ServerChat {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                int row = ((JTable) e.getSource()).rowAtPoint(e.getPoint()); //获得行位置
-                int col = ((JTable) e.getSource()).columnAtPoint(e.getPoint()); //获得列位置
-                String cellVal = (String) (table.getValueAt(row, col)); //获得点击单元格数据
+                int row = ((JTable) e.getSource()).rowAtPoint(e.getPoint()); //Get row position
+                int col = ((JTable) e.getSource()).columnAtPoint(e.getPoint()); //Get column position
+                String cellVal = (String) (table.getValueAt(row, col)); //Get click cell data
                 jWindow.setVisible(false);
                 textAreaMsg.setText(textAreaMsg.getText() + cellVal);
             }
@@ -452,7 +452,7 @@ public class ServerChat {
 //         btnConnect = new JButton("\u767B\u5F55");
 //         btnConnect.setBounds(596, 20, 95, 27);
 //         jPanel.add(btnConnect);
-        // 连接按钮事件处理程序
+        // Connect button event handler
 
 
 //        JLabel lblNewLabel_2 = new JLabel("Select Model:");
@@ -474,11 +474,11 @@ public class ServerChat {
 //        lblRoomInfo.setBounds(546, 413, 145, 18);
 //        jPanel.add(lblRoomInfo);
 
-        // 更换样式
+        // Change Style
 //        try {
 //            String style = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
 //            UIManager.setLookAndFeel(style);
-//            // 更新窗体样式
+//            // Update form Style
 //            SwingUtilities.updateComponentTreeUI(this.frmtcp);
 //        } catch (Exception e) {
 //            e.printStackTrace();
@@ -532,7 +532,7 @@ public class ServerChat {
         public void run() {
             while (isRunning && isConnected) {
                 try {
-                    // 读取客户端发送的报文
+                    // Read messages sent by the client
                     String msg = dis.readUTF();
                     
                     System.out.println(msg);
@@ -543,10 +543,10 @@ public class ServerChat {
                     String command = response.getString("command");
 
                     switch (command) {
-                        // 处理登录报文
+                        // Processing login message
                         case "Connect":
                             String loginUser = response.getString("ip");
-                            // 如果该用户名已登录，则返回失败报文，否则返回成功报文
+                            // If the user name is logged in, a failure message is returned, otherwise a success message is returned
                             if (clientHandlerMap.containsKey(loginUser)) {
                                 String send_str = Login_False().toJson();
                                 
@@ -557,9 +557,9 @@ public class ServerChat {
                                 String send_str = Login_Success().toJson();
                                 
                                 dos.writeUTF(send_str);
-                                // 将此客户端处理线程的信息添加到clientHandlerMap中
+                                // Add information for this client processing thread to the clientHandlerMap
                                 clientHandlerMap.put(loginUser, this);
-                                // 将现有用户的信息发给新用户
+                                // Send information about existing users to new users
                                 // StringBuffer msgUserList = new StringBuffer();
 
                                 ArrayList<String> userlist = new ArrayList<String>();
@@ -580,12 +580,12 @@ public class ServerChat {
                                 dos.writeUTF(send_str);
 
 
-                                // 将新登录的用户信息广播给其他用户
+                                // Broadcast newly logged in user information to other users
                                 //String msgLogin = loginUser;
                                 String msgLogin = New_Login(loginUser).toJson();
 
                                 broadcastMsg(loginUser, msgLogin);
-                                // 存储登录的用户名
+                                // Store login user name
                                 this.username = loginUser;
                             }
                             break;
@@ -666,10 +666,10 @@ public class ServerChat {
         }
 
         /**
-         * 将某个用户发来的消息广播给其它用户
+         * Broadcast a message from one user to another
          *
-         * @param fromUsername 发来消息的用户
-         * @param msg          需要广播的消息
+         * @param fromUsername The user who sent the message
+         * @param msg          Messages that need to be broadcast
          * @throws Exception 
          */
         private void broadcastMsg(String fromUsername, String msg) throws Exception {
@@ -686,14 +686,14 @@ public class ServerChat {
 
 
     /**
-     * 添加消息到文本框textAreaRecord
+     * Add a message to a text box textAreaRecord
      *
-     * @param msg，要添加的消息
+     * @param msg，Message to add
      */
     private void addMsg(String msg) {
-        // 在文本区中添加一条消息，并加上换行
+        // Add a message to the text area and add a line feed
         textAreaRecord.append(msg + "\n");
-        // 自动滚动到文本区的最后一行
+        // Automatically scroll to the last line of the text area
         textAreaRecord.setCaretPosition(textAreaRecord.getText().length());
     }
 
@@ -745,20 +745,20 @@ public class ServerChat {
     public class ServerThread implements Runnable {
 
         /**
-         * 启动服务
+         * Start the service
          */
         private void startServer() {
             try {
 
 
-                // 创建套接字地址
+                // Create socket address
                 SocketAddress socketAddress = new InetSocketAddress(serverPort1);
-                // 创建ServerSocket，绑定套接字地址
+                // Create a ServerSocket, binding socket address
                 server = new ServerSocket();
                 server.bind(socketAddress);
-                // 修改判断服务器是否运行的标识变量
+                // Modify the identity variable that determines whether the server is running
                 isRunning = true;
-                // 修改启动和停止按钮状态
+                // Modify the start and stop button status
                 //btnStart.setEnabled(false);
                 // btnStop.setEnabled(true);
                 addMsg("Start Server Successful");
@@ -778,17 +778,17 @@ public class ServerChat {
         }
 
         /**
-         * 线程体
+         * Thread body
          */
         @Override
         public void run() {
             System.out.println ("启动serverthread");
             startServer();
-            // 当服务器处于运行状态时，循环监听客户端的连接请求
+            // When the server is running, loop listens to the client's connection request
             while (isRunning) {
                 try {
                     Socket socket = server.accept();
-                    // 创建与客户端交互的线程
+                    // Create a thread that interacts with the client
 
                     Thread thread = new Thread(new ClientHandler(socket));
                     threadPool.execute ( thread );
@@ -887,10 +887,10 @@ public class ServerChat {
     }
 
     /**
-     * 将某个用户发来的消息广播给其它用户
+     * Broadcast a message from one user to another
      *
-     * @param fromUsername 发来消息的用户
-     * @param msg          需要广播的消息
+     * @param fromUsername The user who sent the message
+     * @param msg          Messages that need to be broadcast
      * @throws Exception 
      */
     public void broadcastMsg(String fromUsername, String msg) throws Exception {
