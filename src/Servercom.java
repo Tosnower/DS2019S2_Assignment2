@@ -104,7 +104,7 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
                 else if(modelhistory.get(i).getClass()==Draw.class)
                 {
                     Draw newmodel = ((Draw) modelhistory.get(i));
-                    a.addDraw(newmodel.model,newmodel.pencilcolor);
+                    a.addDraw(newmodel.model,newmodel.pencilcolor,newmodel.modelId);
                 }
                 else if(modelhistory.get(i).getClass()==Distortion.class)
                 {
@@ -157,10 +157,12 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
     public class Draw {
         public DShapeModel model;
         public Color pencilcolor;
+        public String modelId;
 
-        public Draw(DShapeModel model, Color pencilcolor) {
+        public Draw(DShapeModel model, Color pencilcolor, String id) {
             this.model = model;
             this.pencilcolor = pencilcolor;
+            this.modelId = id;
         }
     }
 
@@ -221,12 +223,12 @@ public class Servercom extends UnicastRemoteObject implements ServercomInter {
         }
     }
 
-    public void pubishAddDraw(DShapeModel model, Color pencilcolor) throws RemoteException {
-        modelhistory.add(new Draw(model, pencilcolor));
+    public void pubishAddDraw(DShapeModel model, Color pencilcolor, String id) throws RemoteException {
+        modelhistory.add(new Draw(model, pencilcolor, id));
         for(int i=0;i<v.size();i++){
             try{
                 ClientcomInter tmp=(ClientcomInter)v.get(i);
-                tmp.addDraw (model, pencilcolor);
+                tmp.addDraw (model, pencilcolor, id);
             }catch(Exception e){
                 //problem with the client not connected.
                 //Better to remove it

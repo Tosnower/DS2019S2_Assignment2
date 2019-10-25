@@ -131,11 +131,12 @@ public class Whiteboard extends JFrame {
 //                    if (p1 != p2) {
                     if(Math.abs ( p1.x-p2.x )>10 || Math.abs ( p1.y-p2.y )>10){
                         DLineModel model = new DLineModel ( p1, p2 );
-                        canvas.recolorShape ( pencilcolor );
-                        canvas.addShape ( model, null );
+                        model.setColor ( pencilcolor );
+//                        canvas.recolorShape ( pencilcolor );
+                        String id = canvas.addShape ( model, null );
                         canvas.repaint ();
                         try {
-                            servercomInter.pubishAddDraw (model, pencilcolor);
+                            servercomInter.pubishAddDraw (model, pencilcolor, id);
                         } catch (RemoteException ex) {
                             ex.printStackTrace ();
                         }
@@ -163,11 +164,12 @@ public class Whiteboard extends JFrame {
                     p2 = new Point ( x2, y2 );
                     if (Math.abs ( p1.x-p2.x )>10 || Math.abs ( p1.y-p2.y )>10) {
                         DLineModel model = new DLineModel ( p1, p2, erasersize );
-                        canvas.recolorShape ( Color.WHITE );
-                        canvas.addShape ( model, null );
+                        model.setColor ( Color.WHITE );
+//                        canvas.recolorShape ( Color.WHITE );
+                        String id = canvas.addShape ( model, null );
                         canvas.repaint ();
                         try {
-                            servercomInter.pubishAddDraw (model, pencilcolor);
+                            servercomInter.pubishAddDraw (model, pencilcolor, id);
                         } catch (RemoteException ex) {
                             ex.printStackTrace ();
                         }
@@ -977,7 +979,7 @@ public class Whiteboard extends JFrame {
         new Thread() {
             public void run(){
                 if (canvas.addShape ( model, id )!=null){
-                    canvas.recolorShape ( color );
+//                    canvas.recolorShape ( color );
                     canvas.repaint ();
                 }
             }
@@ -986,11 +988,11 @@ public class Whiteboard extends JFrame {
 
     }
 
-    public void drawPenEraser(DShapeModel model, Color pencilcolor) {
+    public void drawPenEraser(DShapeModel model, Color pencilcolor, String id) {
         new Thread() {
             public void run() {
-                canvas.recolorShape ( pencilcolor );
-                canvas.addShape ( model, null );
+                canvas.addShape ( model, id );
+//                canvas.recolorShape ( pencilcolor );
                 canvas.repaint ();
             }
         }.start ();

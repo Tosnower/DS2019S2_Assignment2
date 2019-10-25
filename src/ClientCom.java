@@ -37,9 +37,9 @@ public class ClientCom extends UnicastRemoteObject implements ClientcomInter {
     }
 
     @Override
-    public void addDraw(DShapeModel model, Color pencilcolor) throws RemoteException {
+    public void addDraw(DShapeModel model, Color pencilcolor, String id) throws RemoteException {
         System.out.println ("执行addDraw");
-        whiteboard.drawPenEraser ( model, pencilcolor);
+        whiteboard.drawPenEraser ( model, pencilcolor, id);
     }
 
     @Override

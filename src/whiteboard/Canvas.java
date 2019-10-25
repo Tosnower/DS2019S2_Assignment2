@@ -121,14 +121,14 @@ public class Canvas extends JPanel {
                 }
                 if (isMove){
                     try {
-                    System.out.println ("model:"+tmpId+"移动至:("+tmpNewX+","+tmpNewY+")");
+                        System.out.println ("model:"+tmpId+"移动至:("+tmpNewX+","+tmpNewY+")");
                         board.servercomInter.pubishMoveModel ( tmpId, tmpNewX, tmpNewY );
                     } catch (RemoteException ex) {
                         ex.printStackTrace ();
                     }
                 }
-
-
+                isMove = false;
+                isDistor = false;
             }
 
             @Override
@@ -230,11 +230,13 @@ public class Canvas extends JPanel {
     public void drawMove(String modelId, int x, int y) {
         new Thread (  ) {
             public void run() {
-                System.out.println ( "model:" + modelId + "移动至:(" + x + "," + y + ")" );
-                DShape dShape = shapes.get ( modelId );
-                dShape.moveTo ( x, y );
-                board.updateTable ( dShape );
-                repaint ();
+//                if (!order.contains ( modelId )) {
+                    System.out.println ( "model:" + modelId + "移动至:(" + x + "," + y + ")" );
+                    DShape dShape = shapes.get ( modelId );
+                    dShape.moveTo ( x, y );
+                    board.updateTable ( dShape );
+                    repaint ();
+//                }
             }
         }.start ();
     }
@@ -242,10 +244,12 @@ public class Canvas extends JPanel {
     public void drawDistortion(String modelId, Point pivotKnob, Point movingKnob) {
         new Thread (  ) {
             public void run() {
-                System.out.println ( "drawDistortion model:" + modelId + "从(" + pivotKnob.x + "," + pivotKnob.y + ") " + "移动至:(" + movingKnob.x + "," + movingKnob.y + ")" );
-                DShape dShape = shapes.get ( modelId );
-                dShape.resize ( pivotKnob, movingKnob );
-                repaint ();
+//                if (!order.contains ( modelId )){
+                    System.out.println ( "drawDistortion model:" + modelId + "从(" + pivotKnob.x + "," + pivotKnob.y + ") " + "移动至:(" + movingKnob.x + "," + movingKnob.y + ")" );
+                    DShape dShape = shapes.get ( modelId );
+                    dShape.resize ( pivotKnob, movingKnob );
+                    repaint ();
+//                }
             }
         }.start ();
     }
