@@ -135,11 +135,15 @@ public class Whiteboard extends JFrame {
 //                        canvas.recolorShape ( pencilcolor );
                         String id = canvas.addShape ( model, null );
                         canvas.repaint ();
-                        try {
-                            servercomInter.pubishAddDraw (model, pencilcolor, id);
-                        } catch (RemoteException ex) {
-                            ex.printStackTrace ();
-                        }
+                        new Thread (  ) {
+                            public void run() {
+                                try {
+                                    servercomInter.pubishAddDraw (model, pencilcolor, id);
+                                } catch (RemoteException ex) {
+                                    ex.printStackTrace ();
+                                }
+                            }
+                        }.start ();
                         x1 = x2;
                         y1 = y2;
                     }
@@ -168,11 +172,18 @@ public class Whiteboard extends JFrame {
 //                        canvas.recolorShape ( Color.WHITE );
                         String id = canvas.addShape ( model, null );
                         canvas.repaint ();
-                        try {
-                            servercomInter.pubishAddDraw (model, pencilcolor, id);
-                        } catch (RemoteException ex) {
-                            ex.printStackTrace ();
-                        }
+
+                        new Thread (  ) {
+                            public void run() {
+                                try {
+                                    servercomInter.pubishAddDraw (model, pencilcolor, id);
+                                } catch (RemoteException ex) {
+                                    ex.printStackTrace ();
+                                }
+                            }
+                        }.start ();
+
+
                         x1 = x2;
                         y1 = y2;
                     }
