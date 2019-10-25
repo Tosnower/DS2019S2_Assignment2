@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class ClientChat {
 
-    // 定义成员变量
+    // Define member variables
 
     public static String serverIP;
     public static int serverPort1;
@@ -26,7 +26,7 @@ public class ClientChat {
     public Socket socket;
     JFrame frmtcp;
     /**
-     * 客户端通信线程
+     * Client communication thread
      */
     private ClientThread clientThread;
     private JTextField textServerIP;
@@ -108,7 +108,7 @@ public class ClientChat {
         this.threadPool = threadPool;
 
         initialize(jPanel);
-        // 初始化成员变量和随机用户名
+        // Initialize member variables and random usernames
         modelUsers = new DefaultListModel<String>();
         listUsers.setModel(modelUsers);
 
@@ -163,14 +163,14 @@ public class ClientChat {
         // btnConnect = new JButton("\u767B\u5F55");
         // btnConnect.setBounds(596, 20, 95, 27);
         // frmtcp.getContentPane().add(btnConnect);
-        // 连接按钮事件处理程序
+        // Connect button event handler
 
         jPanel.setLayout(new BorderLayout(5, 5));
         left = new JPanel();
         left.setLayout(new BorderLayout(5, 5));
 
         // left north
-        JScrollPane scrollPane = new JScrollPane(); //信息显示
+        JScrollPane scrollPane = new JScrollPane(); //Information display
 //        scrollPane.setBounds(14, 72, 518, 228);
         textAreaRecord = new JTextArea();
         textAreaRecord.setEditable(false);
@@ -195,14 +195,14 @@ public class ClientChat {
         bottom.add(bottomtop);
 
         JPanel bottomButton = new JPanel();
-        //加入聊天信息输入框
-        JScrollPane scrollPane_1 = new JScrollPane();   //信息输入框
+        //Add chat message input box
+        JScrollPane scrollPane_1 = new JScrollPane();   //Information input box
 //        scrollPane_1.setBounds(14, 332, 518, 73);
         bottom.add(scrollPane_1);
         textAreaMsg = new JTextArea();
         scrollPane_1.setViewportView(textAreaMsg);
          
-        //添加button
+        //Adding button
         rdbtnen = new JRadioButton("en");
         rdbtnch = new JRadioButton("ch");
         rdbtnch.setSelected(true);
@@ -229,7 +229,7 @@ public class ClientChat {
         bottomButton.add(btnEmoji);
         bottom.add(bottomButton);
         JTable table;
-        //定义二维数组作为表格数据
+        //Define a two-dimensional array as tabular data
         Object[][] tableData =
                 {
                         new Object[]{"(▼ _ ▼)" , " ┑(￣Д ￣)┍ " , "↖(▔＾▔)↗"},
@@ -238,10 +238,10 @@ public class ClientChat {
                         new Object[]{" (◍'౪`◍)ﾉﾞ", " (๑´ڡ`๑) " , "ℰ⋆‿⋆ℰ "},
                         new Object[]{"╰(*´︶`*)╯" , "(；′⌒`)" , "(/ω＼) "}
                 };
-        //定义一维数据作为列标题
+        //Define one-dimensional data as column headings
         Object[] columnTitle = {"", "", ""};
         JWindow jWindow = new JWindow();
-        //以二维数组和一维数组来创建一个JTable对象
+        //Create a JTable object with a two-dimensional array and a one-dimensional array
         table = new JTable(tableData, columnTitle);
         jWindow.add(table);
         jWindow.setSize(300, 250);
@@ -260,9 +260,9 @@ public class ClientChat {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                int row = ((JTable) e.getSource()).rowAtPoint(e.getPoint()); //获得行位置
-                int col = ((JTable) e.getSource()).columnAtPoint(e.getPoint()); //获得列位置
-                String cellVal = (String) (table.getValueAt(row, col)); //获得点击单元格数据
+                int row = ((JTable) e.getSource()).rowAtPoint(e.getPoint()); //Get row position
+                int col = ((JTable) e.getSource()).columnAtPoint(e.getPoint()); //Get column position
+                String cellVal = (String) (table.getValueAt(row, col)); //Get click cell data
                 jWindow.setVisible(false);
                 textAreaMsg.setText(textAreaMsg.getText() + cellVal);
             }
@@ -385,14 +385,14 @@ public class ClientChat {
     }
 
     /**
-     * 添加消息到文本框textAreaRecord
+     * Add a message to a text boxtextAreaRecord
      *
-     * @param msg，要添加的消息
+     * @param msg，Message to add
      */
     private void addMsg(String msg) {
-        // 在文本区中添加一条消息，并加上换行
+        // Add a message to the text area and add a line feed
         textAreaRecord.append(msg + "\n");
-        // 自动滚动到文本区的最后一行
+        // Automatically scroll to the last line of the text area
         textAreaRecord.setCaretPosition(textAreaRecord.getText().length());
     }
 
@@ -400,22 +400,22 @@ public class ClientChat {
 
 
         /**
-         * 基本数据输入流
+         * Basic data input stream
          */
         private DataInputStream dis;
 
         /**
-         * 基本数据输出流
+         * Basic data output stream
          */
         private DataOutputStream dos;
 
         /**
-         * 是否登录
+         * Whether to log in
          */
         private boolean isLogged;
 
         /**
-         * 连接服务器并登录
+         * Connect to the server and log in
          */
 
 
@@ -494,8 +494,8 @@ public class ClientChat {
 //                socket.close();
 //                modelUsers.clear();
 //                btnSend.setEnabled(false);
-//                btnConnect.setText("登录");
-//                addMsg("已经退出聊天室");
+//                btnConnect.setText("login");
+//                addMsg("Has quit the chat room.");
 //            } catch (IOException e) {
 //                // TODO Auto-generated catch block
 //                e.printStackTrace();
@@ -507,7 +507,7 @@ public class ClientChat {
         public void login() {
 
 
-            // 连接服务器，获取套接字IO流
+            // Connect to the server to get the socket IO stream
             try {
                 dis = new DataInputStream(socket.getInputStream());
                 dos = new DataOutputStream(socket.getOutputStream());
@@ -515,32 +515,32 @@ public class ClientChat {
                 int myPort = socket.getLocalPort();
                 String send_str = username;
 //                String send_str = myIp + ":" + myPort;
-                // 获取用户名，构建、发送登录报文
+                // Get user name, build and send login message
 
                 String loginStr = Connect(send_str).toJson();
                 // String msgLogin = "LOGIN#" + username;
                 
                 dos.writeUTF(loginStr);
                 dos.flush();
-                // 读取服务器返回的信息，判断是否登录成功
+                // Read the information returned by the server to determine whether the login is successful
                 String response = dis.readUTF();
                 
                 System.out.println(response);
                 Document getresponse = Document.parse(response);
                 String command = getresponse.getString("command");
-                // 登录失败
+                // Login failed
                 if (command.equals("Login_False")) {
                     addMsg("Login Fail");
-                    // 登录失败，断开连接，结束客户端线程
+                    // Login failed, disconnect, end client thread
                     isLogged = false;
                     socket.close();
                     return;
                 }
-                // 登录成功
+                // Login successful
                 if (command.equals("Login_Success")) {
                     addMsg("Login Successful");
                     isLogged = true;
-                    //btnConnect.setText("退出");
+                    //btnConnect.setText("Exit");
                     btnSend.setEnabled(true);
                 }
             } catch (Exception e2) {
@@ -555,7 +555,7 @@ public class ClientChat {
 
         @Override
         public void run() {
-            // 连接服务器并登录
+            // Connect to the server and log in
             login();
 
             while (isLogged) {
@@ -572,7 +572,7 @@ public class ClientChat {
                     System.out.println(msg);
 
                     switch (command) {
-                        // 处理服务器发来的用户列表报文
+                        // Processing user list messages from the server
 
                         case "User_List":
                             System.out.println("In userlist");
@@ -585,7 +585,7 @@ public class ClientChat {
                             }
 
                             break;
-                        // 处理服务器发来的新用户登录表报文
+                        // Processing new user login form messages from the server
                         case "New_Login":
                             String getnewUser = (String) getresponse.get("New_Login");
 
@@ -643,7 +643,7 @@ public class ClientChat {
                             break;
                     }
                 } catch (IOException e) {
-                    // TODO 处理异常
+                    // TODO Handle exception
                     if(isLogged)
                     {
                     	JOptionPane.showMessageDialog(null, "The manager has left the chat room!");
