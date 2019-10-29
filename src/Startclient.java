@@ -11,7 +11,10 @@ import javax.swing.border.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.rmi.Naming;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -23,19 +26,45 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+
+
+
 public class Startclient {
     static ClientCom client;
-    ServercomInter server;
-    ClientChat clientChat;
-    ServerChat serverChat;
-    Whiteboard whiteboard;
-    public ExecutorService threadPool = Executors.newFixedThreadPool(10);
-    Boolean issuper = false;
-
+    static ServercomInter server;
+    static ClientChat clientChat;
+    static ServerChat serverChat;
+    static Whiteboard whiteboard;
+    static public ExecutorService threadPool = Executors.newFixedThreadPool(10);
+    static Boolean issuper = false;
+    int haveConnect = 0;
     static private final String IPV4_REGEX = "^(([0-9]\\.)|([1-9]\\d{1}\\.)|(1\\d{2}\\.)|(2[0-4]\\d{1}\\.)|(25[0-4]\\.)){3}(([0-9])|([1-9]\\d{1})|(1\\d{2})|(2[0-4]\\d{1})|(25[0-4]))$";
     static private Pattern IPV4_PATTERN = Pattern.compile(IPV4_REGEX);
     static private final String PORT_REGEX = "^([1-9]|[1-9]\\d{1,3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]d{2}|655[0-2]d{1}|6553[0-5]|[1-6][0-5][0-5][0-3][0-5])$";    static private Pattern PORT_PATTERN = Pattern.compile(PORT_REGEX);
 
+
+    private static void shutdown()
+    {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+
+            try {
+                clientChat.threadPool.shutdownNow();
+                threadPool.shutdownNow();
+                if(!Startclient.issuper) {
+                    clientChat.logout();
+                    server.logout(client);
+
+                }
+                //server.logout(client);
+                System.out.println("exit successfully");
+                Runtime.getRuntime().halt(0);
+                System.exit(-1);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
+        }));
+    }
 
     public static String getServerIp() {
         String localip = null;// 本地IP，如果没有配置外网IP则返回它
@@ -264,9 +293,9 @@ public class Startclient {
     }
 
     public static void main(String[] args) {
-
+        System.setErr(new PrintStream(new FileOutputStream(new FileDescriptor())));
+        shutdown();
         Startclient c = new Startclient();
-
 
     }
 
@@ -352,9 +381,11 @@ public class Startclient {
         //Events
         connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ConnectThread ct=new ConnectThread(temp,connect);
-            	threadPool.execute ( ct );
-
+                if(haveConnect==0) {
+                    haveConnect++;
+                    ConnectThread ct = new ConnectThread(temp, connect);
+                    threadPool.execute(ct);
+                }
                 
             }
         });
@@ -383,24 +414,22 @@ public class Startclient {
         int y = (int)(toolkit.getScreenSize().getHeight()-frame.getHeight()-200)/2;
         frame.setLocation(x, y);
         frame.setVisible(true);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.addWindowListener(new WindowAdapter() {
-
-
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-                try {
-                    clientChat.logout();
-                    server.logout(client);
-                } catch (Exception e1) {
-                }
-
-                System.exit(0);
-
-            }
-
-        });
+//        frame.addWindowListener(new WindowAdapter() {
+//
+//            public void windowClosing(WindowEvent e) {
+//                super.windowClosing(e);
+//                try {
+//                    clientChat.logout();
+//                    server.logout(client);
+//                } catch (Exception e1) {
+//                    System.out.println("dasds");
+//                }
+//                System.exit(0);
+//            }
+//
+//        });
     }
 
     JTextArea tx;

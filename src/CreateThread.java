@@ -30,7 +30,9 @@ public class CreateThread extends Thread
 	            System.out.println( sc.getServerIp());
 
 	            try {
+
 	                sc.client = new ClientCom(sc.name.getText());
+
 	                sc.client.setGUI(sc);
 	                sc.server = (ServercomInter) Naming.lookup("rmi://localhost/myabc");
 	                Boolean loginsuccess = sc.server.creatorlogin(sc.client);
@@ -54,6 +56,7 @@ public class CreateThread extends Thread
 	                JOptionPane.showMessageDialog(sc.frame, "ERROR, we wouldn't create board");
 	            }
 	            sc.issuper = true;
+				Startclient.issuper=true;
 	            sc.createnewboard.setVisible(false);
 	            sc.top.setVisible(false);
 	        } catch (Exception e) {

@@ -48,6 +48,7 @@ public class ConnectThread extends Thread
                 sc.server = (ServercomInter) Naming.lookup("rmi://" + sc.ip.getText() + "/myabc");
                 char loginsuccess = sc.server.login(sc.client);
                 if (loginsuccess != 0) {
+                    Startclient.issuper=false;
                     sc.createnewboard.setVisible(false);
                     sc.updateUsers(sc.server.getConnected());
                     sc.connect.setText("Disconnect");

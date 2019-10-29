@@ -25,6 +25,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+
+
 public class BoardThread extends Thread
 {
 	private Canvas canvas;
