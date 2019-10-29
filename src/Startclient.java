@@ -37,7 +37,8 @@ public class Startclient {
     static Whiteboard whiteboard;
     static public ExecutorService threadPool = Executors.newFixedThreadPool(10);
     static Boolean issuper = false;
-    int haveConnect = 0;
+
+    ConnectThread tmpConnectThread = null;
     static private final String IPV4_REGEX = "^(([0-9]\\.)|([1-9]\\d{1}\\.)|(1\\d{2}\\.)|(2[0-4]\\d{1}\\.)|(25[0-4]\\.)){3}(([0-9])|([1-9]\\d{1})|(1\\d{2})|(2[0-4]\\d{1})|(25[0-4]))$";
     static private Pattern IPV4_PATTERN = Pattern.compile(IPV4_REGEX);
     static private final String PORT_REGEX = "^([1-9]|[1-9]\\d{1,3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]d{2}|655[0-2]d{1}|6553[0-5]|[1-6][0-5][0-5][0-3][0-5])$";    static private Pattern PORT_PATTERN = Pattern.compile(PORT_REGEX);
@@ -381,12 +382,17 @@ public class Startclient {
         //Events
         connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(haveConnect==0) {
-                    haveConnect++;
-                    ConnectThread ct = new ConnectThread(temp, connect);
-                    threadPool.execute(ct);
+                if(tmpConnectThread!=null) {
+                    tmpConnectThread.interrupt ();
                 }
-                
+                ConnectThread ct = new ConnectThread(temp, connect);
+                tmpConnectThread = ct;
+                threadPool.execute(ct);
+                try {
+                    this.wait (1000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace ();
+                }
             }
         });
         bt.addActionListener(new ActionListener() {
